@@ -1,0 +1,7 @@
+# cache for current jar dependency. DO NOT EDIT.
+# format is <lastModified> <length> <SHA-1> <path>
+# Encoding is UTF-8
+1425868634000 995624 3e4e879d0b3dc11f2feb3f55e77e3b5bd82c4a28 /home/brt/weibo_android_sdk-master/demo-src/WeiboSDK/libs/android-support-v4.jar
+1425868634000 995624 3e4e879d0b3dc11f2feb3f55e77e3b5bd82c4a28 /home/brt/workspace/android/SinaWeibo/libs/android-support-v4.jar
+1420529449000 253808 119e2034c8db764d5742ec1cdbcc4aa6bdf85e7a /home/brt/workspace/android/SinaWeibo/libs/weibosdkcore.jar
+1420529449000 253808 119e2034c8db764d5742ec1cdbcc4aa6bdf85e7a /home/brt/weibo_android_sdk-master/demo-src/WeiboSDK/libs/weibosdkcore.jar
