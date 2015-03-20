@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:background="#DEDEDE">
+	  <include layout="@layout/mycard_head"
+	      android:layout_width="fill_parent"
+	      android:layout_height="wrap_content"/>
    <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -26,7 +29,7 @@
 		    android:layout_height="wrap_content"
 		    android:text="扫一扫二维码图案,关注我吧"
 		    android:textColor="@color/black2"
-		    android:textSize="15sp"/>
+		    android:textSize="10sp"/>
 	</LinearLayout>
     
    

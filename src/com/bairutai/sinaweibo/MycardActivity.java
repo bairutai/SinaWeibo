@@ -7,19 +7,31 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.lang.Thread;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bairutai.application.WeiboApplication;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.sina.weibo.sdk.openapi.models.User;
 
 public class MycardActivity extends Activity {
 	/** 生成二维码图片大小 */
@@ -29,16 +41,31 @@ public class MycardActivity extends Activity {
 	/** 头像图片 */
 	private Bitmap portrait;
 	private URL url;
+	private WeiboApplication app;
+	private User muser;
+	private TextView mname;
+	private TextView menu;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(
+				WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+				WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 		setContentView(R.layout.mycard);
+		app = (WeiboApplication) this.getApplication();
+		muser = app.getUser();
 		// 用于显示正常二维码的view
 //		ImageView image1 = (ImageView) findViewById(R.id.image1);
 //		image1.setImageBitmap(createQRCodeBitmap());
+		mname = (TextView)findViewById(R.id.mycard_name);
+		mname.setText(muser.screen_name);
+		menu =(TextView)findViewById(R.id.head_more);
+
 		try {
-			url = new URL("http://tp4.sinaimg.cn/2464229527/50/5647648076/1");
+			url = new URL(muser.profile_image_url);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,7 +85,7 @@ public class MycardActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-					// 这里采用从asset中加载图片abc.jpg
+					// 这里采用从asset中加载图片
 				portrait = BitmapFactory.decodeStream(input);
 				portrait = initProtrait(portrait);
 			}
@@ -66,10 +93,27 @@ public class MycardActivity extends Activity {
 		// 初始化头像
 
 		// 建立二维码
-		Bitmap qr = createQRCodeBitmap();
+		final Bitmap qr = createQRCodeBitmap();
 		createQRCodeBitmapWithPortrait(qr, portrait);
 		image2.setImageBitmap(qr);		
+		menu.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if ( qr != null) {
+					try {
+						ContentResolver cr = getBaseContext().getContentResolver();
+						String url = MediaStore.Images.Media.insertImage(cr, qr,"aaa", "");
+						Toast.makeText(getBaseContext(), "保存成功", Toast.LENGTH_SHORT).show();
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 	}
+	
 
 /**
  * 初始化头像图片
@@ -96,7 +140,8 @@ private Bitmap createQRCodeBitmap() {
 	qrParam.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
 	// 设定二维码里面的内容，这里我采用我微博的地址
-	String content = "sinaweibo://userinfo?uid=2464229527";
+	String content = "sinaweibo://userinfo?uid=";
+	content += muser.id;
 
 	// 生成QR二维码数据——这里只是得到一个由true和false组成的数组
 	// 参数顺序分别为：编码内容，编码类型，生成图片宽度，生成图片高度，设置参数

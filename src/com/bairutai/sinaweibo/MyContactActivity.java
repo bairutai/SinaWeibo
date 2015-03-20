@@ -30,6 +30,8 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MyContactActivity extends Activity implements IWeiboActivity {
@@ -58,14 +60,15 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 	private Dialog mlocation_dialog;
 	private Button mcancleBtn;
 	private User mUser;
-	
+	private WeiboApplication app;
+	private RelativeLayout mycard_layout;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mycontact);
-		WeiboApplication app = (WeiboApplication) this.getApplication();
-		mUser = app.getUser();
+		app = (WeiboApplication) this.getApplication();
+		mycard_layout = (RelativeLayout)this.findViewById(R.id.mycontact_mycardlayout);
 		mLayoutInflater = this.getLayoutInflater();
 		DialogLayout =mLayoutInflater.inflate(R.layout.citydialog, null);
 		mWheelView_province = (WheelView)DialogLayout.findViewById(R.id.citydialog_province);
@@ -95,8 +98,50 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 		mycontact_item_topic = (TextView) this
 				.findViewById(R.id.mycontact_item_topic);
 		mycontact_triagle_zan = (ImageView) this.findViewById(R.id.mycontact_triagle_zan);
+		
+		// 新浪API，读取授权成功后保存到本地的配置文件
+		mAccessToken = AccessTokenKeeper.readAccessToken(this);
+         // 获取用户信息接口,根据用户uid获取用户信息
+        mUsersAPI = new UsersAPI(this, Constants.APP_KEY, mAccessToken);
+        long uid = Long.parseLong(mAccessToken.getUid());
+        mUsersAPI.show(uid, mListener);
+        long[] uids = { Long.parseLong(mAccessToken.getUid()) };
+        mUsersAPI.counts(uids, mListener);
 		init();
 	}
+	// 异步获取数据后的回调函数
+	private RequestListener mListener = new RequestListener() {
+		 public void onComplete(String response) {
+	            if (!TextUtils.isEmpty(response)) {
+	            	mUser = User.parse(response);
+	            	if (mUser != null) {
+	            		// 保存user信息到全局
+	            	app.setUser(mUser);
+	         		mycontact_textName.setText(mUser.screen_name);
+	        		new AsyncBitmapLoader().execute(mycontact_iamgeIcon, mUser
+	        				.profile_image_url);
+	        		mycontact_address.setText(mUser.location);
+	        		mycontact_address.setEnabled(true);
+	        		mycontact_loginName.setText(mUser.description);
+	        		mycontact_loginName.setEnabled(true);
+	        		mycontact_item_attention.setText(String.valueOf(mUser
+	        				.friends_count));
+	        		mycontact_item_weibo.setText(String.valueOf(mUser
+	        				.statuses_count));
+	        		mycontact_item_interest.setText(String.valueOf(mUser
+	        				.followers_count));
+	        		mycontact_item_topic.setText(String.valueOf(mUser
+	        				.favourites_count));
+	            	}
+	            }
+		 }
+
+		@Override
+		public void onWeiboException(WeiboException arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -116,7 +161,7 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 			}
 		});
         
-        mycontact_triagle_zan.setOnClickListener(new OnClickListener() {
+        mycard_layout.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -125,21 +170,7 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 			}
 		});
         
- 		mycontact_textName.setText(mUser.screen_name);
-		new AsyncBitmapLoader().execute(mycontact_iamgeIcon, mUser
-				.profile_image_url);
-		mycontact_address.setText(mUser.location);
-		mycontact_address.setEnabled(true);
-		mycontact_loginName.setText(mUser.description);
-		mycontact_loginName.setEnabled(true);
-		mycontact_item_attention.setText(String.valueOf(mUser
-				.friends_count));
-		mycontact_item_weibo.setText(String.valueOf(mUser
-				.statuses_count));
-		mycontact_item_interest.setText(String.valueOf(mUser
-				.followers_count));
-		mycontact_item_topic.setText(String.valueOf(mUser
-				.favourites_count));
+
 		
         mycontact_textName.setOnClickListener(new OnClickListener() {					
 			@Override
@@ -158,7 +189,7 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 			
 			private void initCurrentProvince() {
 				// TODO Auto-generated method stub
-    			String [] mprovince = mUser.location.split(" ");
+    			String [] mprovince = app.getUser().location.split(" ");
     			Log.w(mprovince[1],CityInfo.city[5][1]);
     			if (mprovince[0].isEmpty()) {
     				mWheelView_province.setCurrentItem(0);
