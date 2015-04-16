@@ -45,4 +45,5 @@
     <color name="transparent">#00000000</color>
     <color name="text_num_gray">#333</color>
     <color name="dialog_title_blue">#9CCCF7</color>
+    <color name="soft_black">#8E8E8E</color>  
 </resources> 

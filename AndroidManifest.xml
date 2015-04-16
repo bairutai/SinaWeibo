@@ -7,41 +7,59 @@
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
+        android:name="com.bairutai.application.WeiboApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name="com.bairutai.application.WeiboApplication" >
-        <activity
-            android:name=".LogoActivity"
-            android:label="@string/app_name" >
+        android:theme="@style/AppTheme" >
+        <activity android:name=".LogoActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
-            android:name=".AuthorizeActivity"
-            android:label="@string/app_name">
+        <activity android:name=".AuthorizeActivity" >
         </activity>
         <activity android:name=".WBAuthActivity" />
         <activity android:name=".WBAuthCodeActivity" />
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".MyContactActivity"></activity>
-         <activity android:name=".MycardActivity"></activity>
-         
-        
-         <!-- 必须注册在微博授权，分享微博时候用到 -->
-        <activity android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser" 
-            android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" >
+        <activity android:name=".MyHomePageActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/My_ActionBar" >
         </activity>
+        <activity
+            android:name=".MyContactActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+        <activity
+            android:name=".MycardActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+
+        <!-- 必须注册在微博授权，分享微博时候用到 -->
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+
+        <service
+            android:name="com.bairutai.sinaweibo.MyService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.bairutai.action.MyService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
     </application>
-	
+
 </manifest>

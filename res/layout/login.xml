@@ -5,7 +5,7 @@
     android:background="@drawable/cat">
     
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/my_txt_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/TextView01"
+        android:layout_below="@id/my_txt_level"
         android:textColor="@color/white"
         android:text="授权" >
     </Button>

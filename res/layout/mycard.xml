@@ -2,35 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="#DEDEDE">
-	  <include layout="@layout/mycard_head"
-	      android:layout_width="fill_parent"
-	      android:layout_height="wrap_content"/>
-   <LinearLayout 
+    android:background="#DEDEDE"
+    android:orientation="vertical" >
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-		<ImageView
-		android:id="@+id/image2"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"/>
-		<TextView 
-		    android:id="@+id/mycard_name"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:textColor="@color/black"/>
-		<TextView 
-		    android:id="@+id/mycard_info"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="扫一扫二维码图案,关注我吧"
-		    android:textColor="@color/black2"
-		    android:textSize="10sp"/>
-	</LinearLayout>
-    
-   
+        <ImageView
+            android:id="@+id/mycard_zxing"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/mycard_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mycard_zxing"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/mycard_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mycard_name"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:text="扫描上面的二维码图案,关注我吧"
+            android:textColor="@color/black2"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
 </LinearLayout>

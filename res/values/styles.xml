@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -14,28 +14,45 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowNoTitle">true</item>
     </style>
-	
+
+    <style name="My_ActionBar" parent="android:Theme.Holo.Light">
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
+    <style name="orangeTxtClick">
+        <item name="android:background">@drawable/txt_become_orange</item>
+    </style>
+
     <style name="main_tab_bottom">
         <item name="android:textColor">@color/gray</item>
         <!-- 设置单行跑马灯效果 -->
         <item name="android:ellipsize">marquee</item>
-        <item name="android:gravity">center_horizontal</item>  
+        <item name="android:gravity">center_horizontal</item>
         <item name="android:background">@drawable/home_btn_bg</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <!-- 去掉radiobutton前面的圆点 -->
-        <item name="android:button">@null</item>  
+        <item name="android:button">@null</item>
         <item name="android:singleLine">true</item>
         <item name="android:layout_weight">1.0</item>
     </style>
-    <style name="MyDialog" >
+
+    <style name="MyDialog">
         <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item> 
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowFullscreen">true</item>  
+        <item name="android:windowFullscreen">true</item>
     </style>
-    
+
+    <style name="popupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@animator/in</item>
+        <item name="android:windowExitAnimation">@animator/out</item>
+    </style>
+
 </resources>
