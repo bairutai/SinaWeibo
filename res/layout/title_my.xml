@@ -26,6 +26,6 @@
         android:layout_alignParentTop="true"
         android:background="@color/white"
         android:text="设置"
-        android:textColor="@drawable/txt_become_orange" />
+        android:textColor="@drawable/txt_from_orange_to_dorange" />
 
 </RelativeLayout>

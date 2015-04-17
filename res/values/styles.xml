@@ -25,7 +25,7 @@
     </style>
 
     <style name="orangeTxtClick">
-        <item name="android:background">@drawable/txt_become_orange</item>
+        <item name="android:background">@drawable/txt_from_orange_to_dorange</item>
     </style>
 
     <style name="main_tab_bottom">
@@ -33,7 +33,6 @@
         <!-- 设置单行跑马灯效果 -->
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:background">@drawable/home_btn_bg</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <!-- 去掉radiobutton前面的圆点 -->
