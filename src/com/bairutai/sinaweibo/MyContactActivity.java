@@ -45,6 +45,7 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 	private WeiboApplication app;
 	private RelativeLayout mycard_layout;
 	private RelativeLayout my_layout_name;
+	private RelativeLayout my_layout_more;
 	private View mView;
 
 	@Override
@@ -73,6 +74,7 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 		app = (WeiboApplication) this.getApplication();
 		mycard_layout = (RelativeLayout)this.findViewById(R.id.mycontact_mycardlayout);
 		my_layout_name = (RelativeLayout)this.findViewById(R.id.my_layout_name);
+		my_layout_more = (RelativeLayout)this.findViewById(R.id.my_layout_more);
 		mLayoutInflater = this.getLayoutInflater();
 		DialogLayout =mLayoutInflater.inflate(R.layout.citydialog, null);
 		mWheelView_province = (WheelView)DialogLayout.findViewById(R.id.citydialog_province);
@@ -115,8 +117,6 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 				.statuses_count));
 		my_flowerscount.setText(String.valueOf(mUser
 				.followers_count));
-		//		mycontact_item_topic.setText(String.valueOf(mUser
-		//				.favourites_count));
 
 		// TODO Auto-generated method stub
 		mWheelView_province.addScrollingListener(new OnWheelScrollListener() {		
@@ -135,21 +135,22 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 			}
 		});
 
-		//		mycard_layout.setOnClickListener(new OnClickListener() {
-		//
-		//			@Override
-		//			public void onClick(View v) {
-		//				// TODO Auto-generated method stub
-		//				startActivity(new Intent(MyContactActivity.this,MycardActivity.class));
-		//			}
-		//		});
 
-		my_layout_name.setOnClickListener(new OnClickListener() {
-
+//		my_layout_name.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				startActivity(new Intent(MyContactActivity.this, My_MoreActivity.class));
+//			}
+//		});
+		
+		my_layout_more.setOnClickListener(new OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				startActivity(new Intent(MyContactActivity.this, MyHomePageActivity.class));
+				startActivity(new Intent(MyContactActivity.this, My_MoreActivity.class));
 			}
 		});
 

@@ -83,7 +83,6 @@ public class LogoActivity extends Activity {
 				if (null != mAccessToken) {
 					if (mAccessToken.isSessionValid()){
 						app.setmAccessToken(mAccessToken);
-//						registerBoradcastReceiver();
 						Intent  service=new Intent();
 						service.setClass(LogoActivity.this, MyService.class);
 						bindService(service, mServiceConnection, BIND_AUTO_CREATE);

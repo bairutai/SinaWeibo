@@ -39,19 +39,19 @@ public class MainActivity extends TabActivity {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				// TODO Auto-generated method stub
 				switch (checkedId) {
-				case R.id.radio_button0:// 首页
+				case R.id.radio_button1:// 首页
 					tabHost.setCurrentTabByTag("首页");
 					break;
-				case R.id.radio_button1:// 信息
+				case R.id.radio_button2:// 信息
 					tabHost.setCurrentTabByTag("信息");
 					break;
-				case R.id.radio_button2:// 资料
+				case R.id.radio_button3:// +
 					tabHost.setCurrentTabByTag("资料");
 					break;
-				case R.id.radio_button3:// 搜索
+				case R.id.radio_button4:// 搜索
 					tabHost.setCurrentTabByTag("搜索");
 					break;
-				case R.id.radio_button4:// 更多
+				case R.id.radio_button5:// 资料
 					tabHost.setCurrentTabByTag("更多");
 					break;
 				default:

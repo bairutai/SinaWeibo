@@ -5,14 +5,6 @@
     android:background="@color/white"
     android:baselineAligned="true" >
 
-    <Button
-        android:id="@+id/title_mycard_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/return_become_dark" />
-
     <TextView
         android:id="@+id/title_mycard_mycard"
         android:layout_width="wrap_content"
@@ -22,7 +14,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:text="我的名片"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -33,5 +24,13 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/more_become_light" />
+
+    <Button
+        android:id="@+id/title_mycard_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/return_become_dark" />
 
 </RelativeLayout>

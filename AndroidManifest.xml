@@ -22,6 +22,7 @@
         <activity android:name=".LogoActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,7 +30,10 @@
         </activity>
         <activity android:name=".WBAuthActivity" />
         <activity android:name=".WBAuthCodeActivity" />
-        <activity android:name=".MyHomePageActivity" />
+        <activity
+            android:name=".My_MoreActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/My_ActionBar" >

@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import android.view.Gravity;
 
@@ -32,9 +33,11 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bairutai.application.WeiboApplication;
@@ -67,6 +70,8 @@ public class MycardActivity extends Activity {
 	private Button moreBtn;
 	private DisplayMetrics dm;
 	private PopupWindow pop;
+	private TextView titleTxt;
+	private Button popwindow_cancel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,8 @@ public class MycardActivity extends Activity {
 			actionBar.setCustomView(mView, layout);//设置actionbar视图
 			backBtn = ( Button)findViewById(R.id.title_mycard_back);
 			moreBtn = (Button)findViewById(R.id.title_mycard_more);
+			titleTxt = (TextView)findViewById(R.id.title_mycard_mycard);
+			titleTxt.setText("我的名片");
 		}	
 		mhandler = new Handler();
 		app = (WeiboApplication) this.getApplication();
@@ -99,11 +106,12 @@ public class MycardActivity extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		QRCODE_SIZE = dm.widthPixels/4*3;
 		PORTRAIT_SIZE = QRCODE_SIZE/6;
-		LayoutInflater inflater_cardpopwindow=LayoutInflater.from(this);
-		view_share=inflater_cardpopwindow.inflate(R.layout.mycard_popwindow, null);
-		LinearLayout linearLayout_cardpopwindow_share=
+		LayoutInflater inflater_cardpopwindow =LayoutInflater.from(this);
+		view_share= inflater_cardpopwindow.inflate(R.layout.mycard_popwindow, null);
+		LinearLayout linearLayout_cardpopwindow_share =
 				(LinearLayout) view_share.findViewById(R.id.mycard_popwindow_share);
-		View view =inflater_cardpopwindow.inflate(R.layout.weixin_share, null);
+		View view = inflater_cardpopwindow.inflate(R.layout.weixin_share, null);
+		popwindow_cancel = (Button)view_share.findViewById(R.id.my_popwindow_cancel);
 		linearLayout_cardpopwindow_share.addView(view);
 
 		final Runnable message = new Runnable() {
@@ -141,21 +149,20 @@ public class MycardActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				pop =new PopupWindow(view_share,
+				pop =new PopupWindow(
 						LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
-				pop.setBackgroundDrawable(new BitmapDrawable());
+				pop.setContentView(view_share);
 				pop.setAnimationStyle(R.style.popupAnimation);
-				pop.setTouchable(true);
-				//				pop.setFocusable(true);
-//				pop.setOutsideTouchable(true);
-				pop.showAtLocation(view_this, Gravity.BOTTOM, 0, 0);
+				pop.setFocusable(true);
+				pop.showAtLocation(view_this, Gravity.TOP, 0, 0);
 				pop.update();
 				view_share.setOnTouchListener(new OnTouchListener() {
 
 					@Override
 					public boolean onTouch(View v, MotionEvent event) {
 						// TODO Auto-generated method stub
-						int height = findViewById(R.id.mycard_popwindow_linearLayout).getTop();						
+						int height =((RelativeLayout)view_share.findViewById(
+								R.id.mycard_popwindow_linearLayout)).getTop();						
 						int y=(int) event.getY();
 						if (MotionEvent.ACTION_UP==event.getAction()
 								&&pop!=null&&pop.isShowing()) {
@@ -173,7 +180,17 @@ public class MycardActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				MycardActivity.this.finish();
+				finish();
+			}
+		});
+		popwindow_cancel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (pop.isShowing()) {
+					pop.dismiss();
+				}
 			}
 		});
 
