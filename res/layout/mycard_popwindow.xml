@@ -86,18 +86,19 @@
                     android:orientation="vertical" >
 
                     <ImageButton
-                        android:id="@+id/my_popwindow_xinlangimg2"
+                        android:id="@+id/my_popwindow_save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:background="@drawable/more_icon_phone" />
+                        android:src="@drawable/more_icon_phone"
+                        android:background="@drawable/button_from_white_to_gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_below="@id/my_popwindow_xinlangimg2"
+                        android:layout_below="@id/my_popwindow_save"
                         android:layout_centerHorizontal="true"
                         android:gravity="center_horizontal"
                         android:singleLine="true"

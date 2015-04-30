@@ -7,10 +7,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -21,10 +24,17 @@ public class My_MoreActivity extends Activity {
 	private RelativeLayout my_more_layout_mycard;
 	private Button backBtn;
 	private Button moreBtn;
+	private	Button dialog_cancelBtn;
+	private Button dialog_refreshBtn;
+	private Button dialog_returnBtn;
 	private View mView;
 	private TextView titleTxt;
 	private 	PullToRefreshScrollView mPullRefreshScrollView;
-	private ScrollView mScrollView;
+	private LayoutInflater mLayoutInflater;
+	private Dialog mRefreshDialog;
+	private DisplayMetrics dm;
+	private View dialog_view;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,22 @@ public class My_MoreActivity extends Activity {
 			titleTxt = (TextView)findViewById(R.id.title_mycard_mycard);
 			titleTxt.setText("更多");
 		}	
+		mLayoutInflater = this.getLayoutInflater();
+		 dialog_view = mLayoutInflater.inflate(R.layout.refreshdialog, null);
+		dialog_cancelBtn = (Button)dialog_view.findViewById(R.id.refresh_cancel);
+		dialog_refreshBtn = (Button)dialog_view.findViewById(R.id.refresh_refresh);
+		dialog_returnBtn = (Button)dialog_view.findViewById(R.id.refresh_returnhome);
+		mRefreshDialog = new Dialog(this,R.style.MyDialog);
+		mRefreshDialog.setContentView(dialog_view);
+		mRefreshDialog.setCanceledOnTouchOutside(true);
+		dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		WindowManager.LayoutParams params = mRefreshDialog.getWindow().getAttributes();
+		params.width = dm.widthPixels;
+		params.height = dm.heightPixels/5*1 ;
+		params.x = 0;
+		params.y = dm.heightPixels-params.height;
+		mRefreshDialog.getWindow().setAttributes(params);
 		mPullRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.my_more_pull_refresh_scrollview);
 		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<ScrollView>() {
 
@@ -57,7 +83,6 @@ public class My_MoreActivity extends Activity {
 			}
 			
 		});
-		mScrollView = mPullRefreshScrollView.getRefreshableView();
 
 		my_more_layout_mycard = (RelativeLayout)this.findViewById(R.id.my_more_layout_mycard);
 		my_more_layout_mycard.setOnClickListener(new OnClickListener() {
@@ -74,6 +99,45 @@ public class My_MoreActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
+		moreBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mRefreshDialog.show();
+			}
+		});
+		
+		dialog_cancelBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mRefreshDialog.cancel();
+			}
+		});
+		
+		dialog_refreshBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mRefreshDialog.cancel();
+				mPullRefreshScrollView.setRefreshing();
+			}
+		});
+		
+		dialog_returnBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mRefreshDialog.cancel();
+				startActivity(new Intent(My_MoreActivity.this, MainActivity.class));
 				finish();
 			}
 		});

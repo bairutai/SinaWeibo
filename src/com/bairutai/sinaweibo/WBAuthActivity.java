@@ -40,7 +40,7 @@ import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.data.Constants;
-import com.bairutai.data.AccessTokenKeeper;;
+import com.bairutai.tools.AccessTokenKeeper;;
 /**
  * 该类主要演示如何进行授权、SSO登陆。
  * 

@@ -1,10 +1,11 @@
 package com.bairutai.sinaweibo;
 
-import kankan.wheel.widget.OnWheelScrollListener;
-import kankan.wheel.widget.StrericWheelAdapter;
-import kankan.wheel.widget.WheelView;
+import com.bairutai.openwidget.OnWheelScrollListener;
+import com.bairutai.openwidget.StrericWheelAdapter;
+import com.bairutai.openwidget.WheelView;
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.data.CityInfo;
+import com.bairutai.tools.AsyncBitmapLoader;
 import com.sina.weibo.sdk.openapi.models.User;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,10 +14,12 @@ import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -47,6 +50,7 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 	private RelativeLayout my_layout_name;
 	private RelativeLayout my_layout_more;
 	private View mView;
+	private DisplayMetrics dm;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,7 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 			Log.d("null","null`````" );
 		}
 		setContentView(R.layout.my);//设置画面布局
-//		registerBoradcastReceiver();  
+		//		registerBoradcastReceiver();  
 		app = (WeiboApplication) this.getApplication();
 		mycard_layout = (RelativeLayout)this.findViewById(R.id.mycontact_mycardlayout);
 		my_layout_name = (RelativeLayout)this.findViewById(R.id.my_layout_name);
@@ -79,12 +83,21 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 		DialogLayout =mLayoutInflater.inflate(R.layout.citydialog, null);
 		mWheelView_province = (WheelView)DialogLayout.findViewById(R.id.citydialog_province);
 		mWheelView_city = (WheelView)DialogLayout.findViewById(R.id.citydialog_city);
+		mWheelView_city.setCyclic(true);
+		mWheelView_province.setCyclic(true);
 		mcancleBtn = (Button)DialogLayout.findViewById(R.id.citydialog_cancle);
 		provinceAdapter = new StrericWheelAdapter(CityInfo.province);
 		mWheelView_province.setAdapter(provinceAdapter);
 		mWheelView_province.setInterpolator(new AnticipateOvershootInterpolator());
 		mlocation_dialog=new Dialog(this,R.style.MyDialog);
 		mlocation_dialog.setContentView(DialogLayout);
+		mlocation_dialog.setCanceledOnTouchOutside(true);
+		dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		WindowManager.LayoutParams params = mlocation_dialog.getWindow().getAttributes();
+		params.width = dm.widthPixels/4*3;
+		params.height = dm.heightPixels/5*2 ;
+		mlocation_dialog.getWindow().setAttributes(params);
 		my_name = (TextView) findViewById(R.id.my_txt_name);
 		my_iamgeIcon = (ImageView) this
 				.findViewById(R.id.my_img_iamgeIcon);
@@ -136,17 +149,17 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 		});
 
 
-//		my_layout_name.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				startActivity(new Intent(MyContactActivity.this, My_MoreActivity.class));
-//			}
-//		});
-		
+		my_layout_name.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(MyContactActivity.this,MyHomePageActivity.class));
+			}
+		});
+
 		my_layout_more.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub

@@ -29,7 +29,7 @@
         <activity android:name=".AuthorizeActivity" >
         </activity>
         <activity android:name=".WBAuthActivity" />
-        <activity android:name=".WBAuthCodeActivity" />
+        <activity android:name=".MyHomePageActivity" />
         <activity
             android:name=".My_MoreActivity"
             android:theme="@style/My_ActionBar" >

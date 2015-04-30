@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bairutai.data;
+package com.bairutai.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;

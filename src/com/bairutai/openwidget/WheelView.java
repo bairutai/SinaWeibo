@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package kankan.wheel.widget;
+package com.bairutai.openwidget;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -69,10 +69,10 @@ public class WheelView extends View {
 			0x00AAAAAA, 0x00AAAAAA };
 
 	/** Additional items height (is added to standard text item height) */
-	private static final int ADDITIONAL_ITEM_HEIGHT = 15;
+	private static final int ADDITIONAL_ITEM_HEIGHT = 66;
 
 	/** Text size */
-	private static final int TEXT_SIZE = 24;
+	private static final int TEXT_SIZE = 50;
 
 	/** Top and bottom items offset (to hide that) */
 	private static final int ITEM_OFFSET = TEXT_SIZE / 5;

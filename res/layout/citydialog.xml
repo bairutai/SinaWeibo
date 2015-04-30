@@ -1,67 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical|center_horizontal"
-    style="@style/MyDialog" >
-	<LinearLayout 
-	    android:layout_width="210dp"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical"
-	    android:gravity="center_vertical|center_horizontal" >
+    style="@style/MyDialog"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-		<TextView
-		    android:id="@+id/citydialog_location"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:text="所在地"
-		    android:textSize="18sp"
-		    android:background="@color/black"
-		    android:paddingLeft="5dp"
-		    android:textColor="@color/white"/>
-		<TextView 
-		    android:layout_width="fill_parent"
-		    android:layout_height="1dp"
-		    android:background="@color/whiteGray"/>
-		<LinearLayout 
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="horizontal"
-		    android:background="@color/black"
-		    android:padding="5dp" >
-		    <kankan.wheel.widget.WheelView 
-		    android:id="@+id/citydialog_province"
-			android:layout_height="wrap_content"
-			android:layout_width="90dp"
-			android:layout_weight="1"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-			<kankan.wheel.widget.WheelView
-		    android:id="@+id/citydialog_city"
-		    android:layout_width="90dp"
-		    android:layout_height="wrap_content" 
-		    android:layout_weight="1"/>
-		    
-		</LinearLayout>
-		<LinearLayout 
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:background="@color/bg_gray"
-		    android:orientation="horizontal"
-		    android:layout_gravity="left">
-		    <Button 
-		        android:id="@+id/citydialog_cancle"
-		        android:text="取消"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="1"/>
-		        <Button 
-		        android:id="@+id/citydialog_confirm"
-		        android:text="确定"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="1"/>
-		</LinearLayout>
-	        
-	    </LinearLayout>
+        <TextView
+            android:id="@+id/citydialog_location"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:paddingLeft="5dp"
+            android:text="所在地"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/citydialog_txtbg"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/citydialog_location"
+            android:background="@color/whiteGray" />
+
+        <LinearLayout
+            android:id="@+id/citydialog_wheelview"
+            android:layout_below="@id/citydialog_txtbg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <com.bairutai.openwidget.WheelView
+                android:id="@+id/citydialog_province"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+
+            <com.bairutai.openwidget.WheelView
+                android:id="@+id/citydialog_city"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_below="@id/citydialog_wheelview"
+            android:background="@color/bg_gray"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/citydialog_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="取消" />
+
+            <Button
+                android:id="@+id/citydialog_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="确定" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

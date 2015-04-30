@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package kankan.wheel.widget;
+package com.bairutai.openwidget;
 
 /**
  * Wheel changed listener interface.

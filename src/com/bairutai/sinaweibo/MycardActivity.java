@@ -16,10 +16,10 @@ import android.graphics.Canvas;
 
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -33,12 +33,14 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.bairutai.application.WeiboApplication;
 import com.google.zxing.BarcodeFormat;
@@ -62,7 +64,8 @@ public class MycardActivity extends Activity {
 	private TextView mname;
 	private View view_share;
 	private View view_this;
-	private View mView;
+	private View mActionbarView;
+	private View weixinshareView;
 	private ImageView image2 ;
 	private Handler mhandler;
 	private Bitmap zxing;
@@ -72,48 +75,62 @@ public class MycardActivity extends Activity {
 	private PopupWindow pop;
 	private TextView titleTxt;
 	private Button popwindow_cancel;
+	private RelativeLayout mycard_layout;
+	private ImageButton imgBtn_save;
+	private LayoutInflater inflater;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mycard);
-		view_this = new View(this);
+
+		//自定义actionBar;
 		ActionBar actionBar = getActionBar();
 		if (null != actionBar) {
 			actionBar.setDisplayShowHomeEnabled(false);//返回键
 			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 			actionBar.setDisplayShowCustomEnabled(true);
-			LayoutInflater inflator = LayoutInflater.from(this);
-			mView = inflator.inflate(R.layout.title_mycard, null);//自定义actionbar视图
+			inflater = LayoutInflater.from(this);
+			mActionbarView = inflater.inflate(R.layout.title_mycard, null);//加载actionbar视图
 			ActionBar.LayoutParams layout = new ActionBar.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-			actionBar.setCustomView(mView, layout);//设置actionbar视图
+			actionBar.setCustomView(mActionbarView, layout);//设置actionbar视图
 			backBtn = ( Button)findViewById(R.id.title_mycard_back);
 			moreBtn = (Button)findViewById(R.id.title_mycard_more);
 			titleTxt = (TextView)findViewById(R.id.title_mycard_mycard);
 			titleTxt.setText("我的名片");
-		}	
-		mhandler = new Handler();
-		app = (WeiboApplication) this.getApplication();
-		muser = app.getUser();
-		mname = (TextView)this.findViewById(R.id.mycard_name);
-		mname.setText(muser.screen_name);
-		// 用于显示带头像的二维码的view
-		image2 = (ImageView)findViewById(R.id.mycard_zxing);
+		}
 
-		dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		QRCODE_SIZE = dm.widthPixels/4*3;
-		PORTRAIT_SIZE = QRCODE_SIZE/6;
-		LayoutInflater inflater_cardpopwindow =LayoutInflater.from(this);
-		view_share= inflater_cardpopwindow.inflate(R.layout.mycard_popwindow, null);
+		//初始化控件
+		mycard_layout = (RelativeLayout)this.findViewById(R.id.mycard_layout);
+		mname = (TextView)this.findViewById(R.id.mycard_name);
+		image2 = (ImageView)this.findViewById(R.id.mycard_zxing);// 用于显示带头像的二维码的view
+
+		//动态加载微信分享图标
+		view_share = inflater.inflate(R.layout.mycard_popwindow, null);
 		LinearLayout linearLayout_cardpopwindow_share =
 				(LinearLayout) view_share.findViewById(R.id.mycard_popwindow_share);
-		View view = inflater_cardpopwindow.inflate(R.layout.weixin_share, null);
+		weixinshareView = inflater.inflate(R.layout.weixin_share, null);
 		popwindow_cancel = (Button)view_share.findViewById(R.id.my_popwindow_cancel);
-		linearLayout_cardpopwindow_share.addView(view);
+		imgBtn_save = (ImageButton)view_share.findViewById(R.id.my_popwindow_save);
+		linearLayout_cardpopwindow_share.addView(weixinshareView);
+		view_this = new View(this);
+		mhandler = new Handler();
 
+		//得到User中的头像地址
+		app = (WeiboApplication) this.getApplication();
+		muser = app.getUser();
+
+		//设置控件的一些属性
+		mname.setText(muser.screen_name);
+		dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		QRCODE_SIZE = dm.widthPixels/4*3;//二维码宽度
+		PORTRAIT_SIZE = QRCODE_SIZE/6;//二维码高度
+
+
+		//新线程取到数据之后由主线程更新UI,主要是二维码的绘制
 		final Runnable message = new Runnable() {
 
 			@Override
@@ -122,6 +139,8 @@ public class MycardActivity extends Activity {
 				image2.setImageBitmap(zxing);		
 			}
 		};
+
+		//新开线程去绘制二维码
 		new Thread() {
 			@Override
 			public void run() {
@@ -144,37 +163,19 @@ public class MycardActivity extends Activity {
 				mhandler.post(message);
 			}
 		}.start();
+
+		//添加各个监听器
+		//actionbar more按钮监听器
 		moreBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				pop =new PopupWindow(
-						LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
-				pop.setContentView(view_share);
-				pop.setAnimationStyle(R.style.popupAnimation);
-				pop.setFocusable(true);
-				pop.showAtLocation(view_this, Gravity.TOP, 0, 0);
-				pop.update();
-				view_share.setOnTouchListener(new OnTouchListener() {
-
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						// TODO Auto-generated method stub
-						int height =((RelativeLayout)view_share.findViewById(
-								R.id.mycard_popwindow_linearLayout)).getTop();						
-						int y=(int) event.getY();
-						if (MotionEvent.ACTION_UP==event.getAction()
-								&&pop!=null&&pop.isShowing()) {
-							if(y<height){
-								pop.dismiss();
-							}         
-						}
-						return false;
-					}
-				});
+				initPopWindow();
 			}
 		});
+
+		//actionbar back按钮监听器
 		backBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -183,8 +184,10 @@ public class MycardActivity extends Activity {
 				finish();
 			}
 		});
+
+		//popwindow cancel按钮监听器
 		popwindow_cancel.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -194,6 +197,65 @@ public class MycardActivity extends Activity {
 			}
 		});
 
+		//layout点击监听器
+		mycard_layout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				initPopWindow();
+			}
+		});
+
+		//popwindow 保存到相册按钮监听器
+		imgBtn_save.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (null != zxing && null != pop) {
+					MediaStore.Images.Media.insertImage(getContentResolver(),
+							zxing, null, null);
+					pop.dismiss();
+					Toast.makeText(MycardActivity.this, "图片已保存至手机相册", Toast.LENGTH_LONG).show();
+					Log.d("loadimg", "load img success");
+				}
+				else {
+					Log.d("loadimg", "load img error");
+				}
+			}
+		});
+
+	}
+
+	private void initPopWindow() 
+	{
+		pop =new PopupWindow(
+				LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		pop.setContentView(view_share);//设置pop视图
+		pop.setAnimationStyle(R.style.popupAnimation);//设置pop弹出动画
+		pop.setFocusable(true);//必须设置该属性，不然监听不到手机返回按钮点击事件
+		pop.showAtLocation(view_this, Gravity.TOP, 0, 0);
+		pop.update();
+		view_share.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				//这里我用的是Pop 新浪用的是dialog，两者我看到的区别是pop不会把状态栏灰掉
+				//而dialog会把状态栏灰掉，而且dialog自带点击除dialog以外的地方隐藏dialog属性
+				int height =((RelativeLayout)view_share.findViewById(
+						R.id.mycard_popwindow_linearLayout)).getTop();						
+				int y=(int) event.getY();
+				if (MotionEvent.ACTION_UP==event.getAction()
+						&&pop!=null&&pop.isShowing()) {
+					if(y<height){
+						pop.dismiss();
+					}         
+				}
+				return false;
+			}
+		});
 	}
 
 

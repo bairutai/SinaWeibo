@@ -1,7 +1,7 @@
 package com.bairutai.sinaweibo;
 
 import com.bairutai.application.WeiboApplication;
-import com.bairutai.data.AccessTokenKeeper;
+import com.bairutai.tools.AccessTokenKeeper;
 import com.bairutai.data.Constants;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.exception.WeiboException;
