@@ -2,72 +2,71 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <TextView 
+
+    <TextView
         android:id="@+id/logo_version"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/version"
         android:textAppearance="@android:attr/textAppearanceLarge"
-        android:textStyle="italic"
-        android:textSize="16sp"/>
-    
-        <TextView 
+        android:textColor="@color/blue"
+        android:textSize="16sp"
+        android:textStyle="italic" />
+
+    <TextView
         android:id="@+id/logo_mysina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="120dip"
         android:text="@string/mysina"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textAppearance="@android:attr/textAppearanceLarge"
         android:textColor="@color/blue"
-        android:textAppearance="@android:attr/textAppearanceLarge"
-        android:textStyle="bold|italic"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:textStyle="bold|italic" />
 
-     	 <TextView 
+    <TextView
         android:id="@+id/logo_login"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/logo_mysina"
-        android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:layout_below="@id/logo_mysina"
+        android:layout_centerHorizontal="true"
+        android:text="@string/login"
         android:textAppearance="@android:attr/textAppearanceLarge"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
-     	 
-     	<TextView 
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/logo_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/email"
+        android:textAppearance="@android:attr/textAppearanceLarge"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/logo_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textAppearance="@android:attr/textAppearanceLarge"
-        android:textSize="15sp"/>
-     	
-     	<TextView 
-        android:id="@+id/logo_author"
         android:layout_above="@id/logo_email"
         android:layout_alignParentRight="true"
         android:text="@string/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:textAppearance="@android:attr/textAppearanceLarge"
-        android:textStyle="bold"        
-        android:textSize="16sp"/>
-        
-        <ImageView 
-            android:id="@+id/logo"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/logo_start"/>
-    
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_start" />
 
 </RelativeLayout>
