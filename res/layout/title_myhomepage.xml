@@ -3,22 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:background="@color/white">
-
-    <TextView
-        android:id="@+id/title_mycard_mycard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/title_mycard_more"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
+    android:background="@color/white" >
+    
     <ImageView
-        android:id="@+id/title_mycard_more"
+        android:id="@+id/title_myhomepage_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -27,12 +15,20 @@
         android:background="@drawable/more_become_light" />
 
     <ImageView
-        android:id="@+id/title_mycard_back"
+        android:id="@+id/title_myhomepage_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
         android:background="@drawable/return_become_light" />
-
+    
+    <ImageView
+       android:id="@+id/title_myhomepage_search"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:clickable="true"
+       android:layout_toLeftOf="@id/title_myhomepage_more" 
+       android:background="@drawable/search_become_light"
+       android:layout_marginRight="5dp"/>
 </RelativeLayout>

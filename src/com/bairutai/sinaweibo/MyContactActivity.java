@@ -76,7 +76,6 @@ public class MyContactActivity extends Activity implements IWeiboActivity {
 		setContentView(R.layout.my);//设置画面布局
 		//		registerBoradcastReceiver();  
 		app = (WeiboApplication) this.getApplication();
-		mycard_layout = (RelativeLayout)this.findViewById(R.id.mycontact_mycardlayout);
 		my_layout_name = (RelativeLayout)this.findViewById(R.id.my_layout_name);
 		my_layout_more = (RelativeLayout)this.findViewById(R.id.my_layout_more);
 		mLayoutInflater = this.getLayoutInflater();

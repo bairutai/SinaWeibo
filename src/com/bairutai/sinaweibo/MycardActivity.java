@@ -69,8 +69,8 @@ public class MycardActivity extends Activity {
 	private ImageView image2 ;
 	private Handler mhandler;
 	private Bitmap zxing;
-	private Button backBtn;
-	private Button moreBtn;
+	private ImageView backBtn;
+	private ImageView moreBtn;
 	private DisplayMetrics dm;
 	private PopupWindow pop;
 	private TextView titleTxt;
@@ -96,8 +96,8 @@ public class MycardActivity extends Activity {
 			ActionBar.LayoutParams layout = new ActionBar.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			actionBar.setCustomView(mActionbarView, layout);//设置actionbar视图
-			backBtn = ( Button)findViewById(R.id.title_mycard_back);
-			moreBtn = (Button)findViewById(R.id.title_mycard_more);
+			backBtn = (ImageView)findViewById(R.id.title_mycard_back);
+			moreBtn = (ImageView)findViewById(R.id.title_mycard_more);
 			titleTxt = (TextView)findViewById(R.id.title_mycard_mycard);
 			titleTxt.setText("我的名片");
 		}

@@ -16,14 +16,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class My_MoreActivity extends Activity {
 	private RelativeLayout my_more_layout_mycard;
-	private Button backBtn;
-	private Button moreBtn;
+	private ImageView backBtn;
+	private ImageView moreBtn;
 	private	Button dialog_cancelBtn;
 	private Button dialog_refreshBtn;
 	private Button dialog_returnBtn;
@@ -52,8 +53,8 @@ public class My_MoreActivity extends Activity {
 			ActionBar.LayoutParams layout = new ActionBar.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			actionBar.setCustomView(mView, layout);//设置actionbar视图
-			backBtn = ( Button)findViewById(R.id.title_mycard_back);
-			moreBtn = (Button)findViewById(R.id.title_mycard_more);
+			backBtn = ( ImageView)findViewById(R.id.title_mycard_back);
+			moreBtn = (ImageView)findViewById(R.id.title_mycard_more);
 			titleTxt = (TextView)findViewById(R.id.title_mycard_mycard);
 			titleTxt.setText("更多");
 		}	

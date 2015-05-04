@@ -28,20 +28,20 @@ public class LogoActivity extends Activity {
 	private WeiboApplication app;
 	private MyService mMyService;
 
-    
-  //这里需要用到ServiceConnection在Context.bindService和context.unBindService()里用到  
-  private ServiceConnection mServiceConnection = new ServiceConnection() {  
-      //bindService
-      public void onServiceConnected(ComponentName name, IBinder service) {  
-          // TODO Auto-generated method stub  
-          mMyService = ((MyService.MyBinder)service).getService();  
-          mMyService.getUser();
-      }  
-        
-      public void onServiceDisconnected(ComponentName name) {  
-          // TODO Auto-generated method stub  
-      }  
-  };  
+
+	//这里需要用到ServiceConnection在Context.bindService和context.unBindService()里用到  
+	private ServiceConnection mServiceConnection = new ServiceConnection() {  
+		//bindService
+		public void onServiceConnected(ComponentName name, IBinder service) {  
+			// TODO Auto-generated method stub  
+			mMyService = ((MyService.MyBinder)service).getService();  
+			mMyService.getUser();
+		}  
+
+		public void onServiceDisconnected(ComponentName name) {  
+			// TODO Auto-generated method stub  
+		}  
+	};  
 
 	private BroadcastReceiver MyReceiver = new BroadcastReceiver() {
 		@Override
@@ -86,6 +86,10 @@ public class LogoActivity extends Activity {
 						Intent  service=new Intent();
 						service.setClass(LogoActivity.this, MyService.class);
 						bindService(service, mServiceConnection, BIND_AUTO_CREATE);
+					}
+					else {
+						startActivity(new Intent(LogoActivity.this, WBAuthActivity.class));
+						finish();
 					}
 				}
 				else {
