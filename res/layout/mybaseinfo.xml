@@ -28,12 +28,12 @@
 
             <TextView
                 android:id="@+id/mybaseinfo_dengluming"
-                android:layout_width="60dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="登录名"
                 android:textColor="@color/black2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/mybaseinfo_dengluming_txt"
@@ -41,9 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/mybaseinfo_dengluming"
-                android:text="www.411633267@qq.com"
+                android:text=""
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -55,7 +55,6 @@
             android:background="@drawable/layout_become_gray"
             android:clickable="true"
             android:padding="8dp" >
-"
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -66,21 +65,22 @@
 
             <TextView
                 android:id="@+id/mybaseinfo_nicheng"
-                android:layout_width="60dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="昵称"
                 android:textColor="@color/black2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/mybaseinfo_nicheng_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/mybaseinfo_nicheng"
-                android:text="www.411633267@qq.com"
+                android:text=""
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -102,21 +102,22 @@
 
             <TextView
                 android:id="@+id/mybaseinfo_xingbie"
-                android:layout_width="60dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="性别"
                 android:textColor="@color/black2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/mybaseinfo_xingbie_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/mybaseinfo_xingbie"
-                android:text="www.411633267@qq.com"
+                android:text=""
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -138,21 +139,22 @@
 
             <TextView
                 android:id="@+id/mybaseinfo_suozaidi"
-                android:layout_width="60dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="所在地"
                 android:textColor="@color/black2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/mybaseinfo_suozaidi_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/mybaseinfo_suozaidi"
-                android:text="www.411633267@qq.com"
+                android:text=""
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -175,22 +177,53 @@
 
             <TextView
                 android:id="@+id/mybaseinfo_jianjie"
-                android:layout_width="60dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="简介"
                 android:textColor="@color/black2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/mybaseinfo_jianjie_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_toStartOf="@id/mybaseinfo_jianjie_triangle"
                 android:layout_toRightOf="@id/mybaseinfo_jianjie"
-                android:text="www.411633267@qq.comaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                android:layout_toStartOf="@id/mybaseinfo_jianjie_triangle"
+                android:text=""
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mybaseinfo_zhuceshijian_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mybaseinfo_jianjie_layout"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/layout_become_gray"
+            android:clickable="true"
+            android:padding="8dp" >
+
+            <TextView
+                android:id="@+id/mybaseinfo_zhuceshijian"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="注册时间"
+                android:textColor="@color/black2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/mybaseinfo_zhuceshijian_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/mybaseinfo_zhuceshijian"
+                android:text=""
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
         </RelativeLayout>
     </RelativeLayout>
 

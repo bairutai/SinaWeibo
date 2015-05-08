@@ -34,6 +34,15 @@
             android:theme="@style/My_ActionBar" >
         </activity>
         <activity
+            android:name=".GoodNameActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+        <activity
+            android:name=".EditDescriptionActivity"
+            android:theme="@style/My_ActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan" >
+        </activity>
+        <activity
             android:name=".MyBaseInfoActivity"
             android:theme="@style/My_ActionBar" >
         </activity>

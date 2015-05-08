@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/genderdialog_male_txt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp"
+        android:text="男"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/genderdialog_female_txt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp"
+        android:text="女"
+        android:textSize="20sp" />
+
+</LinearLayout>

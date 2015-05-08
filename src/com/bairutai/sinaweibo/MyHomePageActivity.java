@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ public class MyHomePageActivity extends Activity implements PullScrollView.OnTur
 	private TextView m_guanzhu_count;
 	private WeiboApplication app;
 	private User user;
-	private RelativeLayout homepage_jianjie_layout;
+	private LinearLayout homepage_jianjie_layout;
 	private ImageView backBtn;
 	private ImageView moreBtn;
 	private ImageView searchBtn;
@@ -70,7 +71,7 @@ public class MyHomePageActivity extends Activity implements PullScrollView.OnTur
 		mdetailTextView = (TextView)findViewById(R.id.expandable_text);
 		m_flower_count = (TextView)findViewById(R.id.homepage_flower_count);
 		m_guanzhu_count = (TextView)findViewById(R.id.homepage_guanzhu_count);
-		homepage_jianjie_layout = (RelativeLayout)findViewById(R.id.homepage_jianjie_layout);
+		homepage_jianjie_layout = (LinearLayout)findViewById(R.id.homepage_jianjie_layout);
 		mdetailTextView.setText(user.description);
 		m_flower_count.setText(String.valueOf(user.followers_count));
 		m_guanzhu_count.setText(String.valueOf(user.friends_count));
