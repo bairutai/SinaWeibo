@@ -36,22 +36,21 @@
                 android:paddingBottom="10dp" >
 
                 <com.bairutai.openwidget.CircleImageView
-                    android:id="@+id/circleImageView1"
+                    android:id="@+id/myhomepage_circleImageView"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="60dp"
-                    android:src="@drawable/more_icon_qq" />
+                    android:layout_marginTop="60dp" />
 
                 <RelativeLayout
-                    android:id="@+id/homepage_UserName_layout"
+                    android:id="@+id/myhomepage_username_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/circleImageView1" >
+                    android:layout_below="@id/myhomepage_circleImageView" >
 
                     <TextView
-                        android:id="@+id/user_name"
+                        android:id="@+id/myhomepage_username_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -61,7 +60,7 @@
                         android:shadowDy="3.0"
                         android:shadowRadius="5.0"
                         android:singleLine="true"
-                        android:text="小撇儿1992"
+                        android:text=""
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
 
@@ -71,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="1dp"
-                        android:layout_toRightOf="@id/user_name"
+                        android:layout_toRightOf="@id/myhomepage_username_txt"
                         android:src="@drawable/list_male" />
 
                     <ImageView
@@ -80,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="3dp"
-                        android:layout_toRightOf="@+id/imageView1"
+                        android:layout_toRightOf="@id/imageView1"
                         android:src="@drawable/common_icon_membership_expired" />
                 </RelativeLayout>
 
@@ -88,7 +87,7 @@
                     android:id="@+id/homepage_flower_guanzhu_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/homepage_UserName_layout" >
+                    android:layout_below="@id/myhomepage_username_layout" >
 
                     <ImageView
                         android:id="@+id/homepage_comment_line"
@@ -97,59 +96,30 @@
                         android:layout_centerInParent="true"
                         android:src="@drawable/statusdetail_comment_line" />
 
-                    <RelativeLayout
-                        android:id="@+id/homepage_guanzhu_count_layout"
+                    <TextView
+                        android:id="@+id/homepage_guanzhu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@id/homepage_comment_line" >
+                        android:layout_toLeftOf="@id/homepage_comment_line"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="right"
+                        android:text="关注  "
+                        android:textColor="@drawable/txt_from_white_to_orange"
+                        android:textSize="15sp" />
 
-                        <TextView
-                            android:id="@+id/homepage_guanzhu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="关注"
-                            android:textColor="@color/white"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/homepage_guanzhu_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/homepage_guanzhu"
-                            android:textColor="@color/white"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/homepage_flower_count_layout"
+                    <TextView
+                        android:id="@+id/homepage_flower"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/homepage_comment_line" >
-
-                        <TextView
-                            android:id="@+id/homepage_flower"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentTop="true"
-                            android:text="粉丝"
-                            android:textColor="@color/white"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/homepage_flower_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@id/homepage_flower"
-                            android:textColor="@color/white"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
+                        android:layout_toRightOf="@id/homepage_comment_line"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="粉丝  "
+                        android:textColor="@drawable/txt_from_white_to_orange"
+                        android:textSize="15sp" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -157,6 +127,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/homepage_flower_guanzhu_layout"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal"
                     android:padding="10dp" >
 

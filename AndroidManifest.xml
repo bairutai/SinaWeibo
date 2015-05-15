@@ -34,6 +34,10 @@
             android:theme="@style/My_ActionBar" >
         </activity>
         <activity
+            android:name=".MyFansListActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+        <activity
             android:name=".GoodNameActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
@@ -72,7 +76,7 @@
         </activity>
 
         <service
-            android:name="com.bairutai.sinaweibo.MyService"
+            android:name="com.bairutai.Service.MyService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.bairutai.action.MyService" />

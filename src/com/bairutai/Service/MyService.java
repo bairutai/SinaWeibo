@@ -1,6 +1,7 @@
-package com.bairutai.sinaweibo;
+package com.bairutai.Service;
 
 import com.bairutai.application.WeiboApplication;
+import com.bairutai.model.Friend;
 import com.bairutai.tools.AccessTokenKeeper;
 import com.bairutai.data.Constants;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -8,17 +9,19 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.models.User;
+import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class MyService extends Service {
 
 	private UsersAPI mUsersAPI;
+	private FriendshipsAPI mFriendshipsAPI;
 	private Oauth2AccessToken mAccessToken;
 	private WeiboApplication app;
 	private MyBinder mBinder = new MyBinder();
@@ -57,8 +60,14 @@ public class MyService extends Service {
 					User user = User.parse(response);
 					if (user != null) {
 						app.setUser(user);
+						if(app.getmDataBase() == null) {
+							System.out.println("database2 instance is null");
+						}else{
+							System.out.println("database2 instance is not null");
+							app.getmDataBase().addUser(user);
+						}
 						Intent sendIntent = new Intent();
-						sendIntent.setAction("com.bairutai.MyContactActivity");
+						sendIntent.setAction("com.bairutai.LogoActivity");
 						sendBroadcast(sendIntent);
 					} else {
 						stopSelf();
@@ -73,8 +82,51 @@ public class MyService extends Service {
 		public void onWeiboException(WeiboException e) {
 		}
 	};
+
+	public void getfriends() {
+		mAccessToken = AccessTokenKeeper.readAccessToken(this);
+		if (null == mAccessToken){
+			Log.d("accesstokenl","is null" );
+			stopSelf();
+		}	
+		mFriendshipsAPI = new FriendshipsAPI(this, Constants.APP_KEY, mAccessToken);
+		app = (WeiboApplication)getApplication();
+		long uid = Long.parseLong(mAccessToken.getUid());
+		int cursor = 1;
+		mFriendshipsAPI.followers(uid, 50, cursor, false, mFriendslistener);
+		Log.d("listener","is value" );
+	}
+
+	private RequestListener mFriendslistener = new RequestListener() {
+
+		@Override
+		public void onWeiboException(WeiboException arg0) {
+			// TODO Auto-generated method stub
+			Log.d("exception", "exception" );
+		}
+
+		@Override
+		public void onComplete(String reponse) {
+			// TODO Auto-generated method stub
+			if (!TextUtils.isEmpty(reponse)) {
+				Log.d("reponse", reponse);
+				// 调用 User#parse 将JSON串解析成User对象
+				try {
+					int back = Friend.parse(reponse, app);
+					if (back != 0) {
+						Log.d("flower id is ","hahahaha");
+					} else {
+						stopSelf();
+					}
+				}catch(WeiboException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	};
+
 	public class MyBinder extends Binder {
-		MyService getService() {
+		public MyService getService() {
 			return MyService.this;
 		}
 	}

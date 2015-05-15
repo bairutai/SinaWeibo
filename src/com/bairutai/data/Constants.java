@@ -56,5 +56,37 @@ public interface Constants {
             "email,direct_messages_read,direct_messages_write,"
             + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
             + "follow_app_official_microblog," + "invitation_write";
+    
+    /**
+     * 数据库名称常量
+     */
+	public static final String DATABASE_NAME = "DATA";
+	public static final int DATABASE_VERSION = 1;
+
+	public static final String DATABASE_TABLE_NAME = "STATUS";
+	public static final String ID = "_ID";
+	public static final String STATUS_ID = "STUID";
+	public static final String TEXT = "TEXT";
+	public static final String SOURCE = "SOURCE";
+	public static final String FAVORITED = "FAVORITED";
+	public static final String THUMBNAIL = "THUMBNAIL";
+	public static final String BMIDDLE = "BMIDDLE";
+	public static final String ORIGINAL = "ORIGINAL";
+	public static final String GEO = "GEO";
+	public static final String USERID = "USERID";
+	public static final String RUSERID = "USERID";
+	public static final String STATUSID = "STATUSID";
+	public static final String REPOSTS = "REPOSTS";
+	public static final String COMMENTS = "COMMENTS";
+	public static final String ATTITUDES = "ATTITUDES";
+	public static final String PICLIST = "PICLIST";
+	public static final String CREATAT = "CREATAT";
+
+	public static final String DATABASE_TABLE_PICLIST = "PICLIST";
+	public static final String PIC_ID = "_ID";
+	public static final String PIC_MARK = "PICID";
+	public static final String PIC_TEXT = "TEXT";
+
+	public static final String DATABASE_TABLE_NAME_R = "RSTATUS";
 }
 

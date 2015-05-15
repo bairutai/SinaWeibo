@@ -16,7 +16,10 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ActionBar.LayoutParams;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -200,7 +203,7 @@ public class MyBaseInfoActivity extends Activity {
 		//界面数据初始化
 		app = (WeiboApplication) this.getApplication();
 		mUser = app.getUser();
-		myBaseInfo_dengluming_txt.setText(mUser.idstr);
+		myBaseInfo_dengluming_txt.setText(mUser.id);
 		myBaseInfo_jianjie_txt.setText(mUser.description);
 		myBaseInfo_suozaidi_txt.setText(mUser.location);
 		myBaseInfo_nicheng_txt.setText(mUser.screen_name);
@@ -243,6 +246,9 @@ public class MyBaseInfoActivity extends Activity {
 				// TODO Auto-generated method stub
 				username_dialog.cancel();
 				myBaseInfo_nicheng_txt.setText(username_dialog_username.getText());
+				ContentValues values = new ContentValues();
+				values.put("screen_name", username_dialog_username.getText().toString());
+		        app.getmDataBase().mSQLiteDatabase.update("user", values, null, null);
 			}
 		});
 		

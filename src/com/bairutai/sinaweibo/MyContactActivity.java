@@ -39,6 +39,7 @@ public class MyContactActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my);//设置画面布局
 		// actionbar属于tab所以获取的时候先获取上层View
 		// 这里要注意的是要想使用actionbar必须使用带title的样式
 		 my_actionbar = getParent().getActionBar();
@@ -54,7 +55,6 @@ public class MyContactActivity extends Activity {
 			my_actionbar.setCustomView(my_actionbar_view, layout);//设置actionbar视图
 		}
 		
-		setContentView(R.layout.my);//设置画面布局
 		findView();
 		initScreen();
 		addListener();

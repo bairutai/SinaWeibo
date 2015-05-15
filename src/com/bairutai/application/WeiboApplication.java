@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.bairutai.database.DataBase;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.openapi.models.User;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.app.Application;
 
 
@@ -17,6 +19,28 @@ public class WeiboApplication extends Application {
 	private User user;
 	private Oauth2AccessToken mAccessToken;
 	private ArrayList<AllAppInfo> list;
+	private DataBase mDataBase;
+	private DataBase mfriendDataBase;
+	
+	@Override
+	public void onCreate() {
+		// TODO Auto-generated method stub
+		super.onCreate();
+
+		list=GetAllAppInfo();
+		setList(list);
+		mDataBase = new DataBase(getApplicationContext(), "user", 4);
+		mfriendDataBase = new DataBase(getApplicationContext(), "flower", 1);
+	}
+	
+	public DataBase getMfriendDataBase() {
+		return mfriendDataBase;
+	}
+
+	public void setMfriendDataBase(DataBase mfriendDataBase) {
+		this.mfriendDataBase = mfriendDataBase;
+	}
+
 	public Oauth2AccessToken getmAccessToken() {
 		return mAccessToken;
 	}
@@ -30,23 +54,13 @@ public class WeiboApplication extends Application {
 	}
 
 	public User getUser() {
-		return user;
-	}
+		if (mDataBase.queryUser() == null){
+			return user;
+		}else {
+			System.out.println("database user is value");
+			return mDataBase.queryUser();
+		}
 
-	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-		super.onCreate();
-
-		list=GetAllAppInfo();
-		setList(list);
-//		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-//			AllAppInfo allAppInfo=(AllAppInfo) list.iterator();
-//			String appname=allAppInfo.getAppname();
-//			if (appname.equalsIgnoreCase("微信")) {
-//				
-//			}
-//		}
 	}
 
 	public ArrayList<AllAppInfo> getList() {
@@ -55,6 +69,19 @@ public class WeiboApplication extends Application {
 
 	public void setList(ArrayList<AllAppInfo> list) {
 		this.list = list;
+	}
+	
+	public DataBase getmDataBase() {
+		if(null == mDataBase) {
+			System.out.println("database instance is null");
+			return null;
+		}
+		System.out.println("database instance is not null");
+		return mDataBase;
+	}
+
+	public void setmDataBase(DataBase mDataBase) {
+		this.mDataBase = mDataBase;
 	}
 
 	private ArrayList<AllAppInfo> GetAllAppInfo() {

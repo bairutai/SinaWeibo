@@ -59,7 +59,7 @@ public class My_MoreActivity extends Activity {
 			titleTxt.setText("更多");
 		}	
 		mLayoutInflater = this.getLayoutInflater();
-		 dialog_view = mLayoutInflater.inflate(R.layout.refreshdialog, null);
+		dialog_view = mLayoutInflater.inflate(R.layout.refreshdialog, null);
 		dialog_cancelBtn = (Button)dialog_view.findViewById(R.id.refresh_cancel);
 		dialog_refreshBtn = (Button)dialog_view.findViewById(R.id.refresh_refresh);
 		dialog_returnBtn = (Button)dialog_view.findViewById(R.id.refresh_returnhome);

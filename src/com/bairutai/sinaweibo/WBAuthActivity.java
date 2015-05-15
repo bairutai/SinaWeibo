@@ -38,6 +38,7 @@ import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.bairutai.Service.MyService;
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.data.Constants;
 import com.bairutai.tools.AccessTokenKeeper;;
