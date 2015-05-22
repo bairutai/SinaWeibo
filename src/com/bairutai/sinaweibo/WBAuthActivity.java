@@ -219,7 +219,7 @@ public class WBAuthActivity extends Activity {
 	private void registerBoradcastReceiver() {
 		// TODO Auto-generated method stub
 		IntentFilter myIntentFilter = new IntentFilter();  
-		myIntentFilter.addAction("com.bairutai.MyContactActivity");  
+		myIntentFilter.addAction("com.bairutai.LogoActivity");  
 		//注册广播        
 		registerReceiver(MyReceiver, myIntentFilter);  
 	}

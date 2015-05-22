@@ -61,7 +61,7 @@ public class MyHomePageActivity extends Activity implements PullScrollView.OnTur
 
 		ActionBar actionBar = getActionBar();
 		if (null != actionBar) {
-			actionBar.setDisplayShowHomeEnabled(false);//返回键
+			actionBar.setDisplayShowHomeEnabled(false);//左上角logo
 			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 			actionBar.setDisplayShowCustomEnabled(true);
 			actionBar.setBackgroundDrawable(new ColorDrawable(R.color.transparent));
@@ -150,7 +150,7 @@ public class MyHomePageActivity extends Activity implements PullScrollView.OnTur
 		RotateAnimation rotateAnimation = new RotateAnimation(0f,36000f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f );
 		LinearInterpolator lir = new LinearInterpolator();
 		rotateAnimation.setInterpolator(lir);//设置匀速转动
-		rotateAnimation.setDuration(50000);
+		rotateAnimation.setDuration(60000);
 		rotateAnimation.setRepeatCount(1);//设置重复次数
 		moreBtn.startAnimation(rotateAnimation);
 		

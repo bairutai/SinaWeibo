@@ -31,6 +31,7 @@
     <string name="weibosdk_demo_toast_obtain_code_success">获取 Code 成功</string>
     <string name="weibosdk_demo_toast_obtain_code_failed">获取 Code 失败</string>
     <string name="weibosdk_demo_toast_obtain_token_success">获取 Token 成功</string>
-    <string name="weibosdk_demo_toast_obtain_token_failed">获取 Token 失败</string>    
-    
+    <string name="weibosdk_demo_toast_obtain_token_failed">获取 Token 失败</string>
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+
 </resources>

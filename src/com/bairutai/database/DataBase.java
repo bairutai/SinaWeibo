@@ -1,5 +1,8 @@
 package com.bairutai.database;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bairutai.model.Friend;
 import com.sina.weibo.sdk.openapi.models.User;
 
@@ -80,16 +83,33 @@ public class DataBase extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		String sql_drop = "drop table if exists user";
 		db.execSQL(sql_drop);
-		System.out.println("update Database");
+		System.out.println("user has been drop");
+		sql_drop = "drop table if exists flower";
+		db.execSQL(sql_drop);
+		System.out.println("flower has been drop");
 		onCreate(db);
 	}
-
+	
+	public void dropDataBase(){
+		String sql_drop = "drop table if exists user";
+		mSQLiteDatabase.execSQL(sql_drop);
+		System.out.println("user has been drop");
+		sql_drop = "drop table if exists flower";
+		mSQLiteDatabase.execSQL(sql_drop);
+		System.out.println("flower has been drop");
+	}
+	public void cleanDataBase(String database) {
+		String sql_clean = "delete from " + database;
+		mSQLiteDatabase.execSQL(sql_clean);
+	}
 	/**
 	 * 添加用户个人信息到数据库
 	 * 
 	 * @param user
 	 */
 	public void addUser(User user){
+		
+
 
 		String sql_user = "insert into user("
 				+ " userid,screen_name,name,location,description,url,profileimage,gender,followers,"
@@ -151,6 +171,38 @@ public class DataBase extends SQLiteOpenHelper {
 		user.online_status = cursor.getInt(cursor.getColumnIndex("online"));
 		user.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
 		return user;
+	}
+	
+	public ArrayList<Friend> queryFriend() {
+		ArrayList<Friend> friendlist = new ArrayList<Friend>();
+		Cursor cursor = mSQLiteDatabase.rawQuery("select * from flower", null);
+		Friend user = null;
+		System.out.println("cursor is not null a a a ");
+        while (cursor.moveToNext()) {
+        	System.out.println("cursor is not null");
+            user = new Friend();
+    		user.id = String.valueOf(cursor.getLong(cursor.getColumnIndex("userid")));
+    		user.screen_name = cursor.getString(cursor.getColumnIndex("screen_name"));
+    		user.name = cursor.getString(cursor.getColumnIndex("name"));
+    		user.location = cursor.getString(cursor.getColumnIndex("location"));
+    		user.description = cursor.getString(cursor.getColumnIndex("description"));
+    		user.url = cursor.getString(cursor.getColumnIndex("url"));
+    		user.profile_image_url = cursor.getString(cursor.getColumnIndex("profileimage"));
+    		user.gender = cursor.getString(cursor.getColumnIndex("gender"));
+    		user.followers_count = cursor.getInt(cursor.getColumnIndex("followers"));
+    		user.friends_count = cursor.getInt(cursor.getColumnIndex("friends"));
+    		user.statuses_count = cursor.getInt(cursor.getColumnIndex("statuses"));
+    		user.favourites_count = cursor.getInt(cursor.getColumnIndex("favourites"));
+    		user.verified = cursor.getInt(cursor.getColumnIndex("verified")) == 1 ? true: false;
+    		user.avatar_large = cursor.getString(cursor.getColumnIndex("avatarLarge"));
+    		user.avatar_hd = cursor.getString(cursor.getColumnIndex("avatarHd"));
+    		user.verified_reason = cursor.getString(cursor.getColumnIndex("verifiedReason"));
+    		user.online_status = cursor.getInt(cursor.getColumnIndex("online"));
+    		user.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
+    		friendlist.add(user);
+        }  
+		return friendlist;
+		
 	}
 	
 }

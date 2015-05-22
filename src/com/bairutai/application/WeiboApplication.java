@@ -29,11 +29,15 @@ public class WeiboApplication extends Application {
 
 		list=GetAllAppInfo();
 		setList(list);
-		mDataBase = new DataBase(getApplicationContext(), "user", 4);
+		
+		mDataBase = new DataBase(getApplicationContext(), "user", 1);
 		mfriendDataBase = new DataBase(getApplicationContext(), "flower", 1);
 	}
 	
 	public DataBase getMfriendDataBase() {
+		if (mfriendDataBase == null) {
+			System.out.println("mfriendDataBase is null ");
+		}
 		return mfriendDataBase;
 	}
 

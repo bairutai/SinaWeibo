@@ -43,6 +43,7 @@ public class MyService extends Service {
 			stopSelf();
 		}		
 		mUsersAPI = new UsersAPI(this, Constants.APP_KEY, mAccessToken);
+		System.out.print(mAccessToken);
 		app = (WeiboApplication)getApplication();
 		long uid = Long.parseLong(mAccessToken.getUid());
 		mUsersAPI.show(uid, mListener);
@@ -92,8 +93,8 @@ public class MyService extends Service {
 		mFriendshipsAPI = new FriendshipsAPI(this, Constants.APP_KEY, mAccessToken);
 		app = (WeiboApplication)getApplication();
 		long uid = Long.parseLong(mAccessToken.getUid());
-		int cursor = 1;
-		mFriendshipsAPI.followers(uid, 50, cursor, false, mFriendslistener);
+		int cursor = 0;
+		mFriendshipsAPI.followers(uid, 44, cursor, false, mFriendslistener);
 		Log.d("listener","is value" );
 	}
 
@@ -114,7 +115,10 @@ public class MyService extends Service {
 				try {
 					int back = Friend.parse(reponse, app);
 					if (back != 0) {
-						Log.d("flower id is ","hahahaha");
+						System.out.println("the return back is 1");
+						Intent sendIntent = new Intent();
+						sendIntent.setAction("com.bairutai.MyFansListActivity");
+						sendBroadcast(sendIntent);
 					} else {
 						stopSelf();
 					}

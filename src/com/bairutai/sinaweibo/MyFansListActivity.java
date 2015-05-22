@@ -1,23 +1,28 @@
 package com.bairutai.sinaweibo;
 
+import com.bairutai.Adapter.MyFanslistAdapter;
 import com.bairutai.Service.MyService;
+import com.bairutai.application.WeiboApplication;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MyFansListActivity extends Activity {
@@ -29,10 +34,9 @@ public class MyFansListActivity extends Activity {
 	private TextView titleTxt;
 	
 	//pullRefreshScrollView
-	private 	PullToRefreshScrollView mPullRefreshScrollView;
-	private ListView myFanslistView;
+	private 	PullToRefreshListView mPullRefreshListView;
 	private MyService mMyService;
-	
+	private WeiboApplication app;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -56,7 +60,8 @@ public class MyFansListActivity extends Activity {
 		}
 		
 		findView();
-		initScreen();
+		app = (WeiboApplication)getApplication();
+		registerBoradcastReceiver();
 		Intent  service=new Intent();
 		service.setClass(MyFansListActivity.this, MyService.class);
 		bindService(service, mServiceConnection, BIND_AUTO_CREATE);
@@ -65,25 +70,35 @@ public class MyFansListActivity extends Activity {
 
 	private void findView() {
 		// TODO Auto-generated method stub
-		mPullRefreshScrollView = (PullToRefreshScrollView)findViewById(R.id.myfanslist_pull_refresh_scrollview);
-		myFanslistView = (ListView)findViewById(R.id.myfanslist_listview);
+		mPullRefreshListView = (PullToRefreshListView)findViewById(R.id.myfanslist_pull_refresh_listview);
+		mPullRefreshListView.setLoadingDrawable(getResources().getDrawable(R.drawable.navigationbar_icon_refresh_white));
+		mPullRefreshListView.setRefreshing(true);
 	}
 
 	private void initScreen() {
 		// TODO Auto-generated method stub
-		mPullRefreshScrollView.setLoadingDrawable(getResources().getDrawable(R.drawable.navigationbar_icon_refresh_white));
+		MyFanslistAdapter myFansListAdapter = new MyFanslistAdapter(this, app);
+		mPullRefreshListView.setAdapter(myFansListAdapter);
+		mPullRefreshListView.setRefreshing(false);
 	}
 
 	private void addListener() {
 		// TODO Auto-generated method stub
-
-		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<ScrollView>() {
+		backBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
+		mPullRefreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
 			@Override
-			public void onRefresh(PullToRefreshBase<ScrollView> arg0) {
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				mPullRefreshScrollView.setRefreshing();
-			}			
+			}
 		});
 	}
 	
@@ -100,4 +115,21 @@ public class MyFansListActivity extends Activity {
 			// TODO Auto-generated method stub  
 		}  
 	};  
+	private void registerBoradcastReceiver() {
+		// TODO Auto-generated method stub
+		IntentFilter myIntentFilter = new IntentFilter();  
+		myIntentFilter.addAction("com.bairutai.MyFansListActivity");  
+		//注册广播        
+		registerReceiver(MyReceiver, myIntentFilter);  
+	}
+	
+	private BroadcastReceiver MyReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			initScreen();
+			unbindService(mServiceConnection);
+			unregisterReceiver(MyReceiver);
+		}
+	};
 }

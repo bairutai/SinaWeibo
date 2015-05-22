@@ -4,23 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/com.handmark.pulltorefresh.library.PullToRefreshScrollView"
-        android:id="@+id/myfanslist_pull_refresh_scrollview"
+        android:id="@+id/myfanslist_pull_refresh_listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         ptr:ptrAnimationStyle="flip"
         ptr:ptrMode="both" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-
-            <ListView
-                android:id="@+id/myfanslist_listview"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
-        </RelativeLayout>
-    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </RelativeLayout>

@@ -49,5 +49,7 @@
     <color name="soft_black">#8E8E8E</color>
     <color name="dan_orange">#EEC591</color>
     <color name="tab_orange">#FFA042</color>
-
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
 </resources>

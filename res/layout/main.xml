@@ -36,7 +36,7 @@
             android:orientation="horizontal" >
 
             <RadioButton
-                android:id="@+id/radio_button1"
+                android:id="@+id/main_radio_firstpagebutton"
                 style="@style/main_tab_bottom"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/button_from_white_to_orange1"
@@ -45,7 +45,7 @@
                 android:textColor="@drawable/txt_from_black_to_orange" />
 
             <RadioButton
-                android:id="@+id/radio_button2"
+                android:id="@+id/main_radio_messagebutton"
                 style="@style/main_tab_bottom"
                 android:drawableTop="@drawable/button_from_white_to_orange2"
                 android:tag="radio_button1"
@@ -53,7 +53,7 @@
                 android:textColor="@drawable/txt_from_black_to_orange" />
 
             <RadioButton
-                android:id="@+id/radio_button3"
+                android:id="@+id/main_radio_addbutton"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
                 android:drawableTop="@drawable/icon_4"/>
 
             <RadioButton
-                android:id="@+id/radio_button4"
+                android:id="@+id/main_radio_searchbutton"
                 style="@style/main_tab_bottom"
                 android:drawableTop="@drawable/button_from_white_to_orange3"
                 android:tag="radio_button3"
@@ -72,7 +72,7 @@
                 android:textColor="@drawable/txt_from_black_to_orange" />
 
             <RadioButton
-                android:id="@+id/radio_button5"
+                android:id="@+id/main_radio_mybutton"
                 style="@style/main_tab_bottom"
                 android:drawableTop="@drawable/button_from_white_to_orange4"
                 android:tag="radio_button4"

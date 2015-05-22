@@ -5,6 +5,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.database.DataBase;
@@ -83,7 +86,7 @@ public class Friend {
 	public int total_number;
 
 
-	
+
 	public  static int parse(String jsonString,WeiboApplication app) {
 		try {
 			JSONObject jsonObject = new JSONObject(jsonString);
@@ -100,9 +103,9 @@ public class Friend {
 		}
 
 		JSONArray jsonArray=jsonObject1.getJSONArray("users");
-		
+		app.getMfriendDataBase().cleanDataBase("flower");
 		for(int i=0;i<jsonArray.length();i++) {
-			
+
 			JSONObject jsonObject = (JSONObject)jsonArray.get(i);
 			Friend friend = new Friend();
 			friend.id                 = jsonObject.optString("id", "");
@@ -130,8 +133,8 @@ public class Friend {
 			friend.verified           = jsonObject.optBoolean("verified", false);
 			friend.verified_type      = jsonObject.optInt("verified_type", -1);
 			friend.remark             = jsonObject.optString("remark", "");
-//			friend.status.id             = jsonObject.optJSONObject("status").optString("id", ""); // XXX: NO Need?
-//			friend.status.text = jsonObject.optJSONObject("status").optString("text", "");
+			//			friend.status.id             = jsonObject.optJSONObject("status").optString("id", ""); // XXX: NO Need?
+			//			friend.status.text = jsonObject.optJSONObject("status").optString("text", "");
 			friend.allow_all_comment  = jsonObject.optBoolean("allow_all_comment", true);
 			friend.avatar_large       = jsonObject.optString("avatar_large", "");
 			friend.avatar_hd          = jsonObject.optString("avatar_hd", "");
