@@ -8,6 +8,7 @@ import com.bairutai.database.DataBaseHelper;
 import com.bairutai.model.User;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.openapi.models.Status;
+import com.sina.weibo.sdk.openapi.models.StatusList;
 
 import android.content.pm.PackageInfo;
 import android.app.Application;
@@ -16,6 +17,7 @@ import android.app.Application;
 public class WeiboApplication extends Application {
 	private User user;
 	private Status status;
+	private StatusList statusList;
 	private Oauth2AccessToken mAccessToken;
 	private ArrayList<AllAppInfo> list;
 	public DataBaseHelper mDataBaseHelper;
@@ -30,6 +32,14 @@ public class WeiboApplication extends Application {
 		mDataBaseHelper = new DataBaseHelper(getApplicationContext());
 	}
 	
+	public StatusList getStatusList() {
+		return statusList;
+	}
+
+	public void setStatusList(StatusList statusList) {
+		this.statusList = statusList;
+	}
+
 	public Status getStatus() {
 		return status;
 	}

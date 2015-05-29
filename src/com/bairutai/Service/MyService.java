@@ -12,6 +12,7 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.UsersAPI;
 import com.sina.weibo.sdk.openapi.models.Status;
+import com.sina.weibo.sdk.openapi.models.StatusList;
 
 import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
 
@@ -133,7 +134,7 @@ public class MyService extends Service {
 		mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
 		app = (WeiboApplication)getApplication();
 		long uid = Long.parseLong(mAccessToken.getUid());
-		mStatusesAPI.friendsTimeline(0, 0, 20, 1, false, 0, false, mStatusListener);
+		mStatusesAPI.friendsTimeline(0, 0, 50, 1, false, 0, false, mStatusListener);
 	}
 
 	private RequestListener mStatusListener = new RequestListener() {
@@ -151,9 +152,9 @@ public class MyService extends Service {
 				// 调用 User#parse 将JSON串解析成User对象
 				Log.d("reponse", response);
 				try {
-					Status status =Status.parse(response);
-					if (status != null) {
-						app.setStatus(status);
+					StatusList statusList =StatusList.parse(response);
+					if (statusList != null) {
+						app.setStatusList(statusList);
 						Intent sendIntent = new Intent();
 						sendIntent.setAction("com.bairutai.MyFirstPageActivity");
 						sendBroadcast(sendIntent);

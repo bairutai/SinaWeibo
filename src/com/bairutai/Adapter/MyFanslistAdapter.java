@@ -79,12 +79,6 @@ public class MyFanslistAdapter extends BaseAdapter {
 		viewHolder.txtName.setText(friendlist.get(position).screen_name);
 		viewHolder.txtDescription.setText(friendlist.get(position).description);
 		viewHolder.txtSource.setText(friendlist.get(position).status_text);
-//		try {
-//			viewHolder.imgIcon.setImageBitmap(getBitmap(friendlist.get(position).profile_image_url));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		new AsyncBitmapLoader().execute(viewHolder.imgIcon,friendlist.get(position).avatar_large);
 		if(friendlist.get(position).follow_me){				
 			viewHolder.imgGuanzhu.setImageResource(R.drawable.card_icon_arrow);
@@ -101,11 +95,5 @@ public class MyFanslistAdapter extends BaseAdapter {
         TextView txtSource;
         ImageView imgGuanzhu;
    }
-	public Bitmap getBitmap(String url) throws IOException {
-		URL myUrl = new URL(url);
-		HttpURLConnection conn = (HttpURLConnection) myUrl.openConnection();
-		Bitmap bitmap = BitmapFactory.decodeStream(conn.getInputStream());
-		return bitmap;
-	}
 
 }

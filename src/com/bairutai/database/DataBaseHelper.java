@@ -47,7 +47,7 @@ public class DataBaseHelper {
 		String sql_clean = "delete from " + database;
 		mSQLiteDatabase.execSQL(sql_clean);
 	}
-	
+
 	/**
 	 * 添加用户个人信息到数据库
 	 * 
@@ -69,9 +69,41 @@ public class DataBaseHelper {
 				user.profile_image_url, user.gender, user.followers_count,
 				user.friends_count, user.statuses_count, user.favourites_count,
 				user.verified,user.follow_me==true?1:0, user.status_text,user.avatar_large, 
-				user.avatar_hd,user.verified_reason, user.online_status, 
-				user.created_at });
+						user.avatar_hd,user.verified_reason, user.online_status, 
+						user.created_at });
 	}
+
+	/**
+	 * 添加status到数据库
+	 * 
+	 * @param status
+	 */
+	public void addStatus(Status status) {
+		String sql = "replace into status("
+				+"status_id,"
+				+"created_at," 
+				+"source,"
+				+ "text," 
+				+ "favorited,"
+				+"thumbnail,"
+				+"bmiddle,"
+				+"original,"
+				+"user_id,"
+				+"reposts_count,"
+				+"comments_count,"
+				+"attitudes_count,"
+				+"piclist integer)"
+				+ "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		long retweeted_id = 0;
+		if (status.retweeted_status != null)
+			retweeted_id = Long.parseLong(status.retweeted_status.id);
+		mSQLiteDatabase.execSQL(sql, new Object[] { status.id, status.created_at,
+				status.text, status.source, status.favorited,
+				status.thumbnail_pic, status.bmiddle_pic, status.original_pic,
+				retweeted_id, status.user.id, status.comments_count,
+				status.attitudes_count, status.reposts_count, status.id });
+	}
+
 
 	/**
 	 * 查询用户信息
@@ -134,6 +166,35 @@ public class DataBaseHelper {
 			flowerlist.add(user);
 		}
 		return flowerlist;
-
+	}
+	
+	/**
+	 * 从数据库获取status
+	 * 
+	 * @param cursor
+	 * @param Statusid
+	 * @return
+	 */
+	public Status getStatus(Cursor cursor) {
+		Status status = new Status();
+		status.id = String.valueOf(cursor.getLong(cursor.getColumnIndex("status_id")));
+		status.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
+		status.source = cursor.getString(cursor.getColumnIndex("source"));
+		status.text = cursor.getString(cursor.getColumnIndex("text"));
+		status.favorited = cursor.getInt(cursor.getColumnIndex("favorited")) == 1 ? true : false;
+		status.thumbnail_pic = cursor.getString(cursor.getColumnIndex("thumbnail"));
+		status.bmiddle_pic = cursor.getString(cursor.getColumnIndex("orignal"));
+		long statusId = cursor.getLong(cursor.getColumnIndex("status_id"));
+//		if (statusId != 0) {
+//			status.retweeted_status = getRStatus(statusId);
+//		}
+		String userId = cursor.getString(cursor.getColumnIndex("user_id"));
+//		status.user = queryUser(userId);
+		status.comments_count = cursor.getInt(cursor.getColumnIndex("comments_count"));
+		status.attitudes_count = cursor.getInt(cursor.getColumnIndex("attitudes_count"));
+		status.reposts_count = cursor.getInt(cursor.getColumnIndex("reposts_count"));
+		long piclist = cursor.getLong(cursor.getColumnIndex("piclist"));
+//		status.pic_urls = getPicList(piclist);
+		return status;
 	}
 }

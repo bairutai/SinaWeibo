@@ -1,6 +1,8 @@
 package com.bairutai.sinaweibo;
 
+import com.bairutai.Adapter.MyFirstPageAdapter;
 import com.bairutai.Service.MyService;
+import com.bairutai.application.WeiboApplication;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import android.app.ActionBar;
@@ -44,12 +46,14 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 	
 	//主界面
 	private PullToRefreshListView mPullToReFreshListView;
+	private WeiboApplication app;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.myfirstpage);
+		app = (WeiboApplication)getApplication();
 		registerBoradcastReceiver();
 		findView();
 		addListener();
@@ -119,6 +123,8 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 
 	private void initScreen() {
 		// TODO Auto-generated method stub
+		MyFirstPageAdapter myFirstPageAdapter = new MyFirstPageAdapter(this, app);
+		mPullToReFreshListView.setAdapter(myFirstPageAdapter);
 	}
 
 	private void addListener() {

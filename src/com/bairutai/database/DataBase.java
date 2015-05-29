@@ -46,18 +46,18 @@ public class DataBase extends SQLiteOpenHelper {
 		System.out.println("Create Database");
 
 		String sql = "create table status(	_id integer primary key autoincrement,"
-				+"statusid integer unique,"
-				+"creatat text," 
+				+"status_id integer unique,"
+				+"created_at text," 
 				+"source text,"
 				+ "text text," 
 				+ "favorited integer,"
 				+"thumbnail text,"
 				+"bmiddle text,"
 				+"original text,"
-				+"userid integer,"
-				+"reposts integer,"
-				+"comments integer,"
-				+"attitudes integer,"
+				+"user_id integer,"
+				+"reposts_count integer,"
+				+"comments_count integer,"
+				+"attitudes_count integer,"
 				+"piclist integer)";
 		Log.i("ABC", "dbhelper oncreate");
 		db.execSQL(sql);
