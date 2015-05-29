@@ -30,7 +30,7 @@ import com.google.zxing.ResultPointCallback;
 
 /**
  * This thread does all the heavy lifting of decoding the images.
- * �����߳�
+ * 解码线程
  */
 final class DecodeThread extends Thread {
 

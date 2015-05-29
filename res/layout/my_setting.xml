@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toggle="http://schemas.android.com/apk/com.zcw.togglebutton.ToggleButton"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray" >
+
+    <RelativeLayout
+        android:id="@+id/my_setting_zhanghao_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/triangle" />
+
+        <TextView
+            android:id="@+id/my_setting_zhanghao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="帐号管理"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_tongzhi_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_zhanghao_layout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/triangle" />
+
+        <TextView
+            android:id="@+id/my_setting_tongzhi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="通知"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_yinsi_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_tongzhi_layout"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/triangle" />
+
+        <TextView
+            android:id="@+id/my_setting_yinsi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="隐私与安全"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_tongyong_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_yinsi_layout"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/triangle" />
+
+        <TextView
+            android:id="@+id/my_setting_tongyong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="通用设置"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_yijian_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_tongyong_layout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/triangle" />
+
+        <TextView
+            android:id="@+id/my_setting_yijian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="意见反馈"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_guanyu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_yijian_layout"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/triangle" />
+
+        <TextView
+            android:id="@+id/my_setting_guanyu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="关于微博"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_yejian_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_guanyu_layout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <com.zcw.togglebutton.ToggleButton
+            android:id="@+id/my_setting_yejian_toggleBtn"
+            android:layout_width="54dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            toggle:borderWidth="10dp"
+            toggle:offBorderColor="#000"
+            toggle:offColor="#ddd"
+            toggle:offLineWidth="2dp"
+            toggle:onColor="#f00"
+            toggle:spotColor="#00f" />
+
+        <TextView
+            android:id="@+id/my_setting_yejian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="夜间模式"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_clear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_yejian_layout"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/my_setting_clear_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/triangle" />
+
+        <TextView
+            android:id="@+id/my_setting_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="清除缓存"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/my_setting_clear_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/my_setting_clear_img"
+            android:text="22.1MB"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_setting_exit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_setting_clear_layout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <TextView
+            android:id="@+id/my_setting_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="退出微博"
+            android:textColor="@color/orange"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

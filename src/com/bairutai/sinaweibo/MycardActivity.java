@@ -43,13 +43,13 @@ import android.widget.Toast;
 
 
 import com.bairutai.application.WeiboApplication;
+import com.bairutai.model.User;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.sina.weibo.sdk.openapi.models.User;
 
 public class MycardActivity extends Activity {
 	/** 生成二维码图片大小 */

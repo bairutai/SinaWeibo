@@ -6,8 +6,11 @@ import java.util.Vector;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.ActionBar.LayoutParams;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
@@ -17,13 +20,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.style.BulletSpan;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.LayoutInflater;
@@ -31,8 +35,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,19 +64,20 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 	private boolean playBeep;
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
-	
-	
+
+
 	private static final int REQUEST_CODE = 100;
 	private static final int PARSE_BARCODE_SUC = 300;
 	private static final int PARSE_BARCODE_FAIL = 303;
+	private static final long VIBRATE_DURATION = 200L;
 	private ProgressDialog mProgress;
 	private String photo_path;
 	private Bitmap scanBitmap;
-	
+
 	private View mView;
 	private TextView closeBtn;
 	private TextView pictureBtn;
-
+	private Button mycardBtn;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,14 +101,18 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 		}
 		CameraManager.init(getApplication());
 		viewfinderView = (ViewfinderView) findViewById(R.id.mipcapture_viewfinderView);
-		
+		mycardBtn = (Button)findViewById(R.id.mipcapture_mycardBtn);
 		closeBtn.setOnClickListener(this);
 		pictureBtn.setOnClickListener(this);
+		mycardBtn.setOnClickListener(this);
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
+		mProgress = new ProgressDialog(this);
+		initBeepSound();
+		playBeep = true;
 	}
-	
-	
+
+
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
@@ -115,24 +122,31 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 		case R.id.title_mipcapture_picture:
 			//打开手机中的相册
 			Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT); //"android.intent.action.GET_CONTENT"
-	        innerIntent.setType("image/*");
-	        Intent wrapperIntent = Intent.createChooser(innerIntent, "选择二维码图片");
-	        this.startActivityForResult(wrapperIntent, REQUEST_CODE);
+			innerIntent.setType("image/*");
+			Intent wrapperIntent = Intent.createChooser(innerIntent, "选择二维码图片");
+			this.startActivityForResult(wrapperIntent, REQUEST_CODE);
+			break;
+		case R.id.mipcapture_mycardBtn:
+			this.startActivity(new Intent(MipcaActivityCapture.this, MycardActivity.class));
+			break;
+		default:
 			break;
 		}
 	}
-	
-	
+
+
 	private Handler mHandler = new Handler(){
 
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			
-			mProgress.dismiss();
+			if(mProgress.isShowing()){
+				mProgress.dismiss();
+			}
 			switch (msg.what) {
 			case PARSE_BARCODE_SUC:
-				onResultHandler((String)msg.obj, scanBitmap);
+				handleDecode((Result)msg.obj, scanBitmap);
+//				onResultHandler((String)msg.obj, scanBitmap);
 				break;
 			case PARSE_BARCODE_FAIL:
 				Toast.makeText(MipcaActivityCapture.this, (String)msg.obj, Toast.LENGTH_LONG).show();
@@ -140,9 +154,9 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 
 			}
 		}
-		
+
 	};
-	
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -150,18 +164,25 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 		if(resultCode == RESULT_OK){
 			switch(requestCode){
 			case REQUEST_CODE:
-				//��ȡѡ��ͼƬ��·��
+				//获取选中图片的路径
 				Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
-				if (cursor.moveToFirst()) {
-					photo_path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+				if(null == cursor){
+					Message m = mHandler.obtainMessage();
+					m.what = PARSE_BARCODE_FAIL;
+					m.obj = "图片路径出错";
+					mHandler.sendMessage(m);
+					break;
+				}else {
+					if (cursor.moveToFirst()) {
+						photo_path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+						cursor.close();
+					}
 				}
-				cursor.close();
-				
-				mProgress = new ProgressDialog(MipcaActivityCapture.this);
-				mProgress.setMessage("����ɨ��...");
+
+				mProgress.setMessage("正在扫描...");
 				mProgress.setCancelable(false);
 				mProgress.show();
-				
+
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -169,7 +190,7 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 						if (result != null) {
 							Message m = mHandler.obtainMessage();
 							m.what = PARSE_BARCODE_SUC;
-							m.obj = result.getText();
+							m.obj = result;
 							mHandler.sendMessage(m);
 						} else {
 							Message m = mHandler.obtainMessage();
@@ -179,15 +200,15 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 						}
 					}
 				}).start();
-				
+
 				break;
-			
+
 			}
 		}
 	}
-	
+
 	/**
-	 * ɨ���ά��ͼƬ�ķ���
+	 * 扫描二维码图片的方法
 	 * @param path
 	 * @return
 	 */
@@ -196,12 +217,12 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 			return null;
 		}
 		Hashtable<DecodeHintType, String> hints = new Hashtable<DecodeHintType, String>();
-		hints.put(DecodeHintType.CHARACTER_SET, "UTF8"); //���ö�ά�����ݵı���
+		hints.put(DecodeHintType.CHARACTER_SET, "UTF8"); //设置二维码内容的编码
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true; // �Ȼ�ȡԭ��С
+		options.inJustDecodeBounds = true;// 先获取原大小
 		scanBitmap = BitmapFactory.decodeFile(path, options);
-		options.inJustDecodeBounds = false; // ��ȡ�µĴ�С
+		options.inJustDecodeBounds = false; // 获取新的大小
 		int sampleSize = (int) (options.outHeight / (float) 200);
 		if (sampleSize <= 0)
 			sampleSize = 1;
@@ -226,6 +247,7 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 
 	@Override
 	protected void onResume() {
+		System.out.println("onResume");
 		super.onResume();
 		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.mipcapture_surfaceview);
 		SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -245,11 +267,12 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 		}
 		initBeepSound();
 		vibrate = true;
-		
+
 	}
 
 	@Override
 	protected void onPause() {
+		System.out.println("onPause");
 		super.onPause();
 		if (handler != null) {
 			handler.quitSynchronously();
@@ -263,9 +286,9 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 		inactivityTimer.shutdown();
 		super.onDestroy();
 	}
-	
+
 	/**
-	 * ����ɨ����
+	 * 处理扫描结果
 	 * @param result
 	 * @param barcode
 	 */
@@ -275,26 +298,42 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 		String resultString = result.getText();
 		onResultHandler(resultString, barcode);
 	}
-	
+
 	/**
-	 * ��ת����һ��ҳ��
+	 * 跳转到上一个页面
 	 * @param resultString
 	 * @param bitmap
 	 */
 	private void onResultHandler(String resultString, Bitmap bitmap){
-		if(TextUtils.isEmpty(resultString)){
+		String  a = "sinaweibo://userinfo?uid=";		
+		if(TextUtils.isEmpty(resultString)) {
 			Toast.makeText(MipcaActivityCapture.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 			return;
+		}else{
+			String[] array = resultString.split("=");
+			if(array[0].equalsIgnoreCase(a)){
+				Intent intent = new Intent();       
+				intent.setAction("android.intent.action.VIEW");   
+				Uri content_url = Uri.parse("http://weibo.com/"+array[1]+"/profile");  
+				intent.setData(content_url); 
+				startActivity(intent);
+			}else{
+				Intent intent = new Intent(MipcaActivityCapture.this, InfoOfQRActivity.class);
+				intent.putExtra("result",resultString);
+				startActivity(intent);
+				finish();
+				System.out.println("goto next activity");
+			}
 		}
-		Intent resultIntent = new Intent();
-		Bundle bundle = new Bundle();
-		bundle.putString("result", resultString);
-		bundle.putParcelable("bitmap", bitmap);
-		resultIntent.putExtras(bundle);
-		this.setResult(RESULT_OK, resultIntent);
-		MipcaActivityCapture.this.finish();
+		//		Intent resultIntent = new Intent();
+		//		Bundle bundle = new Bundle();
+		//		bundle.putString("result", resultString);
+		//		bundle.putParcelable("bitmap", bitmap);
+		//		resultIntent.putExtras(bundle);
+		//		this.setResult(RESULT_OK, resultIntent);
+		//		MipcaActivityCapture.this.finish();
 	}
-	
+
 	private void initCamera(SurfaceHolder surfaceHolder) {
 		try {
 			CameraManager.get().openDriver(surfaceHolder);
@@ -348,25 +387,32 @@ public class MipcaActivityCapture extends Activity implements Callback , View.On
 			// too loud,
 			// so we now play on the music stream.
 			setVolumeControlStream(AudioManager.STREAM_MUSIC);
-			mediaPlayer = new MediaPlayer();
+			mediaPlayer = MediaPlayer.create(MipcaActivityCapture.this, R.raw.beep);
 			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			mediaPlayer.setOnCompletionListener(beepListener);
-
-			AssetFileDescriptor file = getResources().openRawResourceFd(
-					R.raw.beep);
+			mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
 			try {
-				mediaPlayer.setDataSource(file.getFileDescriptor(),
-						file.getStartOffset(), file.getLength());
-				file.close();
-				mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
 				mediaPlayer.prepare();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (IOException e) {
-				mediaPlayer = null;
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			//			AssetFileDescriptor file = getResources().openRawResourceFd(
+			//					R.raw.beep);
+			//			try {
+			//				mediaPlayer.setDataSource(file.getFileDescriptor(),
+			//						file.getStartOffset(), file.getLength());
+			//				file.close();
+			//				mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
+			//				mediaPlayer.prepareAsync();
+			//			} catch (IOException e) {
+			//				mediaPlayer = null;
+			//			}
 		}
 	}
-
-	private static final long VIBRATE_DURATION = 200L;
 
 	private void playBeepSoundAndVibrate() {
 		if (playBeep && mediaPlayer != null) {

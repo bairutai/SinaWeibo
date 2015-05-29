@@ -5,12 +5,12 @@ import java.util.Date;
 
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.data.CityInfo;
+import com.bairutai.model.User;
 import com.bairutai.openwidget.ClearEditText;
 import com.bairutai.openwidget.OnWheelScrollListener;
 import com.bairutai.openwidget.StrericWheelAdapter;
 import com.bairutai.openwidget.WheelView;
 import com.bairutai.sinaweibo.R.id;
-import com.sina.weibo.sdk.openapi.models.User;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -248,7 +248,7 @@ public class MyBaseInfoActivity extends Activity {
 				myBaseInfo_nicheng_txt.setText(username_dialog_username.getText());
 				ContentValues values = new ContentValues();
 				values.put("screen_name", username_dialog_username.getText().toString());
-		        app.getmDataBase().mSQLiteDatabase.update("user", values, null, null);
+		        app.mDataBaseHelper.mSQLiteDatabase.update("user", values, "where userid = ?", new String[]{mUser.id});
 			}
 		});
 		

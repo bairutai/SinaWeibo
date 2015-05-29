@@ -2,25 +2,23 @@ package com.bairutai.application;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import com.bairutai.database.DataBase;
+import com.bairutai.database.DataBaseHelper;
+import com.bairutai.model.User;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.openapi.models.User;
+import com.sina.weibo.sdk.openapi.models.Status;
 
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.app.Application;
 
 
 public class WeiboApplication extends Application {
 	private User user;
+	private Status status;
 	private Oauth2AccessToken mAccessToken;
 	private ArrayList<AllAppInfo> list;
-	private DataBase mDataBase;
-	private DataBase mfriendDataBase;
+	public DataBaseHelper mDataBaseHelper;
 	
 	@Override
 	public void onCreate() {
@@ -29,22 +27,17 @@ public class WeiboApplication extends Application {
 
 		list=GetAllAppInfo();
 		setList(list);
-		
-		mDataBase = new DataBase(getApplicationContext(), "user", 1);
-		mfriendDataBase = new DataBase(getApplicationContext(), "flower", 1);
+		mDataBaseHelper = new DataBaseHelper(getApplicationContext());
 	}
 	
-	public DataBase getMfriendDataBase() {
-		if (mfriendDataBase == null) {
-			System.out.println("mfriendDataBase is null ");
-		}
-		return mfriendDataBase;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setMfriendDataBase(DataBase mfriendDataBase) {
-		this.mfriendDataBase = mfriendDataBase;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
-
+	
 	public Oauth2AccessToken getmAccessToken() {
 		return mAccessToken;
 	}
@@ -58,13 +51,7 @@ public class WeiboApplication extends Application {
 	}
 
 	public User getUser() {
-		if (mDataBase.queryUser() == null){
 			return user;
-		}else {
-			System.out.println("database user is value");
-			return mDataBase.queryUser();
-		}
-
 	}
 
 	public ArrayList<AllAppInfo> getList() {
@@ -75,19 +62,6 @@ public class WeiboApplication extends Application {
 		this.list = list;
 	}
 	
-	public DataBase getmDataBase() {
-		if(null == mDataBase) {
-			System.out.println("database instance is null");
-			return null;
-		}
-		System.out.println("database instance is not null");
-		return mDataBase;
-	}
-
-	public void setmDataBase(DataBase mDataBase) {
-		this.mDataBase = mDataBase;
-	}
-
 	private ArrayList<AllAppInfo> GetAllAppInfo() {
 		// TODO Auto-generated method stub
 		ArrayList<AllAppInfo> appList = new ArrayList<AllAppInfo>();  

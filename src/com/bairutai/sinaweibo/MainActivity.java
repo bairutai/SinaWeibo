@@ -48,9 +48,15 @@ public class MainActivity extends TabActivity {
 		spec = tabHost.newTabSpec("资料").setIndicator("资料").setContent(intent);
 		tabHost.addTab(spec);
 
-
+		intent = new Intent().setClass(this, MyMessageActivity.class);
+		spec = tabHost.newTabSpec("信息").setIndicator("信息").setContent(intent);
+		tabHost.addTab(spec);
 		
-		firstpageButton.setChecked(true);
+		intent = new Intent().setClass(this, SearchActivity.class);
+		spec = tabHost.newTabSpec("搜索").setIndicator("搜索").setContent(intent);
+		tabHost.addTab(spec);
+		
+//		firstpageButton.setChecked(true);
 		
 		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 

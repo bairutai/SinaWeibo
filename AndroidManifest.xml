@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -24,6 +24,7 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
         <activity android:name=".LogoActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,50 +32,82 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AuthorizeActivity" >
-        </activity>
+        
+        <activity android:name=".AuthorizeActivity" />
+            
         <activity android:name=".WBAuthActivity" />
+        
+        <activity
+            android:name=".InfoOfQRActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+        
         <activity
             android:name=".MyHomePageActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".MipcaActivityCapture"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".MyFirstPageActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
+        <activity
+            android:name=".MySettingActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+        
+        <activity
+            android:name=".MyMessageActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+        
+        <activity
+            android:name=".SearchActivity"
+            android:theme="@style/My_ActionBar" >
+        </activity>
+        
         <activity
             android:name=".MyFansListActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".GoodNameActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".EditDescriptionActivity"
             android:theme="@style/My_ActionBar"
             android:windowSoftInputMode="stateVisible|adjustPan" >
         </activity>
+        
         <activity
             android:name=".MyBaseInfoActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".My_MoreActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".MainActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".MyContactActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
+        
         <activity
             android:name=".MycardActivity"
             android:theme="@style/My_ActionBar" >
@@ -97,6 +130,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+        
     </application>
 
 </manifest>

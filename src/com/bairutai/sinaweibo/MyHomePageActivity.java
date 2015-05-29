@@ -1,10 +1,11 @@
 package com.bairutai.sinaweibo;
 
 import com.bairutai.application.WeiboApplication;
+import com.bairutai.model.User;
 import com.bairutai.openwidget.CircleImageView;
 import com.bairutai.openwidget.PullScrollView;
 import com.bairutai.tools.AsyncBitmapLoader;
-import com.sina.weibo.sdk.openapi.models.User;
+
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -104,7 +105,7 @@ public class MyHomePageActivity extends Activity implements PullScrollView.OnTur
 		mScrollView.setHeader(mHeadImg);
 		mScrollView.setOnTurnListener(this);
 		homepage_username_txt.setText(user.screen_name);
-		new AsyncBitmapLoader().execute(homepage_circleImageView, user.profile_image_url);
+		new AsyncBitmapLoader().execute(homepage_circleImageView, user.avatar_large);
 	}
 	
 	private void addListener() {

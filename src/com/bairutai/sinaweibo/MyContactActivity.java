@@ -1,8 +1,8 @@
 package com.bairutai.sinaweibo;
 
 import com.bairutai.application.WeiboApplication;
+import com.bairutai.model.User;
 import com.bairutai.tools.AsyncBitmapLoader;
-import com.sina.weibo.sdk.openapi.models.User;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
@@ -12,12 +12,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MyContactActivity extends Activity {
+public class MyContactActivity extends Activity implements View.OnClickListener{
 	//主界面
 	private TextView my_name;				//用户名
 	private TextView my_description;		//简介
@@ -30,6 +31,7 @@ public class MyContactActivity extends Activity {
 	//actionbar
 	private ActionBar my_actionbar;     //actionbar
 	private View my_actionbar_view;    //actionbar view
+	private Button settingBtn;
 
 	//获取数据的暂时方法
 	private User mUser;
@@ -55,7 +57,7 @@ public class MyContactActivity extends Activity {
 		setActionbar();
 		super.onResume();
 	}
-	
+
 	private void findView() {
 		// TODO Auto-generated method stub
 		my_name_layout = (RelativeLayout)this.findViewById(R.id.my_layout_name);
@@ -76,7 +78,7 @@ public class MyContactActivity extends Activity {
 		mUser = app.getUser();
 		my_name.setText(mUser.screen_name);
 		my_name.setEnabled(true);
-		new AsyncBitmapLoader().execute(my_iamgeIcon, mUser.profile_image_url);
+		new AsyncBitmapLoader().execute(my_iamgeIcon, mUser.avatar_large);
 		my_description.setText(mUser.description);
 		my_friendscount.setText(String.valueOf(mUser.friends_count));
 		my_statuesconut.setText(String.valueOf(mUser.statuses_count));
@@ -85,34 +87,11 @@ public class MyContactActivity extends Activity {
 
 	private void addListener() {
 		// TODO Auto-generated method stub
-		my_flower_layout.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				startActivity(new Intent(MyContactActivity.this, MyFansListActivity.class));
-			}
-		});
-
-		my_name_layout.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				startActivity(new Intent(MyContactActivity.this,MyHomePageActivity.class));
-			}
-		});
-
-		my_more_layout.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				startActivity(new Intent(MyContactActivity.this, My_MoreActivity.class));
-			}
-		});
+		my_flower_layout.setOnClickListener(this);
+		my_name_layout.setOnClickListener(this);
+		my_more_layout.setOnClickListener(this);
 	}
-	
+
 	private void setActionbar() {
 		// TODO Auto-generated method stub
 		// actionbar属于tab所以获取的时候先获取上层View
@@ -128,6 +107,30 @@ public class MyContactActivity extends Activity {
 			ActionBar.LayoutParams layout = new ActionBar.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			my_actionbar.setCustomView(my_actionbar_view, layout);//设置actionbar视图
+			settingBtn = (Button)my_actionbar_view.findViewById(R.id.title_my_setBtn);
+			settingBtn.setOnClickListener(this);
+			my_actionbar.show();
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch(v.getId()){
+		case R.id.my_layout_flower:
+			startActivity(new Intent(MyContactActivity.this, MyFansListActivity.class));
+			break;
+		case R.id.my_layout_more:
+			startActivity(new Intent(MyContactActivity.this, My_MoreActivity.class));
+			break;
+		case R.id.my_layout_name:
+			startActivity(new Intent(MyContactActivity.this,MyHomePageActivity.class));
+			break;
+		case R.id.title_my_setBtn:
+			startActivity(new Intent(MyContactActivity.this, MySettingActivity.class));
+			break;
+		default :
+			break;
 		}
 	}
 }

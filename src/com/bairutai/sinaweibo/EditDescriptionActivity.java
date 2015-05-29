@@ -1,7 +1,7 @@
 package com.bairutai.sinaweibo;
 
 import com.bairutai.application.WeiboApplication;
-import com.sina.weibo.sdk.openapi.models.User;
+import com.bairutai.model.User;
 
 import android.app.ActionBar;
 import android.app.Activity;

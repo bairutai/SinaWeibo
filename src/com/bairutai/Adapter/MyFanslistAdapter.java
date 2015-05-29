@@ -1,17 +1,19 @@
 package com.bairutai.Adapter;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.bairutai.application.WeiboApplication;
-import com.bairutai.database.DataBase;
-import com.bairutai.model.Friend;
+import com.bairutai.model.User;
 import com.bairutai.sinaweibo.R;
 import com.bairutai.tools.AsyncBitmapLoader;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,24 +23,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MyFanslistAdapter extends BaseAdapter {
-	private Context context;
 	private LayoutInflater mLayoutInflater;
-	private DataBase mDataBase;
 	private int length;
-	private ArrayList<Friend> friendlist ;
+	private ArrayList<User> friendlist ;
 
 	public MyFanslistAdapter(Context context,WeiboApplication app) {
 		// TODO 自动生成的构造函数存根
-		this.context = context;
 		mLayoutInflater = LayoutInflater.from(context);
-		if (app.getMfriendDataBase() == null) {
+		if (app.mDataBaseHelper == null) {
 			System.out.println("friendlist is nullaaaaaaaaaaaaaaaaa");
 		}else{
 			System.out.println("friendlist is nullbbbbbbbbbbbbbbb");
-			friendlist = app.getMfriendDataBase().queryFriend();
+			friendlist = app.mDataBaseHelper.queryFlower();
 		}
-		
-
 		length = friendlist.size();
 		System.out.println(length);
 	}
@@ -72,7 +69,7 @@ public class MyFanslistAdapter extends BaseAdapter {
 			viewHolder.imgGuanzhu = (ImageView)convertView.findViewById(R.id.myfanslistitem_flower_guanzhu_img);
 			viewHolder.txtName = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_name);
 			viewHolder.txtDescription = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_description);
-			viewHolder.txtSource = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_source);
+			viewHolder.txtSource = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_text);
 			viewHolder.imgIcon = (ImageView)convertView.findViewById(R.id.myfanslistitem_img);
 			convertView.setTag(viewHolder);
 		}else {
@@ -81,8 +78,14 @@ public class MyFanslistAdapter extends BaseAdapter {
 		}
 		viewHolder.txtName.setText(friendlist.get(position).screen_name);
 		viewHolder.txtDescription.setText(friendlist.get(position).description);
-//		viewHolder.txtSource.setText(friendlist.get(position).status.source);
-		new AsyncBitmapLoader().execute(viewHolder.imgIcon,friendlist.get(position).profile_image_url);
+		viewHolder.txtSource.setText(friendlist.get(position).status_text);
+//		try {
+//			viewHolder.imgIcon.setImageBitmap(getBitmap(friendlist.get(position).profile_image_url));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		new AsyncBitmapLoader().execute(viewHolder.imgIcon,friendlist.get(position).avatar_large);
 		if(friendlist.get(position).follow_me){				
 			viewHolder.imgGuanzhu.setImageResource(R.drawable.card_icon_arrow);
 		}else {
@@ -98,5 +101,11 @@ public class MyFanslistAdapter extends BaseAdapter {
         TextView txtSource;
         ImageView imgGuanzhu;
    }
+	public Bitmap getBitmap(String url) throws IOException {
+		URL myUrl = new URL(url);
+		HttpURLConnection conn = (HttpURLConnection) myUrl.openConnection();
+		Bitmap bitmap = BitmapFactory.decodeStream(conn.getInputStream());
+		return bitmap;
+	}
 
 }

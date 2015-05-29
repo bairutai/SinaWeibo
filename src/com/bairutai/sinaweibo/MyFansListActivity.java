@@ -108,7 +108,7 @@ public class MyFansListActivity extends Activity {
 		public void onServiceConnected(ComponentName name, IBinder service) {  
 			// TODO Auto-generated method stub  
 			mMyService = ((MyService.MyBinder)service).getService();  
-			mMyService.getfriends();
+			mMyService.getflowers();
 		}  
 
 		public void onServiceDisconnected(ComponentName name) {  
