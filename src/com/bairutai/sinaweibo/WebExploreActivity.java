@@ -20,7 +20,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GoodNameActivity extends Activity {
+public class WebExploreActivity extends Activity {
 
 	//actionbar
 	private View mView;
@@ -30,10 +30,11 @@ public class GoodNameActivity extends Activity {
 
 	//主界面
 	private WebView goodname_web;
-	
+
 	//more dialog
 	private MyrefreshDialog myrefreshDialog;
-
+	private int progress;
+	private String url;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -67,10 +68,11 @@ public class GoodNameActivity extends Activity {
 
 	private void initScreen() {
 		// TODO Auto-generated method stub
+		url = getIntent().getStringExtra("url");
 		WebSettings settings = goodname_web.getSettings();
 		settings.setJavaScriptEnabled(true);
 		goodname_web.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-		goodname_web.loadUrl("http://weibo.com/a/nickname/index");
+		goodname_web.loadUrl(url);
 		goodname_web.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -85,17 +87,28 @@ public class GoodNameActivity extends Activity {
 			public void onProgressChanged(WebView view, int newProgress) {
 				// TODO Auto-generated method stub
 				if (newProgress == 100) {
-					titleTxt.setText("抢占微博好昵称");
+					progress = 100;
 				}
 				super.onProgressChanged(view, newProgress);
-			}	
+			}
+
+			@Override
+			public void onReceivedTitle(WebView view, String title) {
+				// TODO Auto-generated method stub
+				super.onReceivedTitle(view, title);
+				if(progress == 100){
+					titleTxt.setText(title);
+				}else {
+					titleTxt.setText(" ");
+				}
+			}
 		});
 	}
-	
+
 	private void addListener() {
 		// TODO Auto-generated method stub
 		moreBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -103,42 +116,42 @@ public class GoodNameActivity extends Activity {
 				data.add("刷新");
 				data.add("返回首页");
 				data.add("浏览器打开");
-				myrefreshDialog = new MyrefreshDialog(GoodNameActivity.this, data);
+				myrefreshDialog = new MyrefreshDialog(WebExploreActivity.this, data);
 				myrefreshDialog.setCanceledOnTouchOutside(true);
 				myrefreshDialog.show();
 				myrefreshDialog.setClicklistener(new ClickListenerInterface() {
-					
+
 					@Override
 					public void doyourthing() {
 						// TODO Auto-generated method stub
-						
+
 					}
-					
+
 					@Override
 					public void dorefresh() {
 						// TODO Auto-generated method stub
 						myrefreshDialog.cancel();
 						goodname_web.reload();
 					}
-					
+
 					@Override
 					public void docancle() {
 						// TODO Auto-generated method stub
 						myrefreshDialog.cancel();
 					}
-					
+
 					@Override
 					public void doback() {
 						// TODO Auto-generated method stub
-						startActivity(new Intent(GoodNameActivity.this, MainActivity.class));
+						startActivity(new Intent(WebExploreActivity.this, MainActivity.class));
 						finish();
 					}
 				});
 			}
 		});
-		
+
 		backBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub

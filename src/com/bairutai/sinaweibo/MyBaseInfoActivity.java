@@ -226,7 +226,10 @@ public class MyBaseInfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				startActivity(new Intent(MyBaseInfoActivity.this, GoodNameActivity.class));
+				Intent intent = new Intent();
+				intent.setClass(MyBaseInfoActivity.this, WebExploreActivity.class);
+				intent.putExtra("url","http://weibo.com/a/nickname/index");			
+				startActivity(intent);
 			}
 		});
 		

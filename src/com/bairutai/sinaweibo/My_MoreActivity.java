@@ -75,6 +75,7 @@ public class My_MoreActivity extends Activity {
 		params.y = dm.heightPixels-params.height;
 		mRefreshDialog.getWindow().setAttributes(params);
 		mPullRefreshScrollView = (PullToRefreshScrollView) findViewById(R.id.my_more_pull_refresh_scrollview);
+		mPullRefreshScrollView.setLoadingDrawable(getResources().getDrawable(R.drawable.navigationbar_icon_refresh_white));
 		mPullRefreshScrollView.setOnRefreshListener(new OnRefreshListener<ScrollView>() {
 
 			@Override

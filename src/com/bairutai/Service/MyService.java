@@ -1,9 +1,11 @@
 package com.bairutai.Service;
 
+
 import org.json.JSONException;
 
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.model.User;
+import com.bairutai.model.StatusList;
 import com.bairutai.tools.AccessTokenKeeper;
 import com.bairutai.data.Constants;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -11,8 +13,7 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 import com.sina.weibo.sdk.openapi.UsersAPI;
-import com.sina.weibo.sdk.openapi.models.Status;
-import com.sina.weibo.sdk.openapi.models.StatusList;
+
 
 import com.sina.weibo.sdk.openapi.legacy.FriendshipsAPI;
 
@@ -125,7 +126,7 @@ public class MyService extends Service {
 		}
 	};
 
-	public void getStatus() {
+	public void getStatus(Long since_id) {
 		mAccessToken = AccessTokenKeeper.readAccessToken(this);
 		if (null == mAccessToken){
 			Log.d("accesstoken","is null" );
@@ -134,7 +135,7 @@ public class MyService extends Service {
 		mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
 		app = (WeiboApplication)getApplication();
 		long uid = Long.parseLong(mAccessToken.getUid());
-		mStatusesAPI.friendsTimeline(0, 0, 50, 1, false, 0, false, mStatusListener);
+		mStatusesAPI.friendsTimeline(since_id, 0, 50, 1, false, 0, false, mStatusListener);
 	}
 
 	private RequestListener mStatusListener = new RequestListener() {
@@ -153,13 +154,17 @@ public class MyService extends Service {
 				Log.d("reponse", response);
 				try {
 					StatusList statusList =StatusList.parse(response);
-					if (statusList != null) {
-						app.setStatusList(statusList);
+					if (statusList.statusList != null) {
+						for (int i = 0; i <statusList.statusList.size(); i++) {
+							app.mDataBaseHelper.addStatus(statusList.statusList.get(i));
+						}
 						Intent sendIntent = new Intent();
 						sendIntent.setAction("com.bairutai.MyFirstPageActivity");
 						sendBroadcast(sendIntent);
 					} else {
-						stopSelf();
+						Intent sendIntent = new Intent();
+						sendIntent.setAction("com.bairutai.MyFirstPageActivity");
+						sendBroadcast(sendIntent);
 					}
 				}catch(WeiboException e){
 					e.printStackTrace();
@@ -167,7 +172,7 @@ public class MyService extends Service {
 			}
 		}
 	};
-
+	
 	public class MyBinder extends Binder {
 		public MyService getService() {
 			return MyService.this;

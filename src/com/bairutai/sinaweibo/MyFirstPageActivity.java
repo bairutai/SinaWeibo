@@ -3,6 +3,11 @@ package com.bairutai.sinaweibo;
 import com.bairutai.Adapter.MyFirstPageAdapter;
 import com.bairutai.Service.MyService;
 import com.bairutai.application.WeiboApplication;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnPullEventListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import android.app.ActionBar;
@@ -24,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -47,6 +53,8 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 	//主界面
 	private PullToRefreshListView mPullToReFreshListView;
 	private WeiboApplication app;
+	private View m_Empty_view;
+	private ImageView empty_img;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +62,9 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.myfirstpage);
 		app = (WeiboApplication)getApplication();
-		registerBoradcastReceiver();
 		findView();
 		addListener();
-		Intent  service=new Intent();
-		System.out.println("myfirstpage onCreate");
-		service.setClass(this, MyService.class);
-		getApplicationContext().bindService(service, mServiceConnection, BIND_AUTO_CREATE);
-		System.out.println("myfirstpage bindservice");
+		initScreen();
 	}
 
 	private void registerBoradcastReceiver() {
@@ -76,6 +79,7 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
+			mPullToReFreshListView.onRefreshComplete();
 			initScreen();
 			getApplicationContext().unbindService(mServiceConnection);
 			unregisterReceiver(MyReceiver);
@@ -88,7 +92,7 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 			// TODO Auto-generated method stub  
 			System.out.println("myfirstpage getStatus");
 			mMyService = ((MyService.MyBinder)service).getService();  
-			mMyService.getStatus();
+			mMyService.getStatus(app.getSince_id());
 			System.out.println("myfirstpage getStatus");
 		}  
 		public void onServiceDisconnected(ComponentName name) {  
@@ -113,12 +117,16 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 		view_this  = new View(this);
 		view_zxing_menu = inflater.inflate(R.layout.zxing_popwindow, null);
 		mView = inflater.inflate(R.layout.title_myfirstpage, null);
+		m_Empty_view = inflater.inflate(R.layout.empty_view,null);
 		zxingmenu_layout = (LinearLayout)view_zxing_menu.findViewById(R.id.zxing_popwindow_zxing_layout);
 		refreshmenu_layout = (LinearLayout)view_zxing_menu.findViewById(R.id.zxing_popwindow_refresh_layout);
 		addBtn = ( ImageView)mView.findViewById(R.id.title_myfirstpage_add);
 		zxingBtn = (ImageView)mView.findViewById(R.id.title_myfirstpage_zxing);
+		empty_img = (ImageView)m_Empty_view.findViewById(R.id.empty_view_img);
+		empty_img.setImageDrawable(getResources().getDrawable(R.drawable.empty_default));
 		mPullToReFreshListView = (PullToRefreshListView)findViewById(R.id.myfirstpage_pull_refresh_listview);
 		mPullToReFreshListView.setLoadingDrawable(getResources().getDrawable(R.drawable.navigationbar_icon_refresh_white));
+		mPullToReFreshListView.setEmptyView(m_Empty_view);
 	}
 
 	private void initScreen() {
@@ -131,6 +139,20 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 		// TODO Auto-generated method stub
 		zxingBtn.setOnClickListener(this);
 		zxingmenu_layout.setOnClickListener(this);
+		refreshmenu_layout.setOnClickListener(this);
+		mPullToReFreshListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				// TODO Auto-generated method stub
+				registerBoradcastReceiver();
+				Intent  service=new Intent();
+				service.setClass(MyFirstPageActivity.this, MyService.class);
+				getApplicationContext().bindService(service, mServiceConnection, BIND_AUTO_CREATE);
+			}
+		});
+		
+
 	}
 
 	private void setActionbar() {
@@ -174,6 +196,13 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 				intent.setClass(MyFirstPageActivity.this, MipcaActivityCapture.class);
 				startActivity(intent);	
 			}
+		case R.id.zxing_popwindow_refresh_layout:
+			mPullToReFreshListView.setRefreshing();
+			zxing_share_pop.dismiss();
+			registerBoradcastReceiver();
+			Intent  service=new Intent();
+			service.setClass(MyFirstPageActivity.this, MyService.class);
+			getApplicationContext().bindService(service, mServiceConnection, BIND_AUTO_CREATE);
 		default:
 			break;
 		}

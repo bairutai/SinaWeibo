@@ -15,7 +15,7 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
-            android:id="@+id/rl_profile_info"
+            android:id="@+id/myfirstpagelistitem_user_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="UselessParent" >
@@ -26,41 +26,53 @@
                 android:padding="10dp" >
 
                 <ImageView
-                    android:id="@+id/iv_head_portrait"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:id="@+id/myfirstpagelistitem_user_touxiang"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/head_portrait_default" />
 
                 <TextView
-                    android:id="@+id/tv_name"
+                    android:id="@+id/myfirstpagelistitem_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_head_portrait"
+                    android:layout_toRightOf="@id/myfirstpagelistitem_user_touxiang"
                     android:text="name"
                     android:textColor="#FF6600"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/tv_time_source"
+                    android:id="@+id/myfirstpagelistitem_user_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/iv_head_portrait"
-                    android:layout_toRightOf="@id/iv_head_portrait"
+                    android:layout_alignBottom="@id/myfirstpagelistitem_user_touxiang"
+                    android:layout_toRightOf="@id/myfirstpagelistitem_user_touxiang"
                     android:text="name"
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
+
+                <TextView
+                    android:id="@+id/myfirstpagelistitem_user_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/myfirstpagelistitem_user_touxiang"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/myfirstpagelistitem_user_time"
+                    android:singleLine="true"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/myfirstpagelistitem_user_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/myfirstpagelistitem_user_touxiang"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:src="@drawable/ic_expand_holo_light" />
             </RelativeLayout>
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/iv_more"
-            android:layout_width="30dp"
-            android:layout_height="23dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:background="@null"
-            android:src="@drawable/ic_expand_holo_light" />
     </RelativeLayout>
     <!-- <<<<'''''''End'''''''>>>>    头像及微博基本信息描述 -->
 
@@ -68,7 +80,7 @@
     <!-- *******Start********* 微博内容及配图 -->
 
     <TextView
-        android:id="@+id/tv_show"
+        android:id="@+id/myfirstpagelistitem_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
@@ -76,17 +88,17 @@
         android:paddingRight="10dp"
         android:paddingTop="8dp"
         android:textColor="#333333"
-        android:textSize="13sp" />
+        android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/iv_match"
+        android:id="@+id/myfirstpagelistitem_match"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:visibility="gone" />
 
     <include
-        android:id="@+id/include_mul_match"
+        android:id="@+id/myfirstpagelistitem_status_pic_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -99,24 +111,29 @@
     <!-- Start 转发内容 -->
 
     <LinearLayout
-        android:id="@+id/ll_trans"
+        android:id="@+id/myfirstpagelistitem_repost_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_click_trans"
         android:clickable="true"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
+        android:paddingLeft="5dp"
         android:paddingRight="10dp"
         android:paddingTop="8dp"
         android:visibility="gone"
         tools:ignore="UseCompoundDrawables" >
 
-        <TextView
-            android:id="@+id/trs_tv_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#333333"
-            android:textSize="12sp" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/myfirstpagelistitem_repost_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:textSize="18sp" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/trs_iv_match"
@@ -125,7 +142,7 @@
             android:paddingTop="8dp" />
 
         <include
-            android:id="@+id/include_trs_mul_match"
+            android:id="@+id/myfirstpagelistitem_retweet_status_pic_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -151,7 +168,7 @@
         android:weightSum="3" >
 
         <LinearLayout
-            android:id="@+id/ll_tool_retweet"
+            android:id="@+id/myfirstpagelistitem_reposts_count_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -166,16 +183,16 @@
                 android:src="@drawable/timeline_icon_retweet" />
 
             <TextView
-                android:id="@+id/tv_reposts_count"
+                android:id="@+id/myfirstpagelistitem_reposts_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:text="切换主题"
+                android:text="转发"
                 android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_tool_comment"
+            android:id="@+id/myfirstpagelistitem_comment_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -190,7 +207,7 @@
                 android:src="@drawable/timeline_icon_comment" />
 
             <TextView
-                android:id="@+id/tv_comments_count"
+                android:id="@+id/myfirstpagelistitem_comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
@@ -199,7 +216,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_tool_like"
+            android:id="@+id/myfirstpagelistitem_attitudes_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -212,7 +229,7 @@
                 android:src="@drawable/timeline_icon_unlike" />
 
             <TextView
-                android:id="@+id/tv_praises_count"
+                android:id="@+id/myfirstpagelistitem_attitudes_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"

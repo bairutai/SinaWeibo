@@ -147,7 +147,7 @@ public class MycardActivity extends Activity {
 				// TODO Auto-generated method stub
 				InputStream input = null;
 				try {
-					url = new URL(muser.profile_image_url);
+					url = new URL(muser.avatar_large);
 					input = url.openStream();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

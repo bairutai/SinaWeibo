@@ -78,7 +78,7 @@
         </activity>
         
         <activity
-            android:name=".GoodNameActivity"
+            android:name=".WebExploreActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
         
@@ -92,7 +92,10 @@
             android:name=".MyBaseInfoActivity"
             android:theme="@style/My_ActionBar" >
         </activity>
-        
+        <activity 
+            android:name=".ImageExploreActivity"
+            android:theme="@style/AppTheme">
+        </activity>
         <activity
             android:name=".My_MoreActivity"
             android:theme="@style/My_ActionBar" >

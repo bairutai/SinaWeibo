@@ -174,7 +174,7 @@ public class User {
 	}
 
 	public static  int parseflower(String jsonObjectStr, WeiboApplication app) throws JSONException{
-		if (jsonObjectStr.equals(null)) {
+		if (jsonObjectStr==null) {
 			return 0;
 		}
 		JSONObject jsonObject_flower = new JSONObject(jsonObjectStr);	 

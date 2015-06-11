@@ -3,10 +3,7 @@ package com.bairutai.sinaweibo;
 import com.bairutai.Service.MyService;
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.tools.AccessTokenKeeper;
-import com.bairutai.data.Constants;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.openapi.UsersAPI;
-import com.sina.weibo.sdk.openapi.legacy.AccountAPI;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -37,6 +34,7 @@ public class LogoActivity extends Activity {
 			// TODO Auto-generated method stub  
 			mMyService = ((MyService.MyBinder)service).getService();  
 			mMyService.getUser();
+
 		}  
 
 		public void onServiceDisconnected(ComponentName name) {  

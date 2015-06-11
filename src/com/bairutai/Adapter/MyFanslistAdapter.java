@@ -3,7 +3,9 @@ package com.bairutai.Adapter;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.model.User;
@@ -95,5 +97,5 @@ public class MyFanslistAdapter extends BaseAdapter {
         TextView txtSource;
         ImageView imgGuanzhu;
    }
-
+   
 }
