@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/com.handmark.pulltorefresh.library.PullToRefreshScrollView"
+        android:id="@+id/statuslayout_PullToRefreshListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.9"
+        android:dividerHeight="5dp"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrMode="both" >
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/statuslayout_PullToRefreshListView"
+        android:layout_weight="1">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/statuslayout_ViewPager"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:flipInterval="100"
+            android:persistentDrawingCache="animation" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:baselineAligned="true"
+        android:gravity="center"
+        android:padding="5dp"
+        android:weightSum="3" >
+
+        <LinearLayout
+            android:id="@+id/status_reposts_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/layout_become_gray"
+            android:clickable="true"
+            android:gravity="center"
+            tools:ignore="UseCompoundDrawables" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/toolbar_icon_retweet" />
+
+            <TextView
+                android:id="@+id/status_reposts_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="转发"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/status_comment_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/layout_become_gray"
+            android:clickable="true"
+            android:gravity="center"
+            tools:ignore="UseCompoundDrawables" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/toolbar_icon_comment" />
+
+            <TextView
+                android:id="@+id/status_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="评论"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/status_attitudes_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/layout_become_gray"
+            android:clickable="true"
+            android:gravity="center"
+            tools:ignore="UseCompoundDrawables" >
+
+            <ImageView
+                android:id="@+id/status_attitudes_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/toolbar_icon_unlike" />
+
+            <TextView
+                android:id="@+id/status_attitudes_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="赞"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- <<<<End>>>> 相关操作栏 -->
+
+</LinearLayout>

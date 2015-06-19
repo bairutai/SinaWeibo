@@ -134,7 +134,6 @@ public class MyService extends Service {
 		}	
 		mStatusesAPI = new StatusesAPI(this, Constants.APP_KEY, mAccessToken);
 		app = (WeiboApplication)getApplication();
-		long uid = Long.parseLong(mAccessToken.getUid());
 		mStatusesAPI.friendsTimeline(since_id, 0, 50, 1, false, 0, false, mStatusListener);
 	}
 

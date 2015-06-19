@@ -35,6 +35,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import com.bairutai.sinaweibo.R;
+import com.bairutai.tools.CompressImage;
 import com.touchgallery.TouchView.InputStreamWrapper.InputStreamProgressListener;
 
 public class UrlTouchImageView extends RelativeLayout {
@@ -42,7 +43,6 @@ public class UrlTouchImageView extends RelativeLayout {
 	protected TouchImageView mImageView;
 
 	protected Context mContext;
-	private DisplayMetrics dm;
 	public UrlTouchImageView(Context ctx)
 	{
 		super(ctx);
@@ -81,10 +81,6 @@ public class UrlTouchImageView extends RelativeLayout {
 		new ImageLoadTask().execute(imageUrl);
 	}
 
-	public void setDm(DisplayMetrics dm){
-		this.dm = dm;
-	}
-
 	public void setScaleType(ScaleType scaleType) {
 		mImageView.setScaleType(scaleType);
 	}
@@ -117,7 +113,7 @@ public class UrlTouchImageView extends RelativeLayout {
 //					Rect rect = new Rect(0, 0, dm.widthPixels, dm.heightPixels);
 //					bm = decoder.decodeRegion(rect, null);
 //				}else{
-					bm = BitmapFactory.decodeStream(bis);
+					bm = CompressImage.comp(BitmapFactory.decodeStream(bis));
 //				}
 				bis.close();
 				is.close();

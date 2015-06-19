@@ -1,7 +1,5 @@
 package com.bairutai.sinaweibo;
 
-import java.io.Serializable;
-
 import android.app.TabActivity;
 
 import android.content.Intent;

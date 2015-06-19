@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/commentslistitem_user_touxiang"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/head_portrait_default" />
+
+    <TextView
+        android:id="@+id/commentslistitem_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/commentslistitem_user_touxiang"
+        android:text="name"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/commentslistitem_user_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/commentslistitem_user_touxiang"
+        android:layout_toRightOf="@id/commentslistitem_user_touxiang"
+        android:text="name"
+        android:textColor="@color/black2"
+        android:textSize="13sp" />
+
+    <ImageView
+        android:id="@+id/commentslistitem_user_zan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/commentslistitem_user_touxiang"
+        android:background="@null"
+        android:clickable="true"
+        android:src="@drawable/timeline_icon_unlike" />
+
+    <TextView
+        android:id="@+id/commentslistitem_user_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/commentslistitem_user_time"
+        android:layout_below="@id/commentslistitem_user_time"
+        android:layout_marginTop="5dp"
+        android:text="text"
+        android:textSize="15sp" />
+
+</RelativeLayout>

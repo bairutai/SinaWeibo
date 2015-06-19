@@ -1,43 +1,27 @@
 package com.bairutai.Adapter;
 
-import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import com.ajra.multiactiontextview.InputObject;
-import com.ajra.multiactiontextview.MultiActionTextView;
-import com.ajra.multiactiontextview.MultiActionTextviewClickListener;
 import com.bairutai.application.WeiboApplication;
-import com.bairutai.data.Constants;
 import com.bairutai.sinaweibo.ImageExploreActivity;
-import com.bairutai.sinaweibo.MyBaseInfoActivity;
+
 import com.bairutai.sinaweibo.R;
-import com.bairutai.sinaweibo.WebExploreActivity;
+import com.bairutai.sinaweibo.StatusActivity;
+import com.bairutai.tools.HandleStatus;
 import com.bairutai.model.Status;
 import com.sina.weibo.sdk.openapi.legacy.ActivityInvokeAPI;
 import com.squareup.picasso.Picasso;
 
-import android.R.integer;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
-import android.sax.StartElementListener;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -61,12 +45,6 @@ public class MyFirstPageAdapter extends BaseAdapter {
 	private DisplayMetrics dm;
 	private ListView moreDialog_list;
 	
-	private MyMultiActionClickListener myMultiActionClickListener;
-	private final int TOPIC_CLICKED = 1;
-	private final int AT_CLICKED = 2;
-	private final int WEB_CLICKED = 3;
-
-	private SpannableStringBuilder stringBuilder = null;
 	private 	int id[] = { R.id.img1, R.id.img2, R.id.img3, R.id.img4, R.id.img5,
 			R.id.img6, R.id.img7, R.id.img8, R.id.img9 };
 
@@ -75,8 +53,7 @@ public class MyFirstPageAdapter extends BaseAdapter {
 		this.context = context;
 		this.app = app;
 		mLayoutInflater = LayoutInflater.from(context);
-		myMultiActionClickListener = new MyMultiActionClickListener();
-		statusList = app.mDataBaseHelper.queryStatus();
+		statusList = app.mDataBaseHelper.queryStatus("order by status_id DESC limit 50");
 		if(statusList!=null){
 			app.setSince_id(Long.parseLong(statusList.get(0).id));
 		}else{
@@ -126,13 +103,14 @@ public class MyFirstPageAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
 		if (convertView == null) {
 			System.out.println(position);
 			convertView = (LinearLayout)mLayoutInflater.inflate(R.layout.myfirstpagelistitem, null);
 			viewHolder = new ViewHolder();
+			viewHolder.status_layout = (LinearLayout)convertView.findViewById(R.id.myfirstpagelistitem_layout);
 			viewHolder.imgIcon = (ImageView)convertView.findViewById(R.id.myfirstpagelistitem_user_touxiang);
 			viewHolder.imgMore = (ImageView)convertView.findViewById(R.id.myfirstpagelistitem_user_more);
 			viewHolder.name = (TextView)convertView.findViewById(R.id.myfirstpagelistitem_user_name);
@@ -172,13 +150,15 @@ public class MyFirstPageAdapter extends BaseAdapter {
 		}
 		//名字
 		viewHolder.name.setText(statusList.get(position).user.screen_name);
+		
 		//时间
 		try {
-			viewHolder.time.setText(DateFormat(statusList.get(position).created_at));
+			viewHolder.time.setText(HandleStatus.DateFormat(statusList.get(position).created_at));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		//来自
 		if(statusList.get(position).source.length()!=0) {
 			viewHolder.source.setVisibility(View.VISIBLE);
@@ -187,26 +167,25 @@ public class MyFirstPageAdapter extends BaseAdapter {
 		}else {
 			viewHolder.source.setVisibility(View.GONE);
 		}
-		//微博内容
-		try {
-
-			handleStatus(viewHolder.text,statusList.get(position).text);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		HandleStatus handleStatus = new HandleStatus(context);
+		handleStatus.handle(viewHolder.text,statusList.get(position).text);
+//			handleStatus(viewHolder.text,statusList.get(position).text);
+		
 		//转发
 		if(statusList.get(position).reposts_count >1){
 			viewHolder.reposts_count.setText(statusList.get(position).reposts_count+"");
 		}else{
 			viewHolder.reposts_count.setText("转发");
 		}
+		
 		//评论
 		if(statusList.get(position).comments_count >1){
 			viewHolder.comments_count.setText(statusList.get(position).comments_count+"");
 		}else{
 			viewHolder.comments_count.setText("评论");
 		}
+		
 		//赞
 		if(statusList.get(position).attitudes_count >1) {
 			viewHolder.attitudes_count.setText(statusList.get(position).attitudes_count+"");
@@ -223,12 +202,9 @@ public class MyFirstPageAdapter extends BaseAdapter {
 			String retpost_text = name_after+
 					app.mDataBaseHelper.queryRetweetedStatus(
 							Long.parseLong(statusList.get(position).retweeted_status.id)).text;
-			try {		
-				handleStatus(viewHolder.repost_text,retpost_text);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			HandleStatus handleStatus_ret = new HandleStatus(context);
+			handleStatus_ret.handle(viewHolder.repost_text,retpost_text);
+//				handleStatus();
 			//转发微博配图
 			if(statusList.get(position).retweeted_status.pic_urls != null) {
 				viewHolder.retweet_status_pic_layout.setVisibility(View.VISIBLE);
@@ -244,8 +220,8 @@ public class MyFirstPageAdapter extends BaseAdapter {
 						public void onClick(View v) {
 							// TODO Auto-generated method stub
 							Intent intent = new Intent(context, ImageExploreActivity.class);
-							intent.putStringArrayListExtra("image", changeBmiddle(pic_urls));
-							intent.putExtra("nowImage", judgeNowImage(v.getId()));
+							intent.putStringArrayListExtra("image", HandleStatus.changeBmiddle(pic_urls));
+							intent.putExtra("nowImage", HandleStatus.judgeNowImage(v.getId()));
 							context.startActivity(intent);
 						}
 					});
@@ -256,6 +232,26 @@ public class MyFirstPageAdapter extends BaseAdapter {
 			}else {
 				viewHolder.retweet_status_pic_layout.setVisibility(View.GONE);
 			}
+			viewHolder.repost_layout.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent();
+					intent.setClass(context, StatusActivity.class);
+					intent.putExtra("ret_statusid", Long.parseLong(statusList.get(position).retweeted_status.id));
+					context.startActivity(intent);
+				}
+			});
+			
+			viewHolder.repost_layout.setOnLongClickListener(new OnLongClickListener() {
+				
+				@Override
+				public boolean onLongClick(View v) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
 		}else {
 			viewHolder.repost_layout.setVisibility(View.GONE);
 		}
@@ -277,9 +273,8 @@ public class MyFirstPageAdapter extends BaseAdapter {
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(context, ImageExploreActivity.class);
-						intent.putStringArrayListExtra("image", changeBmiddle(pic_urls));
-						intent.putExtra("nowImage", judgeNowImage(v.getId()));
-						System.out.println("now id is"+judgeNowImage(v.getId()));
+						intent.putStringArrayListExtra("image", HandleStatus.changeBmiddle(pic_urls));
+						intent.putExtra("nowImage", HandleStatus.judgeNowImage(v.getId()));
 						context.startActivity(intent);
 					}
 				});
@@ -300,12 +295,43 @@ public class MyFirstPageAdapter extends BaseAdapter {
 				moreDialog.show();
 			}
 		});
-
+		
+		viewHolder.imgIcon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ActivityInvokeAPI.openUserInfoByNickName((Activity) context, statusList.get(position).user.screen_name);
+			}
+		});
+		
+		viewHolder.status_layout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(context, StatusActivity.class);
+				intent.putExtra("statusid", statusList.get(position).id);
+				context.startActivity(intent);
+			}
+		});
+		
+		viewHolder.status_layout.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+		
 		return convertView;
 	}
 
 
 	private class ViewHolder{
+		private LinearLayout status_layout;
 		private ImageView imgIcon;
 		private ImageView imgMore;
 		private TextView name;
@@ -322,221 +348,5 @@ public class MyFirstPageAdapter extends BaseAdapter {
 		private ImageView[] status_pic;
 		private ImageView[] retweet_status_pic;
 	}
-	
-	private int  judgeNowImage(int ResourceId) {
-		int now_id = 0;
-		for(int i=0;i<id.length;i++){
-			if(id[i]==ResourceId){
-				now_id = i;
-			}
-		}
-		return now_id;
-	}
-	
-	private ArrayList<String> changeBmiddle(ArrayList<String> list){
-		if(list == null){
-			return null;
-		}else{
-			ArrayList<String> newlist = new ArrayList<String>();
-			for(int i = 0;i<list.size();i++){
-				newlist.add(list.get(i).replaceAll("thumbnail", "bmiddle"));
-			}
-			return newlist;
-		}
-	}
-
-	private void handleStatus(TextView textView, String text) throws IOException{
-		/**
-		 * 在匹配之前先将字符串处理,  "]" 后面加空格 话题的第二个"#"后面加空格
-		 */
-		text=text.replaceAll("]", "] ");	
-		Pattern topic_pattern = Pattern.compile("#([a-zA-Z0-9-_\u4E00-\u9FA5]*)#");
-		ArrayList<String> topic_results_ = new ArrayList<String>();
-		Matcher topic_matcher = topic_pattern.matcher(text);
-		while(!topic_matcher.hitEnd()&&topic_matcher.find()){
-			System.out.println(topic_matcher.group());
-			topic_results_.add(topic_matcher.group());
-		}
-		for(int i = 0;i<topic_results_.size();i++){
-			text=text.replaceAll(topic_results_.get(i), topic_results_.get(i)+" ");
-		}
-		Pattern at_pattern = Pattern.compile("@[a-zA-Z0-9-_\u4E00-\u9FA5]+");
-		ArrayList<String> at_results_ = new ArrayList<String>();
-		Matcher at_matcher = at_pattern.matcher(text);
-		while(!at_matcher.hitEnd()&&at_matcher.find()){
-			at_results_.add(at_matcher.group());
-		}
-		for(int i = 0;i<at_results_.size();i++){
-			text=text.replaceAll(at_results_.get(i), at_results_.get(i)+" ");
-		}
-		Pattern web_pattern = Pattern.compile("http://[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.?[\\/a-zA-Z0-9]*");
-		ArrayList<String> web_results_ = new ArrayList<String>();
-		Matcher web_matcher = web_pattern.matcher(text);
-		while(!web_matcher.hitEnd()&&web_matcher.find()){
-			System.out.println(web_matcher.group());
-			web_results_.add(web_matcher.group());
-		}
-			
-		stringBuilder = new SpannableStringBuilder(text);
-		String topic_results[] = text.split("#([a-zA-Z0-9-_\u4E00-\u9FA5]*)#");
-		String at_results[] = text.split("@[a-zA-Z0-9-_\u4E00-\u9FA5]+");
-		String emotions_results[] = text.split("(\\[([a-zA-Z\u4E00-\u9FA5]*)\\])");
-		String web_results[] = text.split("http://[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.?[\\/a-zA-Z0-9]*");
-		//split如果没匹配到length返回1 如果aaa[b] 匹配[b] length也会返回1所以要区分
-		if(topic_results.length==1&&at_results.length ==1
-				&&emotions_results.length ==1&&web_results.length ==1
-				&&topic_results[0].length()==text.length()
-				&&emotions_results[0].length()==text.length()
-				&&at_results[0].length()==text.length()
-				&&web_results[0].length()==text.length()){			
-			textView.setText(text);
-		}else{
-			
-			//解析话题
-			if(topic_results.length>=1&&topic_results[0].length()!=text.length()){			
-				int topic_length = 0;
-				for(int i=0;i<topic_results_.size();i++){
-					int start = topic_results[i].length()+topic_length;
-					int end = topic_results[i].length()+topic_results_.get(i).length()+topic_length;
-					topic_length =end; 
-					InputObject topicClick = new InputObject();
-					topicClick.setStartSpan(start);
-					topicClick.setEndSpan(end);
-					topicClick.setString(topic_results_.get(i).substring(1, topic_results_.get(i).length()-1));
-					topicClick.setStringBuilder(stringBuilder);
-					topicClick.setMultiActionTextviewClickListener(myMultiActionClickListener);
-					topicClick.setOperationType(TOPIC_CLICKED);
-					MultiActionTextView.addActionOnTextViewWithoutLink(topicClick);
-					// final step
-					MultiActionTextView.setSpannableText(textView,stringBuilder, 0xff436EEE);
-				}
-			}
-
-			//解析@的人
-			if(at_results.length>=1&&at_results[0].length()!=text.length()){
-
-				int at_length = 0;
-				for(int i=0;i<at_results_.size();i++){
-					System.out.println(at_results_.get(i));
-					int start = at_results[i].length()+at_length;
-					int end = at_results[i].length()+at_results_.get(i).length()+at_length;
-					at_length = end; 
-					InputObject atClick = new InputObject();
-					atClick.setStartSpan(start);
-					atClick.setEndSpan(end);
-					atClick.setStringBuilder(stringBuilder);
-					atClick.setString(at_results_.get(i).substring(1,at_results_.get(i).length()));
-					atClick.setMultiActionTextviewClickListener(myMultiActionClickListener);
-					atClick.setOperationType(AT_CLICKED);
-					MultiActionTextView.addActionOnTextViewWithoutLink(atClick);
-					// final step
-					MultiActionTextView.setSpannableText(textView,stringBuilder, 0xff436EEE);
-				}
-			}	
-			
-			//解析web
-			if(web_results.length>=1&&web_results[0].length()!=text.length()){
-
-				int web_length = 0;
-				for(int i=0;i<web_results_.size();i++){
-					System.out.println(web_results_.get(i));
-					int start = web_results[i].length()+web_length;
-					int end = web_results[i].length()+web_results_.get(i).length()+web_length;
-					web_length = end; 
-					InputObject webClick = new InputObject();
-					webClick.setStartSpan(start);
-					webClick.setEndSpan(end);
-					webClick.setString(web_results_.get(i));
-					webClick.setStringBuilder(stringBuilder);
-					webClick.setString(web_results_.get(i).substring(1,web_results_.get(i).length()));
-					webClick.setMultiActionTextviewClickListener(myMultiActionClickListener);
-					webClick.setOperationType(WEB_CLICKED);
-					MultiActionTextView.addActionOnTextViewWithoutLink(webClick);
-					// final step
-					MultiActionTextView.setSpannableText(textView,stringBuilder, 0xff436EEE);
-				}
-			}	
-
-			//解析表情
-			if(emotions_results.length>=1&&emotions_results[0].length()!=text.length()){  
-				Pattern emotions_pattern = Pattern.compile("(\\[([a-zA-Z\u4E00-\u9FA5]*)\\])");
-				ArrayList<String> emotions_results_ = new ArrayList<String>();
-				Matcher at_matcher1 = emotions_pattern.matcher(text);
-				while(!at_matcher1.hitEnd()&&at_matcher1.find()){
-					System.out.println(at_matcher1.group());
-					emotions_results_.add(at_matcher1.group());
-				}
-				int emotions_length = 0;
-				for(int i =0;i<emotions_results_.size();i++)
-				{
-					System.out.println("emotions_results length is "+i);
-					int start = emotions_results[i].length()+emotions_length;
-					int end = emotions_results[i].length()+emotions_results_.get(i).length()+emotions_length;
-					emotions_length =end; 
-					Integer id =Constants.mSmileyMap.get(emotions_results_.get(i)); 
-					if(id==null){
-						//本地没有该表情
-						System.out.println(emotions_results_.get(i)+" not found");
-						continue;
-					}else{
-						Drawable drawable = app.getResources().getDrawable(id);
-						drawable.setBounds(0, 0, drawable.getIntrinsicWidth()-34, drawable.getIntrinsicHeight()-34);
-						ImageSpan span = new ImageSpan(drawable,ImageSpan.ALIGN_BASELINE);
-						stringBuilder.setSpan(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-						textView.setText(stringBuilder);
-					}
-				}
-			}
-		}
-	}
-
-	private String DateFormat(String date) throws ParseException {
-		Date status_date = new Date(date);
-		Date now_date = new Date();
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date status_date_change = dateformat.parse(dateformat.format(status_date));
-		Date now_date_change = dateformat.parse(dateformat.format(now_date));
-		long l = now_date_change.getTime() - status_date_change.getTime();
-		long day=l/(24*60*60*1000);
-		long hour=(l/(60*60*1000)-day*24);
-		long min=((l/(60*1000))-day*24*60-hour*60);
-		if (day >1) {
-			return day+"天前";
-		}else {
-			if(hour<1&&min < 3){
-				return "刚刚";
-			}else if (min>=3&&hour<1&&min<60){
-				return min+"分钟前";
-			}else {
-				return hour + "小时前";
-			}
-		}
-	}
-
-	class MyMultiActionClickListener implements MultiActionTextviewClickListener {
-
-		@Override
-		public void onTextClick(InputObject inputObject) {
-			int operation = inputObject.getOperationType();
-			switch (operation) {
-			case TOPIC_CLICKED:
-				System.out.println(inputObject.getString());
-				break;
-			case AT_CLICKED:
-				ActivityInvokeAPI.openUserInfoByNickName((Activity) context, inputObject.getString());
-				break;
-			case WEB_CLICKED:
-				System.out.println(inputObject.getString());
-				Intent intent = new Intent();
-				intent.setClass(context, WebExploreActivity.class);
-				intent.putExtra("url",inputObject.getString());			
-				context.startActivity(intent);
-				break;
-			default :
-				break;
-			}
-		}
-	}
-
 
 }

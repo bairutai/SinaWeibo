@@ -82,7 +82,7 @@ public class TouchImageView extends ImageView {
     private OnClickListener mOnClickListener;
     private Object mScaleDetector;
     private Handler mTimerHandler = null;
-    
+    private Bitmap bm;
     // Scale mode on DoubleTap
     private boolean zoomToOriginalSize = false;
 
@@ -372,8 +372,16 @@ public class TouchImageView extends ImageView {
     @Override
     public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
+        this.bm=bm;
         bmWidth = bm.getWidth();
         bmHeight = bm.getHeight();
+    }
+    public Bitmap getImageBitmap(){
+    	if(bm==null) {
+        	return null;
+    	}else{
+    		return bm;
+    	}
     }
     @Override
     protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec)

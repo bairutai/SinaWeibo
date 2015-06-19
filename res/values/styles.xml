@@ -17,6 +17,7 @@
 
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
     </style>
 
     <style name="My_ActionBar" parent="android:Theme.Holo.Light">
@@ -60,6 +61,13 @@
 
     <style name="PauseDialogTitle" parent="@android:style/TextAppearance.DialogWindowTitle">
         <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@animator/push_left_in</item>
+        <item name="android:activityOpenExitAnimation">@animator/push_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@animator/zoom_enter</item>
+        <item name="android:activityCloseExitAnimation">@animator/zoom_exit</item>
     </style>
 
 </resources>

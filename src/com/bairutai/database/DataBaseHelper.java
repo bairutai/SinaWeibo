@@ -59,16 +59,16 @@ public class DataBaseHelper {
 				+ "friends_count,statuses_count,favourites_count," 
 				+"verified,verified_type,follow_me,status_text,avatarLarge," 
 				+"avatarHd,verifiedReason,online_status," 
-				+"created_at)"
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+"created_at,following)"
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		mSQLiteDatabase.execSQL(sql_user, new Object[] {
 				user.id, user.screen_name,user.name, 
 				user.location, user.description, user.url,
 				user.profile_image_url, user.gender, user.followers_count,
 				user.friends_count, user.statuses_count, user.favourites_count,
-				user.verified,user.verified_type,user.follow_me==true?1:0, 
-				user.status_text,user.avatar_large, user.avatar_hd,
-				user.verified_reason, user.online_status, user.created_at });
+				user.verified==true?1:0,user.verified_type,user.follow_me==true?1:0, 
+						user.status_text,user.avatar_large, user.avatar_hd,
+						user.verified_reason, user.online_status, user.created_at,user.following==true?1:0 });
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class DataBaseHelper {
 
 		mSQLiteDatabase.execSQL(sql, new Object[] { 
 				Long.parseLong(mainId),status.id, status.created_at,status.user.id,
-				 status.source,status.text, status.favorited,
+				status.source,status.text, status.favorited,
 				status.thumbnail_pic, status.bmiddle_pic, status.original_pic,
 				status.reposts_count, status.comments_count,
 				status.attitudes_count, status.id });
@@ -164,7 +164,7 @@ public class DataBaseHelper {
 			mSQLiteDatabase.execSQL(sql_pic, new Object[] { pic_urls.get(i), Long.parseLong(status_id) });
 		}
 	}
-	
+
 
 
 
@@ -198,13 +198,15 @@ public class DataBaseHelper {
 		user.follow_me = cursor.getInt(cursor.getColumnIndex("follow_me")) == 1 ? true: false;
 		user.online_status = cursor.getInt(cursor.getColumnIndex("online_status"));
 		user.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
+		user.following = cursor.getInt(cursor.getColumnIndex("following")) == 1 ? true: false;
 		cursor.close();
 		return user;
 	}
 
 	public ArrayList<User> queryFlower() {
 		ArrayList<User> flowerlist = new ArrayList<User>();
-		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user where follow_me = ? limit 10", new String[]{"1"});
+		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user",null);
+//		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user where follow_me = ?", new String[]{"1"});
 		while (cursor.moveToNext()) {
 			System.out.println("flower cursor is not null");
 			User user = new User();
@@ -229,6 +231,7 @@ public class DataBaseHelper {
 			user.follow_me = cursor.getInt(cursor.getColumnIndex("follow_me")) == 1 ? true: false;
 			user.online_status = cursor.getInt(cursor.getColumnIndex("online_status"));
 			user.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
+			user.following = cursor.getInt(cursor.getColumnIndex("following")) == 1 ? true: false;
 			flowerlist.add(user);
 		}
 		cursor.close();
@@ -242,12 +245,14 @@ public class DataBaseHelper {
 	 * @param Statusid
 	 * @return
 	 */
-	public  ArrayList<Status> queryStatus() {
+	public  ArrayList<Status> queryStatus(String value) {
 		ArrayList<Status> Statuslist = new ArrayList<Status>();
-		Cursor cursor = mSQLiteDatabase.rawQuery("select * from status order by status_id DESC limit 50",null);
-		if (cursor.moveToFirst() == false)
+		Cursor cursor = mSQLiteDatabase.rawQuery("select * from status "+value ,null);
+		if (cursor.moveToFirst() == false){
 			return null;
+		}
 		while(cursor.moveToNext()) {
+			System.out.println("status cursor is not null");
 			Status status = new Status();
 			status.id = cursor.getString(cursor.getColumnIndex("status_id"));
 			status.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
@@ -273,7 +278,7 @@ public class DataBaseHelper {
 		cursor.close();
 		return Statuslist;
 	}
-	
+
 	/**
 	 * 从数据库获取微博配图地址
 	 * @param status_id
@@ -295,13 +300,13 @@ public class DataBaseHelper {
 	}
 
 	/**
-	 * 从数据库获取转发微博信息
+	 * 从数据库获取单条微博信息
 	 * @param retweeted_status_id
 	 * @return
 	 */
-	public Status queryRetweetedStatus(long retweeted_status_id) {
+	public Status queryRetweetedStatus(Long value) {
 		// TODO Auto-generated method stub
-		String sql = "select * from retweet_status where status_id =" + retweeted_status_id;
+		String sql = "select * from retweet_status where status_id = " + value;
 		Cursor cursor = mSQLiteDatabase.rawQuery(sql, null);
 		if (cursor.moveToFirst() == false)
 			return null;
@@ -314,6 +319,36 @@ public class DataBaseHelper {
 		status.thumbnail_pic = cursor.getString(cursor.getColumnIndex("thumbnail"));
 		status.bmiddle_pic = cursor.getString(cursor.getColumnIndex("bmiddle"));
 		status.original_pic =  cursor.getString(cursor.getColumnIndex("original"));
+		String userId = cursor.getString(cursor.getColumnIndex("user_id"));
+		status.user = queryUser(userId);
+		status.comments_count = cursor.getInt(cursor.getColumnIndex("comments_count"));
+		status.attitudes_count = cursor.getInt(cursor.getColumnIndex("attitudes_count"));
+		status.reposts_count = cursor.getInt(cursor.getColumnIndex("reposts_count"));
+		String status_id = cursor.getString(cursor.getColumnIndex("piclist_id"));
+		status.pic_urls = queryPicList(status_id);
+		cursor.close();
+		return status;
+	}
+	
+	public Status querySingleStatus(String value) {
+		// TODO Auto-generated method stub
+		String sql = "select * from status " + value;
+		Cursor cursor = mSQLiteDatabase.rawQuery(sql, null);
+		if (cursor.moveToFirst() == false)
+			return null;
+		Status status = new Status();
+		status.id = cursor.getString(cursor.getColumnIndex("status_id"));
+		status.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
+		status.source = cursor.getString(cursor.getColumnIndex("source"));
+		status.text = cursor.getString(cursor.getColumnIndex("text"));
+		status.favorited = cursor.getInt(cursor.getColumnIndex("favorited")) == 1 ? true : false;
+		status.thumbnail_pic = cursor.getString(cursor.getColumnIndex("thumbnail"));
+		status.bmiddle_pic = cursor.getString(cursor.getColumnIndex("bmiddle"));
+		status.original_pic =  cursor.getString(cursor.getColumnIndex("original"));
+		long retweeted_status_id = cursor.getLong(cursor.getColumnIndex("retweeted_status_id"));
+		if (retweeted_status_id != 0) {
+			status.retweeted_status = queryRetweetedStatus(retweeted_status_id);
+		}
 		String userId = cursor.getString(cursor.getColumnIndex("user_id"));
 		status.user = queryUser(userId);
 		status.comments_count = cursor.getInt(cursor.getColumnIndex("comments_count"));

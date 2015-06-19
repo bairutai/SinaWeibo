@@ -15,7 +15,8 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:maxLength="10" />
 
     <ImageView
         android:id="@+id/title_mycard_more"

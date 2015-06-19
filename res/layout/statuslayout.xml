@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_gray"
+    android:clickable="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/status_user_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        tools:ignore="UselessParent" >
+
+        <ImageView
+            android:id="@+id/status_user_touxiang"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/head_portrait_default" />
+
+        <TextView
+            android:id="@+id/status_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/status_user_touxiang"
+            android:text="name"
+            android:textColor="#FF6600"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/status_user_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/status_user_touxiang"
+            android:layout_toRightOf="@id/status_user_touxiang"
+            android:text="name"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/status_user_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/status_user_touxiang"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/status_user_time"
+            android:singleLine="true"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/status_user_shoucang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/status_user_touxiang"
+            android:background="@null"
+            android:clickable="true"
+            android:visibility="gone" />
+
+        <com.dd.CircularProgressButton.CircularProgressButton
+            android:id="@+id/status_user_guanzhu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/status_user_touxiang"
+            android:textColor="@color/orange"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:cpb_cornerRadius="8dp"
+            app:cpb_selectorComplete="@color/danbai"
+            app:cpb_selectorError="@color/red"
+            app:cpb_selectorIdle="@color/danbai"
+            app:cpb_textComplete="已关注"
+            app:cpb_textError="错误"
+            app:cpb_textIdle="+关注" />
+    </RelativeLayout>
+    <!-- <<<<'''''''End'''''''>>>>    头像及微博基本信息描述 -->
+
+
+    <!-- *******Start********* 微博内容及配图 -->
+
+    <RelativeLayout
+        android:id="@+id/status_text_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_user_layout"
+        android:background="@color/white" >
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+        <include
+            android:id="@+id/status_status_pic_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status_text"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            layout="@layout/layout_sudoku"
+            android:visibility="gone" />
+    </RelativeLayout>
+    <!-- <<<<*******End********* 微博内容及配图 -->
+
+
+    <!-- Start 转发内容 -->
+
+    <RelativeLayout
+        android:id="@+id/retstatus_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_text_layout"
+        android:background="@color/bg_gray"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp"
+        android:visibility="gone"
+        tools:ignore="UseCompoundDrawables" >
+
+        <TextView
+            android:id="@+id/status_repost_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+        <include
+            android:id="@+id/status_retweet_status_pic_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status_repost_text"
+            android:layout_marginTop="10dp"
+            layout="@layout/layout_sudoku"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/status_retweet_status_pic_layout"
+            android:layout_marginTop="5dp"
+            android:baselineAligned="true" >
+
+            <LinearLayout
+                android:id="@+id/status_reposts_reposts_count_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:clickable="true"
+                android:gravity="center"
+                tools:ignore="UseCompoundDrawables" >
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/timeline_icon_retweet" />
+
+                <TextView
+                    android:id="@+id/status_reposts_reposts_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="转发"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/status_reposts_comment_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/status_reposts_reposts_count_layout"
+                android:clickable="true"
+                android:gravity="center"
+                tools:ignore="UseCompoundDrawables" >
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/timeline_icon_comment" />
+
+                <TextView
+                    android:id="@+id/status_reposts_comment_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="评论"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/status_reposts_attitudes_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/status_reposts_comment_layout"
+                android:clickable="true"
+                android:gravity="center"
+                tools:ignore="UseCompoundDrawables" >
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/timeline_icon_unlike" />
+
+                <TextView
+                    android:id="@+id/status_reposts_attitudes_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="赞"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <!-- End 转发内容 -->
+
+
+
+</RelativeLayout>

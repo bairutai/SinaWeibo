@@ -15,12 +15,18 @@ import java.util.Map;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
-public class AsyncBitmapLoader extends AsyncTask<Object, Void, Bitmap> {
+public class AsyncBitmapLoader extends AsyncTask<Object, Integer, Bitmap> {
 	private static Map<String,SoftReference<Bitmap>> imageCache = new HashMap<String, SoftReference<Bitmap>>();
 	ImageView image = null;
+	private ProgressBar progressbar;
 	
+	public void setProgressBar(ProgressBar progressbar){
+		this.progressbar = progressbar;
+	}
 	@Override
 	protected Bitmap doInBackground(Object... params) {
 		// TODO Auto-generated method stub
@@ -53,7 +59,7 @@ public class AsyncBitmapLoader extends AsyncTask<Object, Void, Bitmap> {
 			conn.connect();
 			is = conn.getInputStream();
 			Bitmap bitmap = null;
-			bitmap=BitmapFactory.decodeStream(is);
+			bitmap= CompressImage.comp(BitmapFactory.decodeStream(is));
 
 			return bitmap;
 		} catch (MalformedURLException e) {
@@ -110,9 +116,16 @@ public class AsyncBitmapLoader extends AsyncTask<Object, Void, Bitmap> {
 		// TODO Auto-generated method stub
 		try{
 			image.setImageBitmap(result);
+			progressbar.setVisibility(View.GONE);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	protected void onProgressUpdate(Integer... values) {
+		// TODO Auto-generated method stub
+		progressbar.setProgress(values[0]);
 	}
 }
