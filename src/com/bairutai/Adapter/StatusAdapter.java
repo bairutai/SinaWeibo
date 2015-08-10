@@ -69,8 +69,8 @@ public class StatusAdapter extends BaseAdapter {
 	public TextView  reposts_text;
 	public TextView  comments_text;
 	public TextView  attitudes_text;
-	private int whichIsClick;
-	
+	public int whichIsClick;
+
 	private LayoutInflater mLayoutInflater;
 	private Context context;
 	private Status status;
@@ -101,13 +101,6 @@ public class StatusAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	public int getWhichIsClick() {
-		return whichIsClick;
-	}
-	public void setWhichIsClick(int whichIsClick) {
-		this.whichIsClick = whichIsClick;
 	}
 
 	@Override
@@ -354,64 +347,79 @@ public class StatusAdapter extends BaseAdapter {
 			reposts_count.setText(String.valueOf(status.reposts_count));
 			comments_count.setText(String.valueOf(status.comments_count));
 			attitudes_count.setText(String.valueOf(status.attitudes_count));
-			reposts_layout.setOnClickListener(new OnClickListener() {
-				
+			setColor(whichIsClick);
+			reposts_layout.setOnClickListener(new OnClickListener() {		
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					reposts_count.setTextColor(context.getResources().getColor(R.color.orange));
-					reposts_text.setTextColor(context.getResources().getColor(R.color.orange));
-					comments_count.setTextColor(context.getResources().getColor(R.color.black2));
-					comments_text.setTextColor(context.getResources().getColor(R.color.black2));
-					attitudes_count.setTextColor(context.getResources().getColor(R.color.black2));
-					attitudes_text.setTextColor(context.getResources().getColor(R.color.black2));
-					setWhichIsClick(1);
+					whichIsClick = 0;
+					setColor(0);
+					((StatusActivity) context).LoadData(0);
 				}
 			});
-			
+
 			comments_layout.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					comments_count.setTextColor(context.getResources().getColor(R.color.orange));
-					comments_text.setTextColor(context.getResources().getColor(R.color.orange));
-					attitudes_count.setTextColor(context.getResources().getColor(R.color.black2));
-					attitudes_text.setTextColor(context.getResources().getColor(R.color.black2));
-					reposts_count.setTextColor(context.getResources().getColor(R.color.black2));
-					reposts_text.setTextColor(context.getResources().getColor(R.color.black2));
-					setWhichIsClick(2);
+					whichIsClick = 1;
+					setColor(1);
 					((StatusActivity) context).LoadData(1);
 				}
 			});
-			
+
 			attitudes_layout.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					attitudes_count.setTextColor(context.getResources().getColor(R.color.orange));
-					attitudes_text.setTextColor(context.getResources().getColor(R.color.orange));
-					reposts_count.setTextColor(context.getResources().getColor(R.color.black2));
-					reposts_text.setTextColor(context.getResources().getColor(R.color.black2));
-					comments_count.setTextColor(context.getResources().getColor(R.color.black2));
-					comments_text.setTextColor(context.getResources().getColor(R.color.black2));
-					setWhichIsClick(3);
+					whichIsClick = 2;
+					setColor(2);
+					((StatusActivity) context).LoadData(2);
 				}
 			});
 		}
 		return convertView;
 	}
-	private void setColor(int index){
-		switch (index) {
-		case 1:
-			
-			break;
 
-		default:
-			break;
+	public void setColor(int index){
+		if(reposts_count==null&&reposts_text==null
+				&&comments_count==null&&comments_text==null
+				&&attitudes_count==null&&attitudes_text==null)
+		{
+			return;
+		}else{
+			switch (index) {
+			case 0:
+				reposts_count.setTextColor(context.getResources().getColor(R.color.orange));
+				reposts_text.setTextColor(context.getResources().getColor(R.color.orange));
+				comments_count.setTextColor(context.getResources().getColor(R.color.black2));
+				comments_text.setTextColor(context.getResources().getColor(R.color.black2));
+				attitudes_count.setTextColor(context.getResources().getColor(R.color.black2));
+				attitudes_text.setTextColor(context.getResources().getColor(R.color.black2));
+				break;
+			case 1:
+				comments_count.setTextColor(context.getResources().getColor(R.color.orange));
+				comments_text.setTextColor(context.getResources().getColor(R.color.orange));
+				attitudes_count.setTextColor(context.getResources().getColor(R.color.black2));
+				attitudes_text.setTextColor(context.getResources().getColor(R.color.black2));
+				reposts_count.setTextColor(context.getResources().getColor(R.color.black2));
+				reposts_text.setTextColor(context.getResources().getColor(R.color.black2));
+				break;
+			case 2:
+				attitudes_count.setTextColor(context.getResources().getColor(R.color.orange));
+				attitudes_text.setTextColor(context.getResources().getColor(R.color.orange));
+				reposts_count.setTextColor(context.getResources().getColor(R.color.black2));
+				reposts_text.setTextColor(context.getResources().getColor(R.color.black2));
+				comments_count.setTextColor(context.getResources().getColor(R.color.black2));
+				comments_text.setTextColor(context.getResources().getColor(R.color.black2));
+			default:
+				break;
+			}
 		}
 	}
+
 	private RequestListener mCreateListener = new RequestListener() {
 
 		@Override

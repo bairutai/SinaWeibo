@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:padding="5dp">
+    android:padding="5dp" >
+
+
 
     <RelativeLayout
         android:id="@+id/title_search_voice_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" 
-        android:layout_marginRight="5dp">
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp" >
 
         <ImageView
             android:id="@+id/title_search_voice"
@@ -21,22 +23,22 @@
             android:src="@drawable/voice_become_light" />
     </RelativeLayout>
 
+
     <RelativeLayout
+		android:layout_toLeftOf="@id/title_search_voice_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/title_search_voice_layout"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp" >
 
         <SearchView
             android:id="@+id/title_search_search"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/bg_gray"
-            android:iconifiedByDefault="true"
+            android:iconifiedByDefault="false"
             android:imeOptions="actionSearch"
             android:inputType="textCapWords"
             android:queryHint="" >
         </SearchView>
     </RelativeLayout>
-
 </RelativeLayout>

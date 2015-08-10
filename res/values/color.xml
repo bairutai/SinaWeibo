@@ -23,10 +23,11 @@
     <color name="txt_gray">#FF575756</color>
     <color name="white">#FFFFFFFF</color>
     <color name="danbai">#FFF0F0F0</color>
+    <color name="baihui">#FFBEBEBE</color>
     <color name="black">#FF000000</color>
     <color name="txt_orange">#FFEB6100</color>
     <color name="bg_gray">#FFE3E3E7</color>
-    <color name="orange">#FFE84E0E</color>
+    <color name="orange">#FFFF8040</color>
     <color name="bg">#FFF39200</color>
     <color name="lightblue">#FF007AA2</color>
     <color name="lightorange">#FFACBA00</color>
@@ -61,5 +62,6 @@
     <color name="cpb_green">#ff99cc00</color>
     <color name="cpb_green_dark">#ff6d9b00</color>
     <color name="cpb_white">@android:color/white</color>
+    <color name="holo_blue">#FF33E5B5</color>
 
 </resources>

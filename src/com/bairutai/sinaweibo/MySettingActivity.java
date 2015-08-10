@@ -54,7 +54,7 @@ public class MySettingActivity extends Activity implements View.OnClickListener{
 			backBtn = ( ImageView)findViewById(R.id.title_editdescription_back);
 			finishBtn = (Button)findViewById(R.id.title_editdescription_finishBtn);
 			titleTxt = (TextView)findViewById(R.id.title_editdescription_title);
-			finishBtn.setVisibility(View.INVISIBLE);
+			finishBtn.setVisibility(View.GONE);
 			titleTxt.setText("设置");
 		}
 		findView();

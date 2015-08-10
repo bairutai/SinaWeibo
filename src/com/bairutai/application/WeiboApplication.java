@@ -15,7 +15,7 @@ import android.app.Application;
 
 
 public class WeiboApplication extends Application {
-	private User user;
+	private static User user;
 	private Status status;
 	private Oauth2AccessToken mAccessToken;
 	private ArrayList<AllAppInfo> list;
@@ -65,7 +65,7 @@ public class WeiboApplication extends Application {
 		this.user = user;
 	}
 
-	public User getUser() {
+	public static User getUser() {
 			return user;
 	}
 

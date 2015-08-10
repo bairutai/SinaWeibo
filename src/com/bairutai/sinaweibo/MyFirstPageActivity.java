@@ -4,10 +4,7 @@ import com.bairutai.Adapter.MyFirstPageAdapter;
 import com.bairutai.Service.MyService;
 import com.bairutai.application.WeiboApplication;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnPullEventListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import android.app.ActionBar;
@@ -19,7 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -31,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 public class MyFirstPageActivity extends Activity implements View.OnClickListener {
 	//actionbar
@@ -51,7 +46,7 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 	private MyService mMyService;
 	
 	//主界面
-	private PullToRefreshListView mPullToReFreshListView;
+	public static  PullToRefreshListView mPullToReFreshListView;
 	private WeiboApplication app;
 	private View m_Empty_view;
 	private ImageView empty_img;
@@ -79,8 +74,8 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
-			mPullToReFreshListView.onRefreshComplete();
 			initScreen();
+			mPullToReFreshListView.onRefreshComplete();
 			getApplicationContext().unbindService(mServiceConnection);
 			unregisterReceiver(MyReceiver);
 		}

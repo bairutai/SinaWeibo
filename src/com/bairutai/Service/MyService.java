@@ -50,7 +50,7 @@ public class MyService extends Service {
 			stopSelf();
 		}		
 		mUsersAPI = new UsersAPI(this, Constants.APP_KEY, mAccessToken);
-		System.out.print(mAccessToken);
+		System.out.println(mAccessToken);
 		app = (WeiboApplication)getApplication();
 		long uid = Long.parseLong(mAccessToken.getUid());
 		mUsersAPI.show(uid, mListener);

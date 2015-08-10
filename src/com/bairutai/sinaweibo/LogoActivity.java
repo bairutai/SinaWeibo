@@ -1,5 +1,6 @@
 package com.bairutai.sinaweibo;
 
+import com.igexin.sdk.PushManager;
 import com.bairutai.Service.MyService;
 import com.bairutai.application.WeiboApplication;
 import com.bairutai.tools.AccessTokenKeeper;
@@ -46,7 +47,9 @@ public class LogoActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
-			startActivity(new Intent(LogoActivity.this,MainActivity.class));
+			Intent intent_new = new Intent(LogoActivity.this,MainActivity.class);
+			intent_new.putExtra("currentpage", 0);
+			startActivity(intent_new);
 			finish();
 			unbindService(mServiceConnection);
 			unregisterReceiver(MyReceiver);
@@ -56,6 +59,7 @@ public class LogoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.logo);
+		PushManager.getInstance().initialize(this.getApplicationContext());
 		registerBoradcastReceiver();
 		imageview=(ImageView) this.findViewById(R.id.logo);
 		app = (WeiboApplication) this.getApplication();

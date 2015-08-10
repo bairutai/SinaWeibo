@@ -22,12 +22,15 @@ import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -101,6 +104,7 @@ public class StatusActivity extends Activity {
 	private void initScreen()  {
 		// TODO Auto-generated method stub
 		statusAdapter  = new StatusAdapter(this, status, app);
+		statusAdapter.whichIsClick = 1;
 		mPullToRefreshListView.setAdapter(statusAdapter);
 		
 		listViews = new ArrayList<View>();
@@ -114,21 +118,34 @@ public class StatusActivity extends Activity {
 		listViews.add(repostListView_layout);
 		listViews.add(commentsListView_layout);
 		listViews.add(attitudesListView_layout);
+		repostListView = (ListView)listViews.get(0).findViewById(R.id.reposts_listview);
+		repostListView.setEmptyView(empty_viewView);
 		commentsListView = (ListView)listViews.get(1).findViewById(R.id.comments_listview);
 		commentsListView.setEmptyView(empty_viewView);
+		attitudesListView = (ListView)listViews.get(2).findViewById(R.id.attitudes_listview);
+		attitudesListView.setEmptyView(empty_viewView);
 		mStatus_Com_Res_Atti_PageAdapter = new Status_Com_Res_Atti_PageAdapter(listViews);
 		mViewPager.setAdapter(mStatus_Com_Res_Atti_PageAdapter);
 		mViewPager.setCurrentItem(1);
+		LoadData(1);
 	}
 
 	public void LoadData(int whichIsClick) {
 		// TODO Auto-generated method stub
+		mViewPager.setCurrentItem(whichIsClick);
 		switch (whichIsClick) {
+		case 0:
+			repostListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[] {"获取不到该数据"}));
+			mStatus_Com_Res_Atti_PageAdapter.notifyDataSetChanged();
+			break;
 		case 1:
 			mCommentsAPI = new CommentsAPI(this, Constants.APP_KEY, app.getmAccessToken());
 			mCommentsAPI.show(Long.parseLong(status.id), 0, 0, 50, 1, CommentsAPI.AUTHOR_FILTER_ALL, CommentListener);
 			break;
-
+		case 2:
+			attitudesListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new String[] {"获取不到该数据"}));
+			mStatus_Com_Res_Atti_PageAdapter.notifyDataSetChanged();
+			break;
 		default:
 			break;
 		}
@@ -162,6 +179,28 @@ public class StatusActivity extends Activity {
 			}
 		});
 		
+		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				// TODO Auto-generated method stub
+				LoadData(arg0);
+				statusAdapter.whichIsClick = arg0;
+				statusAdapter.setColor(arg0);
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override

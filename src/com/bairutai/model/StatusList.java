@@ -34,7 +34,6 @@ public class StatusList {
     
     /** 微博列表 */
     public ArrayList<Status> statusList;
-    public Status statuses;
     public boolean hasvisible;
     public String previous_cursor;
     public String next_cursor;

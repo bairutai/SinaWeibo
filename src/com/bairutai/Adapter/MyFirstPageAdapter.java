@@ -44,7 +44,7 @@ public class MyFirstPageAdapter extends BaseAdapter {
 	private Dialog moreDialog;
 	private DisplayMetrics dm;
 	private ListView moreDialog_list;
-	
+
 	private 	int id[] = { R.id.img1, R.id.img2, R.id.img3, R.id.img4, R.id.img5,
 			R.id.img6, R.id.img7, R.id.img8, R.id.img9 };
 

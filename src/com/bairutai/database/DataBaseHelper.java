@@ -1,7 +1,11 @@
 package com.bairutai.database;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
+import com.bairutai.model.MessageItem;
 import com.bairutai.model.User;
 import com.bairutai.model.Status;
 
@@ -207,7 +211,10 @@ public class DataBaseHelper {
 		ArrayList<User> flowerlist = new ArrayList<User>();
 		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user",null);
 //		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user where follow_me = ?", new String[]{"1"});
-		while (cursor.moveToNext()) {
+		if(cursor.moveToFirst() == false){
+			return null;
+		}
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 			System.out.println("flower cursor is not null");
 			User user = new User();
 			user.id = String.valueOf(cursor.getLong(cursor.getColumnIndex("userid")));
@@ -251,8 +258,8 @@ public class DataBaseHelper {
 		if (cursor.moveToFirst() == false){
 			return null;
 		}
-		while(cursor.moveToNext()) {
-			System.out.println("status cursor is not null");
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			System.out.printf("status cursor is %d\n",cursor.getPosition());
 			Status status = new Status();
 			status.id = cursor.getString(cursor.getColumnIndex("status_id"));
 			status.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
@@ -358,5 +365,51 @@ public class DataBaseHelper {
 		status.pic_urls = queryPicList(status_id);
 		cursor.close();
 		return status;
+	}
+
+	public void addMessage(String id, MessageItem entity){
+		mSQLiteDatabase.execSQL("CREATE table IF NOT EXISTS _"
+				+ id
+				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT,date TEXT,isCome TEXT,message TEXT,isNew TEXT)");
+		int isCome = 0;
+		if (entity.isComMeg()) {// 如果是收到的消息，保存在数据库的值为1
+			isCome = 1;
+		}
+		mSQLiteDatabase.execSQL(
+				"insert into _"
+						+ id
+						+ " (date,isCome,message,isNew) values(?,?,?,?)",
+				new Object[] {
+						entity.getDate(), isCome, entity.getMessage(),
+						entity.getIsNew() });
+	}
+	
+	public List<MessageItem> getMessage(String id, int msgPagerNum) {
+		// TODO Auto-generated method stub
+		List<MessageItem> list = new LinkedList<MessageItem>();
+		int num = 10 * (msgPagerNum + 1);// 滚动到顶端自动加载数据
+		mSQLiteDatabase.execSQL("CREATE table IF NOT EXISTS _"
+				+ id
+				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+				"date TEXT,isCome TEXT,message TEXT,isNew TEXT)");
+		Cursor c = mSQLiteDatabase.rawQuery("SELECT * from _" + id+ " ORDER BY _id DESC LIMIT " + num+" OFFSET 0", null);
+		if (c.moveToFirst() == false) {
+			return null;
+		}
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+			String date = c.getString(c.getColumnIndex("date"));
+			int isCome = c.getInt(c.getColumnIndex("isCome"));
+			String message = c.getString(c.getColumnIndex("message"));
+			int isNew = c.getInt(c.getColumnIndex("isNew"));
+			boolean isComMsg = false;
+			if (isCome == 1) {
+				isComMsg = true;
+			}
+			MessageItem entity = new MessageItem(MessageItem.MESSAGE_TYPE_TEXT, date, message, isComMsg, isNew);
+			list.add(entity);
+		}
+		c.close();
+		Collections.reverse(list);// 前后反转一下消息记录
+		return list;
 	}
 }

@@ -139,7 +139,9 @@ public class My_MoreActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mRefreshDialog.cancel();
-				startActivity(new Intent(My_MoreActivity.this, MainActivity.class));
+				Intent intent = new Intent(My_MoreActivity.this, MainActivity.class);
+				intent.putExtra("currentpage", 0);
+				startActivity(intent);
 				finish();
 			}
 		});

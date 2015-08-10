@@ -47,7 +47,7 @@ public class HandleStatus {
 		 * 在匹配之前先将字符串处理,  "]" 后面加空格 话题的第二个"#"后面加空格
 		 */
 		text=text.replaceAll("]", "] ");	
-		Pattern topic_pattern = Pattern.compile("#([a-zA-Z0-9-_ \u4E00-\u9FA5]*)#");
+		Pattern topic_pattern = Pattern.compile("#([a-zA-Z0-9-_,， \u4E00-\u9FA5]*)#");
 		ArrayList<String> topic_results_ = new ArrayList<String>();
 		Matcher topic_matcher = topic_pattern.matcher(text);
 		while(!topic_matcher.hitEnd()&&topic_matcher.find()){
@@ -77,7 +77,7 @@ public class HandleStatus {
 		}
 
 		SpannableStringBuilder stringBuilder = new SpannableStringBuilder(text);
-		String topic_results[] = text.split("#([a-zA-Z0-9-_ \u4E00-\u9FA5]*)#");
+		String topic_results[] = text.split("#([a-zA-Z0-9-_,，  \u4E00-\u9FA5]*)#");
 		String at_results[] = text.split("@[a-zA-Z0-9-_\u4E00-\u9FA5]+");
 		String emotions_results[] = text.split("(\\[([a-zA-Z\u4E00-\u9FA5]*)\\])");
 		String web_results[] = text.split("http://[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.?[\\/a-zA-Z0-9]*");

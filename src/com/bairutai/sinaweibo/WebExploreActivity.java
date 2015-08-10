@@ -1,5 +1,7 @@
 package com.bairutai.sinaweibo;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +20,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -130,20 +134,23 @@ public class WebExploreActivity extends Activity {
 					@Override
 					public void dorefresh() {
 						// TODO Auto-generated method stub
-						myrefreshDialog.cancel();
+						myrefreshDialog.dismiss();
 						goodname_web.reload();
 					}
 
 					@Override
 					public void docancle() {
 						// TODO Auto-generated method stub
-						myrefreshDialog.cancel();
+						myrefreshDialog.dismiss();
 					}
 
 					@Override
 					public void doback() {
 						// TODO Auto-generated method stub
-						startActivity(new Intent(WebExploreActivity.this, MainActivity.class));
+						myrefreshDialog.dismiss();
+						Intent intent = new Intent(WebExploreActivity.this, MainActivity.class);
+						intent.putExtra("currentpage", 0);
+						startActivity(intent);
 						finish();
 					}
 				});
@@ -160,4 +167,49 @@ public class WebExploreActivity extends Activity {
 		});
 	}
 
+	private void callHiddenWebViewMethod(String name)
+	{
+		if (goodname_web != null)
+		{
+			try
+			{
+				Method method = WebView.class.getMethod(name);
+				method.invoke(goodname_web);
+			}
+			catch (NoSuchMethodException e)
+			{
+				Log.i("No such method: " + name, e.toString());
+			}
+			catch (IllegalAccessException e)
+			{
+				Log.i("Illegal Access: " + name, e.toString());
+			}
+			catch (InvocationTargetException e)
+			{
+				Log.d("Invocation Target Exception: " + name, e.toString());
+			}
+		}
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		goodname_web.pauseTimers();
+
+		if (isFinishing())
+		{
+			goodname_web.loadUrl("about:blank");
+			setContentView(new FrameLayout(this));
+		}
+		callHiddenWebViewMethod("onPause");
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		goodname_web.resumeTimers();
+		callHiddenWebViewMethod("onResume");
+	}
 }

@@ -52,16 +52,18 @@
                 android:text="信息"
                 android:textColor="@drawable/txt_from_black_to_orange" />
 
-            <RadioButton
+            <ImageButton
                 android:id="@+id/main_radio_addbutton"
-                android:layout_width="fill_parent"
+                android:layout_width="60dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/orange"
                 android:button="@null"
                 android:gravity="center_vertical"
-                android:tag="radio_button2" 
                 android:paddingTop="0dp"
-                android:drawableTop="@drawable/icon_4"/>
+                android:src="@drawable/tabbar_compose_icon_add"
+                android:tag="radio_button2" />
 
             <RadioButton
                 android:id="@+id/main_radio_searchbutton"

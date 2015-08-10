@@ -116,7 +116,9 @@ public class AsyncBitmapLoader extends AsyncTask<Object, Integer, Bitmap> {
 		// TODO Auto-generated method stub
 		try{
 			image.setImageBitmap(result);
-			progressbar.setVisibility(View.GONE);
+			if(progressbar != null){
+				progressbar.setVisibility(View.GONE);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
