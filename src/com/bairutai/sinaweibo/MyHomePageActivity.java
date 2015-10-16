@@ -115,7 +115,8 @@ public class MyHomePageActivity extends Activity implements PullScrollView.OnTur
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				startActivity(new Intent(MyHomePageActivity.this, MyFansListActivity.class));
+				Intent intent = new Intent(MyHomePageActivity.this, MyFansListActivity.class);
+				startActivity(intent);
 			}
 		});
 		

@@ -41,7 +41,8 @@ public class DataBase extends SQLiteOpenHelper {
 				+ "follow_me interger,"
 				+ "online_status integer,"
 				+ "created_at text,"
-				+"following integer"
+				+ "following integer,"
+				+ "status_from text"
 				+ ")";
 		db.execSQL(sql_user);
 		System.out.println("Create Database user");

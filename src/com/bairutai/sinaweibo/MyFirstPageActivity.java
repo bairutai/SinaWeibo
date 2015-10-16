@@ -47,6 +47,7 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 	
 	//主界面
 	public static  PullToRefreshListView mPullToReFreshListView;
+	private MyFirstPageAdapter myFirstPageAdapter;
 	private WeiboApplication app;
 	private View m_Empty_view;
 	private ImageView empty_img;
@@ -124,9 +125,16 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 		mPullToReFreshListView.setEmptyView(m_Empty_view);
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		mPullToReFreshListView.setRefreshing();
+		super.onNewIntent(intent);
+	}
+	
 	private void initScreen() {
 		// TODO Auto-generated method stub
-		MyFirstPageAdapter myFirstPageAdapter = new MyFirstPageAdapter(this, app);
+		myFirstPageAdapter = new MyFirstPageAdapter(this, app);
 		mPullToReFreshListView.setAdapter(myFirstPageAdapter);
 	}
 
@@ -140,6 +148,7 @@ public class MyFirstPageActivity extends Activity implements View.OnClickListene
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
+				System.out.println("myFirstpageActivity is Refresh");
 				registerBoradcastReceiver();
 				Intent  service=new Intent();
 				service.setClass(MyFirstPageActivity.this, MyService.class);

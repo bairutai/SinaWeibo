@@ -59,7 +59,7 @@ public class LocationActivity extends Activity {
 	private SearchView searchView; 
 	private String lat;
 	private String lon;
-
+	private String from;
 
 	public LocationClient mLocationClient = null;
 	public BDLocationListener myListener = new MyLocationListener();
@@ -83,11 +83,21 @@ public class LocationActivity extends Activity {
 			backBtn = ( ImageView)findViewById(R.id.title_editdescription_back);
 			finishBtn = (Button)findViewById(R.id.title_editdescription_finishBtn);
 			titleTxt = (TextView)findViewById(R.id.title_editdescription_title);
-			finishBtn.setVisibility(View.GONE);
+			finishBtn.setText("删除位置");
 			titleTxt.setText("我在这里");
 		}
 		mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
 		mLocationClient.registerLocationListener( myListener );    //注册监听函数
+		if (null != getIntent()){
+			this.from = getIntent().getStringExtra("from");
+			System.out.println("set from value");
+			if (getIntent().getBooleanExtra("isLocation", false)){
+				finishBtn.setVisibility(View.VISIBLE);
+			}
+			else {
+				finishBtn.setVisibility(View.GONE);
+			}
+		}
 		findView();		
 		addListener();
 	}
@@ -139,17 +149,17 @@ public class LocationActivity extends Activity {
 				TextView textView = (TextView) searchView.findViewById(id);
 				textView.setTextColor(Color.GRAY); 
 				searchView.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						 Intent intent = new Intent(LocationActivity.this,SearchLocationActivity.class);
-						 if (!TextUtils.isEmpty(lat)&&!TextUtils.isEmpty(lon)){
+						Intent intent = new Intent(LocationActivity.this,SearchLocationActivity.class);
+						if (!TextUtils.isEmpty(lat)&&!TextUtils.isEmpty(lon)){
 							intent.putExtra("lat", lat);
 							intent.putExtra("lon", lon);
-						 }
-						 startActivity(intent);
-						 overridePendingTransition(R.animator.zoom_enter,R.animator.zoom_exit);
+						}
+						startActivity(intent);
+						overridePendingTransition(R.animator.zoom_enter,R.animator.zoom_exit);
 					}
 				});
 			}else{	
@@ -194,8 +204,8 @@ public class LocationActivity extends Activity {
 				finish();
 			}
 		});
-		
-		
+
+
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -206,8 +216,32 @@ public class LocationActivity extends Activity {
 				if (1 == position){
 
 				}else{
-					
+					Intent intent = new Intent(LocationActivity.this, SendActivity.class);
+					if (null != poilist && !from.isEmpty()){
+						if(from.equalsIgnoreCase("addactivity")) {
+							intent.putExtra("loaction", poilist.pois.get(position-2).title);
+							intent.putExtra("title", "签到");
+							startActivity(intent);
+							finish();
+							overridePendingTransition(R.animator.zoom_enter,R.animator.zoom_exit);
+						}
+						else if(from.equalsIgnoreCase("sendactivity")){
+							intent.putExtra("location", poilist.pois.get(position-2).title);
+							setResult(Constants.LOCATION_RESULT_OK, intent);
+							finish();
+						}
+					}
 				}
+			}
+		});
+		
+		finishBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				setResult(Constants.LOCATION_RESULT_DELETE);
+				finish();
 			}
 		});
 	}

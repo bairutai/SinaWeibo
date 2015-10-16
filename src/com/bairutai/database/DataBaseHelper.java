@@ -63,8 +63,8 @@ public class DataBaseHelper {
 				+ "friends_count,statuses_count,favourites_count," 
 				+"verified,verified_type,follow_me,status_text,avatarLarge," 
 				+"avatarHd,verifiedReason,online_status," 
-				+"created_at,following)"
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+"created_at,following,status_from)"
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		mSQLiteDatabase.execSQL(sql_user, new Object[] {
 				user.id, user.screen_name,user.name, 
 				user.location, user.description, user.url,
@@ -72,7 +72,7 @@ public class DataBaseHelper {
 				user.friends_count, user.statuses_count, user.favourites_count,
 				user.verified==true?1:0,user.verified_type,user.follow_me==true?1:0, 
 						user.status_text,user.avatar_large, user.avatar_hd,
-						user.verified_reason, user.online_status, user.created_at,user.following==true?1:0 });
+						user.verified_reason, user.online_status, user.created_at,user.following==true?1:0,user.status_from });
 	}
 
 	/**
@@ -209,8 +209,8 @@ public class DataBaseHelper {
 
 	public ArrayList<User> queryFlower() {
 		ArrayList<User> flowerlist = new ArrayList<User>();
-		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user",null);
-//		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user where follow_me = ?", new String[]{"1"});
+//		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user",null);
+		Cursor cursor = mSQLiteDatabase.rawQuery("select * from user where follow_me = ?", new String[]{"1"});
 		if(cursor.moveToFirst() == false){
 			return null;
 		}
@@ -239,6 +239,7 @@ public class DataBaseHelper {
 			user.online_status = cursor.getInt(cursor.getColumnIndex("online_status"));
 			user.created_at = cursor.getString(cursor.getColumnIndex("created_at"));
 			user.following = cursor.getInt(cursor.getColumnIndex("following")) == 1 ? true: false;
+			user.status_from = cursor.getString(cursor.getColumnIndex("status_from"));
 			flowerlist.add(user);
 		}
 		cursor.close();

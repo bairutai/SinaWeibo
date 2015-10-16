@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -194,6 +196,22 @@ public class SearchLocationActivity extends Activity {
 				mPlaceAPI.nearbyPois(lat,lon,10000,search_view.getQuery().toString(),"",50,1,1,false,mPlaceListener);
 			}
 		});
+		
+		listview.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(SearchLocationActivity.this, SendActivity.class);
+				if (null != poilist) {
+					intent.putExtra("loaction", poilist.pois.get(position).title);
+				}
+				startActivity(intent);
+				finish();
+				overridePendingTransition(R.animator.zoom_enter,R.animator.zoom_exit);
+			}
+		});
 	}
 	
 	private RequestListener mPlaceListener = new RequestListener() {
@@ -206,7 +224,7 @@ public class SearchLocationActivity extends Activity {
 
 		@Override
 		public void onComplete(String response) {
-			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub振
 			System.out.println(response);
 			if (!TextUtils.isEmpty(response)&&!response.equalsIgnoreCase("[]")) {
 				poilist = PoiList.parse(response);

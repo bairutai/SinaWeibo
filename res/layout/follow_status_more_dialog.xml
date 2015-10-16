@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@color/white" >
-    <ListView
-        android:id="@+id/follow_status_more_dialog_list"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_weight="0.33"
+        android:id="@+id/follow_status_more_dialog_shoucang"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
-    </ListView>
+        android:layout_marginTop="2dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_weight="0.33"
+        android:id="@+id/follow_status_more_dialog_tuiguang"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="推广"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_weight="0.33"
+        android:id="@+id/follow_status_more_dialog_shanchu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/layout_become_gray"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="删除"
+        android:textColor="@color/orange"
+        android:textSize="20sp" />
 
 </LinearLayout>

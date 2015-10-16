@@ -103,6 +103,8 @@ public class User {
 	public String lang;
 	/**用户的最近一条微博*/
 	public String status_text;
+	/**用户最近一条的微博来源*/
+	public String status_from;
 
 	/** 注意：以下字段暂时不清楚具体含义，OpenAPI 说明文档暂时没有同步更新对应字段 */
 	public String star;
@@ -213,6 +215,7 @@ public class User {
 				user.status.text = "";
 			}else{
 				user.status_text = jsonObject.optJSONObject("status").optString("text", " ");
+				user.status_from = jsonObject.optJSONObject("status").optString("source", " ");
 			}
 			user.allow_all_comment  = jsonObject.optBoolean("allow_all_comment", true);
 			user.avatar_large       = jsonObject.optString("avatar_large", "");

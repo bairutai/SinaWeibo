@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="1dp" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/sendactivity_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="left|top"
+            android:hint="说点什么吧......" />
+
+        <RelativeLayout
+            android:id="@+id/sendactivity_location_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginBottom="3dp" >
+
+            <ImageButton
+                android:id="@+id/sendactivity_location_layout_locationBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/compose_location_button_background_highlighted"
+                android:src="@drawable/compose_locatebutton_ready" />
+
+            <Button
+                android:id="@+id/sendactivity_location_layout_txtBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/sendactivity_location_layout_locationBtn"
+                android:layout_toRightOf="@id/sendactivity_location_layout_locationBtn"
+                android:background="@drawable/compose_location_delete_button_background_highlighted"
+                android:gravity="left|center"
+                android:text="显示位置"
+                android:textSize="10sp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/sendactivity_location_layout_locationBtn"
+                android:layout_toRightOf="@id/sendactivity_location_layout_txtBtn"
+                android:background="@drawable/compose_location_delete_button_background_highlighted"
+                android:src="@drawable/compose_location_icon_delete"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/sendactivity_location_layout_kejianBtn"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/sendactivity_location_layout_locationBtn"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/compose_location_delete_button_background_highlighted"
+                android:gravity="left|center"
+                android:text="公开"
+                android:textColor="@color/blue"
+                android:textSize="10sp" />
+
+            <ImageButton
+                android:id="@+id/sendactivity_location_layout_kejianImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/sendactivity_location_layout_locationBtn"
+                android:layout_toLeftOf="@id/sendactivity_location_layout_kejianBtn"
+                android:background="@drawable/compose_location_button_background_highlighted"
+                android:src="@drawable/compose_publicbutton" />
+        </RelativeLayout>
+
+        <ImageView 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/baihui"/>
+        <LinearLayout
+            android:id="@+id/sendactivity_bottom_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/sendactivity_pic_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:paddingLeft="5.0dip"
+                android:paddingRight="5.0dip"
+                android:src="@drawable/compose_btn_pic_selector" />
+
+            <ImageButton
+                android:id="@+id/sendactivity_at_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:paddingLeft="5.0dip"
+                android:paddingRight="5.0dip"
+                android:src="@drawable/compose_btn_at_selector" />
+
+            <ImageButton
+                android:id="@+id/sendactivity_topic_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:paddingLeft="5.0dip"
+                android:paddingRight="5.0dip"
+                android:src="@drawable/compose_btn_topic_selector" />
+
+            <ImageButton
+                android:id="@+id/sendactivity_face_btn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:paddingLeft="5.0dip"
+                android:paddingRight="5.0dip"
+                android:src="@drawable/compose_btn_face_selector" />
+
+            <ImageButton
+                android:id="@+id/sendactivity_add_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:paddingLeft="5.0dip"
+                android:paddingRight="5.0dip"
+                android:src="@drawable/pop_btn_add_selector" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/sendactivity_progressbar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+    <!--
+    <LinearLayout
+        android:id="@+id/sendactivity_face_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
+        android:visibility="gone" >
+
+        <com.bairutai.openwidget.JazzyViewPager
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sendactivity_face_pager"
+            app:style="cubeout"
+            android:layout_width="fill_parent"
+            android:layout_height="180dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:flipInterval="30"
+            android:persistentDrawingCache="animation" />
+
+        <com.bairutai.openwidget.CirclePageIndicator
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/sendactivity_indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp" />
+    </LinearLayout>
+    -->
+
+</FrameLayout>

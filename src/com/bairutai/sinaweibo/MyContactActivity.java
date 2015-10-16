@@ -26,7 +26,10 @@ public class MyContactActivity extends Activity implements View.OnClickListener{
 	private TextView my_friendscount;	//关注数
 	private TextView my_flowerscount;	//粉丝数
 	private ImageView my_iamgeIcon;	//头像
-	private LinearLayout my_flower_layout;
+	private LinearLayout my_flower_layout;//粉丝布局
+	private LinearLayout my_friends_layout;//关注布局
+	private RelativeLayout my_name_layout;//"名字"布局
+	private RelativeLayout my_more_layout;//"更多"布局
 
 	//actionbar
 	private ActionBar my_actionbar;     //actionbar
@@ -36,9 +39,6 @@ public class MyContactActivity extends Activity implements View.OnClickListener{
 	//获取数据的暂时方法
 	private User mUser;
 	private WeiboApplication app;
-	private RelativeLayout my_name_layout;//"名字"布局
-	private RelativeLayout my_more_layout;//"更多"布局
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class MyContactActivity extends Activity implements View.OnClickListener{
 		my_name_layout = (RelativeLayout)this.findViewById(R.id.my_layout_name);
 		my_more_layout = (RelativeLayout)this.findViewById(R.id.my_layout_more);
 		my_flower_layout = (LinearLayout)findViewById(R.id.my_layout_flower);
+		my_friends_layout = (LinearLayout)findViewById(R.id.my_layout_friends);
 		my_name = (TextView) this.findViewById(R.id.my_txt_name);
 		my_iamgeIcon = (ImageView) this.findViewById(R.id.my_img_iamgeIcon);
 		my_description = (TextView) this.findViewById(R.id.my_txt_description);
@@ -128,6 +129,10 @@ public class MyContactActivity extends Activity implements View.OnClickListener{
 			break;
 		case R.id.title_my_setBtn:
 			startActivity(new Intent(MyContactActivity.this, MySettingActivity.class));
+			break;
+		case R.id.my_layout_friends:
+			Intent intent = new Intent(MyContactActivity.this, MyFriendsListActivity.class);
+			startActivity(intent);
 			break;
 		default :
 			break;

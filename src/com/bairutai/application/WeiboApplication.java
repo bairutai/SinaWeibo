@@ -2,13 +2,17 @@ package com.bairutai.application;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import com.bairutai.data.Constants;
 import com.bairutai.database.DataBaseHelper;
+import com.bairutai.model.FavoriteList;
 import com.bairutai.model.User;
 import com.bairutai.model.Status;
 import com.bairutai.model.StatusList;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.openapi.legacy.FavoritesAPI;
 
 import android.content.pm.PackageInfo;
 import android.app.Application;
@@ -20,8 +24,9 @@ public class WeiboApplication extends Application {
 	private Oauth2AccessToken mAccessToken;
 	private ArrayList<AllAppInfo> list;
 	private Long since_id;
+	private FavoritesAPI mFavoritesAPI;
 	public DataBaseHelper mDataBaseHelper;
-	
+	public HashMap<String, Boolean> mFavoritesMap;
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -30,6 +35,7 @@ public class WeiboApplication extends Application {
 		list=GetAllAppInfo();
 		setList(list);
 		mDataBaseHelper = new DataBaseHelper(getApplicationContext());
+		
 	}
 	
 	public Long getSince_id() {
@@ -94,5 +100,15 @@ public class WeiboApplication extends Application {
 			appList.add(allAppInfo);
 		}
 		return appList;
+	}
+
+	public void setFavoritesList(FavoriteList favoritelist) {
+		// TODO Auto-generated method stub
+		mFavoritesMap = new HashMap<String, Boolean>();
+		if (null != favoritelist && null != favoritelist.favoriteList){
+			for (int i =0;i<favoritelist.favoriteList.size();i++){
+				mFavoritesMap.put(favoritelist.favoriteList.get(i).status, true);
+			}
+		}
 	}
 }

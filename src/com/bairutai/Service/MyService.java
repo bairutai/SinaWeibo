@@ -93,7 +93,7 @@ public class MyService extends Service {
 		mFriendshipsAPI = new FriendshipsAPI(this, Constants.APP_KEY, mAccessToken);
 		app = (WeiboApplication)getApplication();
 		long uid = Long.parseLong(mAccessToken.getUid());
-		mFriendshipsAPI.followers(uid, 44, 0, false, mFlowerslistener);
+		mFriendshipsAPI.followers(uid, 50, 0, false, mFlowerslistener);
 		Log.d("listener","is value" );
 	}
 

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -103,6 +104,14 @@ public class MyMessageActivity extends Activity {
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			my_actionbar.setCustomView(my_actionbar_view, layout);//设置actionbar视图
 			my_actionbar.show();
+			chatBtn.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					startActivity(new Intent(MyMessageActivity.this, ContactActivity.class));
+				}
+			});
 		}
 	}
 

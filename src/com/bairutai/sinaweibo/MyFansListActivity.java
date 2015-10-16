@@ -34,6 +34,7 @@ public class MyFansListActivity extends Activity {
 	private TextView titleTxt;
 	
 	//pullRefreshScrollView
+	private MyFanslistAdapter myFansListAdapter;
 	private 	PullToRefreshListView mPullRefreshListView;
 	private MyService mMyService;
 	private WeiboApplication app;
@@ -71,15 +72,15 @@ public class MyFansListActivity extends Activity {
 	private void findView() {
 		// TODO Auto-generated method stub
 		mPullRefreshListView = (PullToRefreshListView)findViewById(R.id.myfanslist_pull_refresh_listview);
-		mPullRefreshListView.setLoadingDrawable(getResources().getDrawable(R.drawable.navigationbar_icon_refresh_white));
-		mPullRefreshListView.setRefreshing(true);
+		mPullRefreshListView.getLoadingLayoutProxy().setLoadingDrawable(getResources().getDrawable(R.drawable.navigationbar_icon_refresh_white));
+		mPullRefreshListView.setRefreshing();
 	}
 
 	private void initScreen() {
 		// TODO Auto-generated method stub
-		MyFanslistAdapter myFansListAdapter = new MyFanslistAdapter(this, app);
+		myFansListAdapter = new MyFanslistAdapter(this, app);
 		mPullRefreshListView.setAdapter(myFansListAdapter);
-		mPullRefreshListView.setRefreshing(false);
+		mPullRefreshListView.onRefreshComplete();
 	}
 
 	private void addListener() {

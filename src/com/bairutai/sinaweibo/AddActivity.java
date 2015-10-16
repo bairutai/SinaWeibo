@@ -92,11 +92,18 @@ public class AddActivity extends Activity {
 					// TODO Auto-generated method stub
 					switch (position) {
 					case 0:
-						break;
-					case 3:
-						Intent intent = new Intent(AddActivity.this, LocationActivity.class);
+						Intent intent = new Intent(AddActivity.this, SendActivity.class);
+						intent.putExtra("title", "发微博");
 						startActivity(intent);
 						finish();
+						overridePendingTransition(R.animator.out,0); 
+						break;
+					case 3:
+						Intent intent2 = new Intent(AddActivity.this, LocationActivity.class);
+						intent2.putExtra("from", "addactivity");
+						startActivity(intent2);
+						finish();
+						overridePendingTransition(R.animator.out,0); 
 						break;
 					case 5:
 						setCurrentPage(1);
@@ -212,6 +219,7 @@ public class AddActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				finish();
+				overridePendingTransition(R.animator.out,0); 
 			}
 		});
 		
@@ -221,6 +229,7 @@ public class AddActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				finish();
+				overridePendingTransition(R.animator.out,0); 
 			}
 		});
 		

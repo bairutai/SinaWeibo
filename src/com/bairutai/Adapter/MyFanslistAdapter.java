@@ -18,6 +18,7 @@ import android.graphics.BitmapFactory;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -26,7 +27,6 @@ import android.widget.TextView;
 
 public class MyFanslistAdapter extends BaseAdapter {
 	private LayoutInflater mLayoutInflater;
-	private int length;
 	private ArrayList<User> friendlist ;
 
 	public MyFanslistAdapter(Context context,WeiboApplication app) {
@@ -38,14 +38,16 @@ public class MyFanslistAdapter extends BaseAdapter {
 			System.out.println("friendlist is nullbbbbbbbbbbbbbbb");
 			friendlist = app.mDataBaseHelper.queryFlower();
 		}
-		length = friendlist.size();
-		System.out.println(length);
 	}
 	
 	@Override
 	public int getCount() {
 		// TODO 自动生成的方法存根
-		return length;
+		if (null != friendlist) {
+			return friendlist.size();
+		}else {
+			return 0;
+		}
 	}
 
 	@Override
@@ -63,15 +65,15 @@ public class MyFanslistAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO 自动生成的方法存根
-		ViewHolder viewHolder;
+		final ViewHolder viewHolder;
 		if (convertView == null) {
 			System.out.println(position);
 			convertView = (RelativeLayout)mLayoutInflater.inflate(R.layout.myfanslistitem, null);
 			viewHolder = new ViewHolder();
 			viewHolder.imgGuanzhu = (ImageView)convertView.findViewById(R.id.myfanslistitem_flower_guanzhu_img);
 			viewHolder.txtName = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_name);
-			viewHolder.txtDescription = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_description);
-			viewHolder.txtSource = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_text);
+			viewHolder.txtStatus = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_status_text);
+			viewHolder.txtSource = (TextView)convertView.findViewById(R.id.myfanslistitem_flower_status_from);
 			viewHolder.imgIcon = (ImageView)convertView.findViewById(R.id.myfanslistitem_img);
 			convertView.setTag(viewHolder);
 		}else {
@@ -79,13 +81,29 @@ public class MyFanslistAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder)convertView.getTag();
 		}
 		viewHolder.txtName.setText(friendlist.get(position).screen_name);
-		viewHolder.txtDescription.setText(friendlist.get(position).description);
-		viewHolder.txtSource.setText(friendlist.get(position).status_text);
+		viewHolder.txtStatus.setText(friendlist.get(position).status_text);
+		viewHolder.txtSource.setText("■来自" + friendlist.get(position).status_from);
 		new AsyncBitmapLoader().execute(viewHolder.imgIcon,friendlist.get(position).avatar_large);
-		if(friendlist.get(position).follow_me){				
+		if(friendlist.get(position).following){				
 			viewHolder.imgGuanzhu.setImageResource(R.drawable.card_icon_arrow);
+			viewHolder.imgGuanzhu.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					viewHolder.imgGuanzhu.setImageResource(R.drawable.card_icon_addtogroup);
+				}
+			});
 		}else {
 			viewHolder.imgGuanzhu.setImageResource(R.drawable.card_icon_addtogroup);
+			viewHolder.imgGuanzhu.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					viewHolder.imgGuanzhu.setImageResource(R.drawable.card_icon_arrow);
+				}
+			});
 		}
 		return convertView;
 	}
@@ -93,7 +111,7 @@ public class MyFanslistAdapter extends BaseAdapter {
     private class ViewHolder {
         ImageView imgIcon;
         TextView txtName;
-        TextView txtDescription;
+        TextView txtStatus;
         TextView txtSource;
         ImageView imgGuanzhu;
    }

@@ -1,15 +1,27 @@
 package com.bairutai.sinaweibo;
 
+import com.bairutai.application.WeiboApplication;
+import com.bairutai.data.Constants;
+import com.bairutai.model.Favorite;
+import com.bairutai.model.FavoriteList;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.legacy.FavoritesAPI;
+
 import android.R.integer;
+import android.app.ActionBar;
 import android.app.TabActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 
 import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -27,6 +39,8 @@ public class MainActivity extends TabActivity {
 	private RadioButton myButton;
 	private RadioGroup radioGroup;
 
+	private FavoritesAPI mFavoritesAPI;
+	private WeiboApplication app;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -38,7 +52,9 @@ public class MainActivity extends TabActivity {
 		searchButton = (RadioButton)findViewById(R.id.main_radio_searchbutton);
 		myButton = (RadioButton)findViewById(R.id.main_radio_mybutton);
 		radioGroup = (RadioGroup)findViewById(R.id.main_radio);
-		
+		app = (WeiboApplication)getApplication();
+		mFavoritesAPI = new FavoritesAPI(getApplicationContext(), Constants.APP_KEY, app.getmAccessToken());
+		mFavoritesAPI.ids(50, 1, listener);
 		tabHost = getTabHost();
 		TabHost.TabSpec spec;
 		Intent intent;
@@ -74,7 +90,7 @@ public class MainActivity extends TabActivity {
 				case R.id.main_radio_messagebutton:// 信息
 					tabHost.setCurrentTabByTag("信息");
 					if(null != MyMessageActivity.listView){
-						MyMessageActivity.listView.setRefreshing();
+//						MyMessageActivity.listView.setRefreshing();
 					}
 					break;
 				case R.id.main_radio_searchbutton:// 搜索
@@ -97,7 +113,21 @@ public class MainActivity extends TabActivity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this, AddActivity.class);
 				startActivity(intent);
-				overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out); 
+				overridePendingTransition(R.animator.in,0); 
+			}
+		});
+		
+		addButton.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+				long [] pattern = {100,400};  
+				vibrator.vibrate(pattern,-1);
+				Intent intent = new Intent(MainActivity.this, SendActivity.class);
+				startActivity(intent);
+				return true;
 			}
 		});
 		
@@ -106,6 +136,10 @@ public class MainActivity extends TabActivity {
 		}
 	}
 	
+	public  ActionBar getInstance()
+	{
+		return getActionBar();
+	}
 	
 
 	public void setCurrentPage(int index) {
@@ -115,6 +149,9 @@ public class MainActivity extends TabActivity {
 		switch (index) {
 		case 0:
 			firstpageButton.setChecked(true);
+			if(null != MyFirstPageActivity.mPullToReFreshListView){
+				MyFirstPageActivity.mPullToReFreshListView.setRefreshing();
+			}
 			break;
 		case 1:
 			messageButton.setChecked(true);
@@ -146,5 +183,27 @@ public class MainActivity extends TabActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	private RequestListener listener = new RequestListener() {
+		
+		@Override
+		public void onWeiboException(WeiboException arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onComplete(String arg0) {
+			// TODO Auto-generated method stub
+			if(!arg0.isEmpty()) {
+				System.out.println(arg0);
+				FavoriteList favoritelist = FavoriteList.parse(arg0);
+				if (null != favoritelist) {
+					app.setFavoritesList(favoritelist);
+				}else {
+					return ;
+				}
+			}
+		}
+	};
 }
 
